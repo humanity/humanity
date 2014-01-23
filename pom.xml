@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ttaylorr.dev</groupId>
+    <artifactId>humanity</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>client</module>
+        <module>server</module>
+        <module>core</module>
+    </modules>
+	
+	<name>CardsAgainstHumanity</name>
+	<description>AP Computer Science 2014 final project</description>
+	<url>https://github.com/ttaylorr/humanity</url>
+	<inceptionYear>2014</inceptionYear>
+	
+	<scm>
+		<connection>scm:git:https://github.com/ttaylorr/humanity.git</connection>
+		<url>https://github.com/ttaylorr/humanity</url>
+	</scm>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<properties>
+		<project.build.sourceEncouding>UTF-8</project.build.sourceEncouding>
+	</properties>
+</project>
+    
+
