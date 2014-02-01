@@ -3,12 +3,8 @@ package com.ttaylorr.dev.humanity.server.cards.core.factory;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.regex.Pattern;
 
 import com.ttaylorr.dev.humanity.server.cards.core.BlackCard;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BlackCardFactory extends CardFactory<BlackCard> {
 	@Override
@@ -37,11 +33,11 @@ public class BlackCardFactory extends CardFactory<BlackCard> {
 	/**
 	 * TODO test
 	 * Read each line from a file, specified by path <code>x</code>, and return an array of them.
-	 * @param x
+	 * @param path path of file to be parsed
 	 * @return
 	 */
-	private String[] parseBlackCardText(String x) {
-		String[] parts = x.split("\\w");
+	private String[] parseBlackCardText(String path) {
+		String[] parts = path.split("\\w");
 		for (String p : parts) {
 			if (p.equals("%blank")) {
 				p = null;
