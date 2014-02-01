@@ -15,9 +15,9 @@ public class Deck<C extends Card> {
 	private LinkedList<C> onDeck;
 	private final CardFactory<C> factory;
 
-	public Deck(CardFactory<C> nFactory) {
+	public Deck(CardFactory<C> factory) {
 		onDeck = (LinkedList<C>) Collections.synchronizedList(new LinkedList<C>());
-		factory = nFactory;
+		this.factory = factory;
 	}
 
 	public synchronized C drawCard() {
