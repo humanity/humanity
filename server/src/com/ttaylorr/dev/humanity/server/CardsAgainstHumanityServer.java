@@ -49,16 +49,16 @@ public class CardsAgainstHumanityServer extends Thread {
 		manager.queuePacket(packet);
 	}
 
-	public static void registerPacketHandler(Class<? extends Listener> inst) {
-		Method[] methods = inst.getMethods();
+	public static void registerPacketHandler(Listener inst) {
+		Method[] methods = inst.getClass().getMethods();
 		for (Method method : methods) {
 			if (method.getAnnotation(Handler.class) != null) {
 				Class<?>[] params = method.getParameterTypes();
 				if (params.length == 1) {
-					manager.registerHandler(params[0].getClass(), method, inst);
+				    Class<? extends Packet> clazz = (Class<? extends Packet>) params[0];
+					manager.registerHandler(clazz, inst, method);
 				}
 			}
 		}
-		manager.registerHandler(packet, handler, inst);
 	}
 }

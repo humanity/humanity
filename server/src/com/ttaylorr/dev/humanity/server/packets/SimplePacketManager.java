@@ -24,7 +24,7 @@ public class SimplePacketManager {
 		}
 	}
 
-	public void registerHandler(Class<? extends Packet> clazz, Method handler, Listener inst) throws IllegalArgumentException {
+	public void registerHandler(Class<? extends Packet> clazz, Listener inst, Method handler) throws IllegalArgumentException {
 		if (!this.packets.containsKey(clazz)) {
 			throw new IllegalArgumentException("No packet can handle that type of packet");
 		}
