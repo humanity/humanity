@@ -36,7 +36,7 @@ public class BlackCardFactory extends CardFactory<BlackCard> {
 
 	/**
 	 * TODO test
-	 * 
+	 * Read each line from a file, specified by path <code>x</code>, and return an array of them.
 	 * @param x
 	 * @return
 	 */
