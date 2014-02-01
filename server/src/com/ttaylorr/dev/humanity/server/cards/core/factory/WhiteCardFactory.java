@@ -1,8 +1,10 @@
-package com.ttaylorr.dev.humanity.server.gameParts;
+package com.ttaylorr.dev.humanity.server.cards.core.factory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
+import com.ttaylorr.dev.humanity.server.cards.core.WhiteCard;
 
 public class WhiteCardFactory extends CardFactory<WhiteCard> {
 

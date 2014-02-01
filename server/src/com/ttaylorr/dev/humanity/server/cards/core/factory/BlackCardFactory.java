@@ -1,10 +1,12 @@
-package com.ttaylorr.dev.humanity.server.gameParts;
+package com.ttaylorr.dev.humanity.server.cards.core.factory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
+
+import com.ttaylorr.dev.humanity.server.cards.core.BlackCard;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
