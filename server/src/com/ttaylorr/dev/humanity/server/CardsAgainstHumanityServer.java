@@ -53,9 +53,14 @@ public class CardsAgainstHumanityServer extends Thread {
 		Method[] methods = inst.getClass().getMethods();
 		for (Method method : methods) {
 			if (method.getAnnotation(Handler.class) != null) {
-				Class<?>[] params = method.getParameterTypes();
+			    Class<?>[] params = method.getParameterTypes();
 				if (params.length == 1) {
-				    Class<? extends Packet> clazz = (Class<? extends Packet>) params[0];
+				    Class<? extends Packet> clazz = null;
+				    try {
+				        clazz = (Class<? extends Packet>) params[0];
+				    } catch (ClassCastException e) {
+				        throw new IllegalArgumentException(params[0].getSimpleName() + " is not a valid packet class.");
+				    }
 					manager.registerHandler(clazz, inst, method);
 				}
 			}
