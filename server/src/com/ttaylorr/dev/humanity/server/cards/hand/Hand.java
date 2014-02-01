@@ -1,7 +1,9 @@
-package com.ttaylorr.dev.humanity.server.gameParts;
+package com.ttaylorr.dev.humanity.server.cards.hand;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import com.ttaylorr.dev.humanity.server.cards.core.WhiteCard;
 
 public class Hand {
 	List<WhiteCard> cards;

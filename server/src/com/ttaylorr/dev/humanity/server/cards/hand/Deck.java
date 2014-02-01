@@ -1,7 +1,11 @@
-package com.ttaylorr.dev.humanity.server.gameParts;
+package com.ttaylorr.dev.humanity.server.cards.hand;
 
 import java.util.Collections;
 import java.util.LinkedList;
+
+import com.ttaylorr.dev.humanity.server.cards.core.BlackCard;
+import com.ttaylorr.dev.humanity.server.cards.core.Card;
+import com.ttaylorr.dev.humanity.server.cards.core.WhiteCard;
 
 public class Deck<C extends Card> {
 

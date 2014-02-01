@@ -1,7 +1,9 @@
-package com.ttaylorr.dev.humanity.server.gameParts;
+package com.ttaylorr.dev.humanity.server.player;
 
 import java.util.List;
 
+import com.ttaylorr.dev.humanity.server.cards.core.Card;
+import com.ttaylorr.dev.humanity.server.cards.hand.Hand;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 public class Player extends Packet {

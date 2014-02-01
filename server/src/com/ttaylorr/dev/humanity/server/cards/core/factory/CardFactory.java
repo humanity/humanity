@@ -1,9 +1,11 @@
-package com.ttaylorr.dev.humanity.server.gameParts;
+package com.ttaylorr.dev.humanity.server.cards.core.factory;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.ttaylorr.dev.humanity.server.cards.core.Card;
 
 public abstract class CardFactory<C extends Card> {
 

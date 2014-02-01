@@ -1,4 +1,4 @@
-package com.ttaylorr.dev.humanity.server.gameParts;
+package com.ttaylorr.dev.humanity.server.cards.core;
 
 import java.util.List;
 
