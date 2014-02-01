@@ -2,15 +2,15 @@ package com.ttaylorr.dev.humanity.server.packets;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.SynchronousQueue;
 
+import com.ttaylorr.dev.humanity.server.handlers.Listener;
+
 public class SimplePacketManager {
 
-	final private Map<Class<? extends Packet>, Map<Class<? extends Listener>, Method>> packets;
+	final private Map<Class<? extends Packet>, Map<Listener, Method>> packets;
 	private final SynchronousQueue<Packet> packetQueue;
 
 	public SimplePacketManager() {
@@ -20,11 +20,11 @@ public class SimplePacketManager {
 
 	public void addPacket(Class<? extends Packet> clazz) {
 		if (!this.packets.containsKey(clazz)) {
-			this.packets.put(clazz, new HashMap<Class<? extends Listener>, Method>());
+			this.packets.put(clazz, new HashMap<Listener, Method>());
 		}
 	}
 
-	public void registerHandler(Class<? extends Packet> clazz, Method handler, Class<? extends Listener> inst) throws IllegalArgumentException {
+	public void registerHandler(Class<? extends Packet> clazz, Listener inst, Method handler) throws IllegalArgumentException {
 		if (!this.packets.containsKey(clazz)) {
 			throw new IllegalArgumentException("No packet can handle that type of packet");
 		}

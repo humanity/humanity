@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
 
+import com.ttaylorr.dev.humanity.server.CardsAgainstHumanityServer;
+
 public class TestClient {
 
 	public static void main(String[] args) throws IOException {
@@ -19,6 +21,7 @@ public class TestClient {
 		}
 		
 		if (clientSocket != null) {
+		    CardsAgainstHumanityServer.registerPacketHandler(new TestPacketHandler());
 			DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
 
 			output.write("Sending some data from client...".getBytes());
