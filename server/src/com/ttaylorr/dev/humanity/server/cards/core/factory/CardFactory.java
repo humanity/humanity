@@ -43,8 +43,7 @@ public abstract class CardFactory<C extends Card> {
 	/**
 	 * Add each line's String to cards, from file t.
 	 * 
-	 * @param t
-	 *            the file we're pulling the data from.
+	 * @param t the file we're pulling the data from.
 	 */
 	protected abstract void gatherFromFile(String t);
 

@@ -3,8 +3,6 @@ package com.ttaylorr.dev.humanity.server.cards.core;
 import java.util.List;
 
 /**
- * In black cards,
- * 
  * @author Jack
  * 
  */
@@ -32,6 +30,10 @@ public class BlackCard extends Card {
 		this(components.toArray(new String[0]));
 	}
 
+	/**
+	 * 
+	 * @return Returns the number of WhiteCards that should be submitted in response to this BlackCard.
+	 */
 	public int getBlanks() {
 		return blanks;
 	}

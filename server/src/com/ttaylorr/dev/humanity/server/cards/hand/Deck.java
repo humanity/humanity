@@ -14,7 +14,7 @@ public class Deck<C extends Card> {
 
 	private LinkedList<C> onDeck;
 	private final CardFactory<C> factory;
-	
+
 	public Deck(CardFactory<C> nFactory) {
 		onDeck = (LinkedList<C>) Collections.synchronizedList(new LinkedList<C>());
 		factory = nFactory;
@@ -36,8 +36,7 @@ public class Deck<C extends Card> {
 		// TODO add paths to bcf's pullPaths
 		WhiteCardFactory wcf = new WhiteCardFactory();
 		// TODO add paths to wcf's pullPaths
-		
-		
+
 		blackDeck = new Deck<>(bcf);
 		whiteDeck = new Deck<>(wcf);
 	}
