@@ -4,17 +4,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.ttaylorr.dev.humanity.server.cards.core.WhiteCard;
+import com.ttaylorr.dev.humanity.server.player.Player;
 
 public class Hand {
 	List<WhiteCard> cards;
 	static int cardsPerHand;
+	private Player owner;
 
 	static {
 		cardsPerHand = 7;
 	}
 
-	public Hand() {
+	public Hand(Player player) {
 		cards = new LinkedList<WhiteCard>();
+		this.owner = player;
 	}
 
 	/**
@@ -24,6 +27,10 @@ public class Hand {
 		for (; cards.size() <= cardsPerHand;) {
 			cards.add(Deck.getWhiteDeck().drawCard());
 		}
+	}
+
+	public boolean isAccesible() {
+		return !this.owner.isCardCsar();
 	}
 
 }

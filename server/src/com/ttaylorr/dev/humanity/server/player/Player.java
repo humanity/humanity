@@ -12,12 +12,11 @@ public class Player extends Packet {
 	private boolean isCardCsar;
 	private final Hand hand;
 
-	public Player(String name)
-	{
+	public Player(String name) {
 		this.name = name;
-		hand = new Hand();
+		hand = new Hand(this);
 	}
-	
+
 	/**
 	 * Submit the cards that the player would like to play this round.
 	 * 
@@ -26,6 +25,14 @@ public class Player extends Packet {
 	 * 
 	 */
 	void submitCards(List<Card> cards) {
+	}
+
+	public boolean isCardCsar() {
+		return isCardCsar;
+	}
+
+	public void setCardCsar(boolean isCardCsar) {
+		this.isCardCsar = isCardCsar;
 	}
 
 }
