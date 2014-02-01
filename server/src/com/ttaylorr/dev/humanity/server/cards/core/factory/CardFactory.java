@@ -18,9 +18,9 @@ public abstract class CardFactory<C extends Card> {
 	}
 
 	public void addPath(String path) {
-		if (!pullPaths.contains(path))
+		if (!pullPaths.contains(path)) {
 			pullPaths.add(path);
-
+		}
 	}
 
 	public Iterator<C> iter() {
@@ -40,6 +40,12 @@ public abstract class CardFactory<C extends Card> {
 		Collections.shuffle(cards);
 	}
 
+	/**
+	 * Add each line's String to cards, from file t.
+	 * 
+	 * @param t
+	 *            the file we're pulling the data from.
+	 */
 	protected abstract void gatherFromFile(String t);
 
 }

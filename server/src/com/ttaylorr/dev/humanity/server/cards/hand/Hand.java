@@ -22,7 +22,7 @@ public class Hand {
 	 */
 	void autoDraw() {
 		for (; cards.size() <= cardsPerHand;) {
-			
+			cards.add(Deck.getWhiteDeck().drawCard());
 		}
 	}
 
