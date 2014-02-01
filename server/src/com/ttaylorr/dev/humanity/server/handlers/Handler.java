@@ -1,4 +1,4 @@
-package com.ttaylorr.dev.humanity.server.packets;
+package com.ttaylorr.dev.humanity.server.handlers;
 
 public @interface Handler {
 

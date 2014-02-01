@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.SynchronousQueue;
 
+import com.ttaylorr.dev.humanity.server.handlers.Listener;
+
 public class SimplePacketManager {
 
 	final private Map<Class<? extends Packet>, Map<Class<? extends Listener>, Method>> packets;

@@ -7,8 +7,8 @@ import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.ttaylorr.dev.humanity.server.packets.Handler;
-import com.ttaylorr.dev.humanity.server.packets.Listener;
+import com.ttaylorr.dev.humanity.server.handlers.Handler;
+import com.ttaylorr.dev.humanity.server.handlers.Listener;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.SimplePacketManager;
 
