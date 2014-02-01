@@ -20,8 +20,8 @@ public class Player extends Packet {
 	/**
 	 * Submit the cards that the player would like to play this round.
 	 * 
-	 * @param cards
-	 *            the card(s) the player wants to submit. This method generates the CardSelectionPacket that will be sent to the server.
+	 * @param cards the card(s) the player wants to submit. This method 
+	 * generates the CardSelectionPacket that will be sent to the server.
 	 * 
 	 */
 	void submitCards(List<Card> cards) {
