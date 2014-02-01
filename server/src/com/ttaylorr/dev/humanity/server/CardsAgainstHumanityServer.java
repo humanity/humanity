@@ -21,7 +21,7 @@ public class CardsAgainstHumanityServer extends Thread {
 	static {
 		manager = new SimplePacketManager();
 	}
-	
+
 	public CardsAgainstHumanityServer(int port) throws IOException {
 		this.socket = new ServerSocket(port);
 	}
@@ -40,19 +40,19 @@ public class CardsAgainstHumanityServer extends Thread {
 		}
 
 	}
-	
+
 	public SimplePacketManager getPacketManager() {
 		return this.manager;
 	}
 
 	public void sendPacket(Packet packet) {
-		manager.sendPacket(packet);
+		manager.queuePacket(packet);
 	}
 
 	public static void registerPacketHandler(Class<? extends Listener> inst) {
 		Method[] methods = inst.getMethods();
 		for (Method method : methods) {
-			if(method.getAnnotation(Handler.class) != null) {
+			if (method.getAnnotation(Handler.class) != null) {
 				Class<?>[] params = method.getParameterTypes();
 				if (params.length == 1) {
 					manager.registerHandler(params[0].getClass(), method, inst);
