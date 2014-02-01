@@ -1,4 +1,4 @@
-package com.ttaylorr.dev.humanity.server.packets.gameParts;
+package com.ttaylorr.dev.humanity.server.gameParts;
 
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
