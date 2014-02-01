@@ -2,7 +2,7 @@ package com.ttaylorr.dev.humanity.server.cards.core;
 
 public class WhiteCard extends Card {
 
-	WhiteCard(String nText) {
+	public WhiteCard(String nText) {
 		super(nText);
 	}
 
