@@ -20,7 +20,7 @@ public class BlackCardFactory extends CardFactory<BlackCard> {
 			while (reader.ready()) {
 				String p = reader.readLine();
 				if (!p.isEmpty()) {
-					cards.add(new BlackCard(parseBlackCardText(t))); // TODO
+					cards.add(new BlackCard(parseBlackCardText(t)));
 				}
 			}
 		} catch (IOException e) {
@@ -34,9 +34,20 @@ public class BlackCardFactory extends CardFactory<BlackCard> {
 		}
 	}
 
+	/**
+	 * TODO test
+	 * 
+	 * @param x
+	 * @return
+	 */
 	private String[] parseBlackCardText(String x) {
-		throw new NotImplementedException();
-
+		String[] parts = x.split("\\w");
+		for (String p : parts) {
+			if (p.equals("%blank")) {
+				p = null;
+			}
+		}
+		return parts;
 	}
 
 }
