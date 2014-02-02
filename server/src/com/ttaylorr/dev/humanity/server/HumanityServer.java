@@ -1,8 +1,6 @@
 package com.ttaylorr.dev.humanity.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,12 +9,14 @@ import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.Listener;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.SimplePacketManager;
+import com.ttaylorr.dev.humanity.server.queue.PacketQueueRunnable;
 
 public class HumanityServer implements Runnable {
 
 	private final ServerSocket socket;
 	private static final SimplePacketManager manager;
 	private boolean closeRequested;
+	private final PacketQueueRunnable runner = new PacketQueueRunnable();
 
 	static {
 		manager = new SimplePacketManager();

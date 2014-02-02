@@ -15,7 +15,6 @@ public class Client {
 	private Socket socket;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private Queue<Packet> outboundPackets;
 
 	public Client(Socket socket, String playerName) {
 		player = new Player(playerName);
@@ -60,4 +59,17 @@ public class Client {
 			}
 		}
 	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public ObjectOutputStream getOutput() {
+		return output;
+	}
+
 }
