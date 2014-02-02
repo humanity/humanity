@@ -16,7 +16,7 @@ public class HumanityServer implements Runnable {
 	private final ServerSocket socket;
 	private static final SimplePacketManager manager;
 	private boolean closeRequested;
-	private final PacketQueueRunnable runner = new PacketQueueRunnable();
+	private final PacketQueueRunnable runner;
 
 	static {
 		manager = new SimplePacketManager();
@@ -25,6 +25,7 @@ public class HumanityServer implements Runnable {
 	public HumanityServer(int port) throws IOException {
 		this.socket = new ServerSocket(port);
 		this.closeRequested = false;
+		this.runner = new PacketQueueRunnable();
 	}
 
 	@Override
