@@ -13,7 +13,7 @@ import com.ttaylorr.dev.humanity.server.queue.PacketQueueRunnable;
 
 public class HumanityServer implements Runnable {
 
-	private final ServerSocket socket;
+	private final ServerSocket serverSocket;
 	private static final SimplePacketManager manager;
 	private boolean closeRequested;
 	private final PacketQueueRunnable runner;
@@ -23,7 +23,7 @@ public class HumanityServer implements Runnable {
 	}
 
 	public HumanityServer(int port) throws IOException {
-		this.socket = new ServerSocket(port);
+		this.serverSocket = new ServerSocket(port);
 		this.closeRequested = false;
 		this.runner = new PacketQueueRunnable();
 	}
@@ -36,9 +36,9 @@ public class HumanityServer implements Runnable {
 			Socket clientSocket = null;
 
 			try {
-				clientSocket = socket.accept();
+				clientSocket = serverSocket.accept();
 
-				System.out.println("Recieved [" + socket.getLocalPort() + "]: ");
+				System.out.println("Recieved [" + serverSocket.getLocalPort() + "]: ");
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -51,7 +51,7 @@ public class HumanityServer implements Runnable {
 			}
 		}
 		try {
-			socket.close();
+			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

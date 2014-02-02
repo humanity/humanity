@@ -2,19 +2,19 @@ package com.ttaylorr.dev.humanity.server.queue;
 
 import java.io.IOException;
 import java.util.AbstractMap;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import com.ttaylorr.dev.humanity.server.Client;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 public class PacketQueueRunnable implements Runnable {
 
-	private LinkedList<Map.Entry<Packet, Client>> packets;
-
+	// private LinkedList<Map.Entry<Packet, Client>> packets;
+	private ConcurrentLinkedDeque<Map.Entry<Packet,Client>> packets;
 	public PacketQueueRunnable() {
-		packets = (LinkedList<Map.Entry<Packet, Client>>) Collections.synchronizedList(new LinkedList<Map.Entry<Packet, Client>>());
+		// packets = (LinkedList<Map.Entry<Packet, Client>>) Collections.synchronizedList(new LinkedList<Map.Entry<Packet, Client>>());
+		packets = new ConcurrentLinkedDeque<>();
 	}
 
 	@Override
