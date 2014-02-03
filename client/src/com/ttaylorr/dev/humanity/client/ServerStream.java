@@ -13,8 +13,8 @@ public class ServerStream {
 
 	public ServerStream(Socket socket) throws IOException {
 		this.socket = socket;
-		input = new ObjectInputStream(socket.getInputStream());
-		output = new ObjectOutputStream(socket.getOutputStream());
+		this.input = new ObjectInputStream(socket.getInputStream());
+		this.output = new ObjectOutputStream(socket.getOutputStream());
 	}
 
 }
