@@ -12,8 +12,6 @@ public class ClientRunner {
 	ClientPacketSender outputSender;
 	ServerStream sstream;
 
-	static ClientRunner 
-	
 	ClientRunner(String ip, int port) throws UnknownHostException, IOException {
 		Socket sock = new Socket(ip, port);
 		sstream = new ServerStream(sock);
@@ -21,6 +19,6 @@ public class ClientRunner {
 	}
 
 	public static void main(String[] args) {
-		
+
 	}
 }
