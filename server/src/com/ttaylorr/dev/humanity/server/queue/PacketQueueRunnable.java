@@ -11,7 +11,8 @@ import com.ttaylorr.dev.humanity.server.packets.Packet;
 public class PacketQueueRunnable implements Runnable {
 
 	// private LinkedList<Map.Entry<Packet, Client>> packets;
-	private ConcurrentLinkedDeque<Map.Entry<Packet,Client>> packets;
+	private ConcurrentLinkedDeque<Map.Entry<Packet, Client>> packets;
+
 	public PacketQueueRunnable() {
 		// packets = (LinkedList<Map.Entry<Packet, Client>>) Collections.synchronizedList(new LinkedList<Map.Entry<Packet, Client>>());
 		packets = new ConcurrentLinkedDeque<>();
@@ -38,7 +39,7 @@ public class PacketQueueRunnable implements Runnable {
 	}
 
 	private void sendPacket(Packet packet, Client client) throws IOException {
-		client.getOutput().writeObject(packet);
+		client.getOutput().writeObject(packet); // must be synchronous.
 	}
 
 	public synchronized void addPacket(Packet packet, Client client) {
