@@ -16,6 +16,9 @@ public class ServerNormalConfigurationProvider implements ConfigurationProvider 
 		readFromFile();
 	}
 
+	/**
+	 * TODO use a YAML/whatever parser to handle this, or I can write one for just this project.
+	 */
 	private void readFromFile() {
 		throw new UnsupportedOperationException("ClientNormalConfigurationProvider not implemented yet.");
 	}

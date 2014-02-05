@@ -18,7 +18,23 @@ public class ClientNormalConfigurationProvider implements ConfigurationProvider 
 		readFromFile();
 	}
 
+	public ClientNormalConfigurationProvider(String file, String username) {
+		this(file);
+		data.put(ConfigurationProvider.CLIENT_NAME_KEY, username);
+	}
+
+	/**
+	 * bring up the configuration-creation GUI on the client side.
+	 */
+	public ClientNormalConfigurationProvider() {
+		this(null);
+	}
+
+	/**
+	 * TODO use a YAML/whatever parser to handle this, or I can write one for just this project.
+	 */
 	private void readFromFile() {
+
 		throw new UnsupportedOperationException("ClientNormalConfigurationProvider not implemented yet.");
 	}
 
@@ -44,4 +60,13 @@ public class ClientNormalConfigurationProvider implements ConfigurationProvider 
 	public void setServerPort(int port) {
 		data.put(ConfigurationProvider.SERVER_PORT_KEY, port + "");
 	}
+
+	public void setClientName(String name) {
+		data.put(key, value)
+	}
+
+	public void getClientName() {
+
+	}
+
 }

@@ -20,5 +20,8 @@ public interface ConfigurationProvider {
 	public static final String MAX_PLAYERS_KEY = "maxplayers";
 	public static final String MIN_PLAYERS_KEY = "minplayers"; // does this even apply to C.A.H.?
 	public static final String CARDS_TO_WIN = "cardstowin";
-	public static final String CARD_CSAR_MODE = ""; //selection process, anything configurable about the card csar?
-}
+	public static final String CARD_CSAR_MODE = "csarmode"; //selection process, anything configurable about the card csar?
+	public static final String CLIENT_NAME_KEY = "clientname";
+	public static final String SERVER_OWNER_NAME_KEY="serverownername";
+	public static final String GAME_NAME = "gamename"; // allows for future custom games to customize this easily. 
+}  
