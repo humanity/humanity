@@ -53,20 +53,4 @@ public class ClientNormalConfigurationProvider implements ConfigurationProvider 
 		return data.containsKey(key);
 	}
 
-	public void setServerIp(String ip) {
-		data.put(ConfigurationProvider.SERVER_IP_KEY, ip);
-	}
-
-	public void setServerPort(int port) {
-		data.put(ConfigurationProvider.SERVER_PORT_KEY, port + "");
-	}
-
-	public void setClientName(String name) {
-		data.put(key, value)
-	}
-
-	public void getClientName() {
-
-	}
-
 }

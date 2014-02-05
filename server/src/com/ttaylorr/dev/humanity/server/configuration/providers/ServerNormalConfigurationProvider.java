@@ -37,9 +37,4 @@ public class ServerNormalConfigurationProvider implements ConfigurationProvider 
 	public boolean hasKey(String key) {
 		return data.containsKey(key);
 	}
-
-	public void setMaxPlayers(int mplayers) {
-		data.put(ConfigurationProvider.MAX_PLAYERS_KEY, mplayers + "");
-	}
-
 }
