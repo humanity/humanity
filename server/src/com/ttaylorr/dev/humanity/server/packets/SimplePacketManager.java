@@ -53,7 +53,7 @@ public class SimplePacketManager {
 				for (Method handler : packets.get(packet).values()) {
 					try {
 						if (handler.getParameterTypes()[0].isInstance(packet)) {
-							handler.invoke(packets.get(packet).get(handler), packet);							
+							handler.invoke(packets.get(packet.getClass()).get(handler), packet);							
 						}
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 						e.printStackTrace();
