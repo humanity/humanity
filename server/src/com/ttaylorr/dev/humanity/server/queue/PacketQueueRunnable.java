@@ -10,11 +10,9 @@ import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 public class PacketQueueRunnable implements Runnable {
 
-	// private LinkedList<Map.Entry<Packet, Client>> packets;
 	private ConcurrentLinkedDeque<Map.Entry<Packet, Client>> packets;
 
 	public PacketQueueRunnable() {
-		// packets = (LinkedList<Map.Entry<Packet, Client>>) Collections.synchronizedList(new LinkedList<Map.Entry<Packet, Client>>());
 		packets = new ConcurrentLinkedDeque<>();
 	}
 

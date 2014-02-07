@@ -18,6 +18,10 @@ public class ServerNormalConfigurationProvider implements ConfigurationProvider 
 
 	/**
 	 * TODO use a YAML/whatever parser to handle this, or I can write one for just this project.
+	 * 
+	 * UnsupportedOperationException looked like a pretty good option for representing an unimplemented method, because the
+	 * NotYetImplementedException is a <i>reflection</i> Exception (which doesn't do anything special, but it's for a special purpose), not
+	 * a normal one.
 	 */
 	private void readFromFile() {
 		throw new UnsupportedOperationException("ClientNormalConfigurationProvider not implemented yet.");
