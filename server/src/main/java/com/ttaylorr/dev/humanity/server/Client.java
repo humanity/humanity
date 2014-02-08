@@ -49,6 +49,7 @@ public class Client {
                         socket.close();
                     }
                 } catch (ClassNotFoundException e) {
+                    e.printStackTrace(); // this really shouldn't ever happen.
                 } catch (IOException e) {
                     // TODO assume no dropped connections--at least for now (the security system could help in re-authenticating Clients).
 
