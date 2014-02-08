@@ -2,6 +2,8 @@
 
 Cards Against Humanity
 
+----------------
+
 ## conventions
 
 - No weird line-wrapping, leave your lines as long as they need to be
