@@ -10,6 +10,8 @@ import com.ttaylorr.dev.humanity.server.handlers.Listener;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.SimplePacketManager;
 import com.ttaylorr.dev.humanity.server.queue.PacketQueueRunnable;
+import com.ttaylorr.dev.logger.Logger;
+import com.ttaylorr.dev.logger.LoggerProvider;
 
 public class HumanityServer implements Runnable {
 
@@ -17,6 +19,7 @@ public class HumanityServer implements Runnable {
 	private static final SimplePacketManager manager;
 	private boolean closeRequested;
 	private final PacketQueueRunnable runner;
+    private final Logger logger;
 
 	static {
 		manager = new SimplePacketManager();
@@ -26,6 +29,7 @@ public class HumanityServer implements Runnable {
 		this.serverSocket = new ServerSocket(port);
 		this.closeRequested = false;
 		this.runner = new PacketQueueRunnable();
+        this.logger = LoggerProvider.putLogger(this.getClass());
 	}
 
 	@Override
@@ -87,5 +91,9 @@ public class HumanityServer implements Runnable {
 	public void requestClose() {
 		this.closeRequested = true;
 	}
+
+    public Logger getLogger() {
+        return this.logger;
+    }
 
 }
