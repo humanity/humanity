@@ -4,10 +4,10 @@ import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.player.Player;
 
 public abstract class Card extends Packet {
-	private final String text;
-	private Player owner;
+    private final String text;
+    private Player owner;
 
-	Card(String nText) {
-		text = nText;
-	}
+    Card(String nText) {
+        text = nText;
+    }
 }
