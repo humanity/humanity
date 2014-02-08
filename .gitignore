@@ -1,6 +1,14 @@
+# Java
 /bin
+
+# Maven
+target/
+
+# Eclipse
 .project
 .classpath
 /.settings/
+
+# IntelliJ
 *.iml
 /.idea
