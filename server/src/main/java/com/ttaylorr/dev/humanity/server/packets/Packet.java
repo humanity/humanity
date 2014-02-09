@@ -8,10 +8,14 @@ public abstract class Packet implements Serializable {
     /**
      * If the owner was the server, then this is null.
      */
-    final private Client owner;
+    final protected Client owner;
 
     Packet(Client owner) {
         this.owner = owner;
+    }
+
+    public Client getOwner() {
+        return owner;
     }
 
 }
