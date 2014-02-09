@@ -4,14 +4,15 @@ import com.ttaylorr.dev.humanity.client.ServerStream;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class ClientPacketSender implements Runnable {
 
     private ServerStream server;
-    private LinkedList<Packet> packets;
+    private ConcurrentLinkedDeque<Packet> packets;
 
     public ClientPacketSender(ServerStream server) {
+        packets = new ConcurrentLinkedDeque<>();
         this.server = server;
     }
 

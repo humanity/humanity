@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class HumanityServer implements Runnable {
 
@@ -20,6 +21,7 @@ public class HumanityServer implements Runnable {
     private boolean closeRequested;
     private final PacketQueueRunnable runner;
     private final Logger logger;
+    ArrayList<Client> clients;
 
     static {
         manager = new SimplePacketManager();
@@ -30,6 +32,7 @@ public class HumanityServer implements Runnable {
         this.closeRequested = false;
         this.runner = new PacketQueueRunnable();
         this.logger = LoggerProvider.putLogger(this.getClass());
+        this.clients = new ArrayList<>();
     }
 
     @Override

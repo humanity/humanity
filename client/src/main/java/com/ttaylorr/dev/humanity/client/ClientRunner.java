@@ -13,7 +13,7 @@ public class ClientRunner {
     private ServerStream sstream;
     public final Configuration configuration;
 
-    ClientRunner(String ip, int port) throws IOException {
+    public ClientRunner(String ip, int port) throws IOException {
         Socket sock = new Socket(ip, port);
         sstream = new ServerStream(sock);
         outputSender = new ClientPacketSender(sstream);
