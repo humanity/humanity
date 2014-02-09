@@ -17,11 +17,9 @@ public class Packet01BlackCardSelection extends Packet {
         this.whiteCard = card;
     }
 
-    public void addBlackCard(BlackCard card)
-    {
+    public void addBlackCard(BlackCard card) {
         selection.add(card);
     }
-
 
 
     private WhiteCard whiteCard;

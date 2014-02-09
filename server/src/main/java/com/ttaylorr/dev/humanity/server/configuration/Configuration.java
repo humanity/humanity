@@ -21,12 +21,12 @@ public class Configuration {
     }
 
     private String getByKeyInternal(String key) {
-        if (provider.hasKey(ConfigurationProvider.SERVER_PORT_KEY)) {
+        if (provider.hasKey(key)) {
             return provider.getByKey(key);
         } else if (defaults.hasKey(key)) {
             return defaults.getByKey(key);
         } else {
-            throw new ConfigurationNotFoundException("Key " + key + " not found in either configuraiton provider.");
+            throw new ConfigurationNotFoundException("Key \"" + key + "\" not found in either configuration provider.");
         }
     }
 
@@ -40,6 +40,10 @@ public class Configuration {
 
     public int getMaxPlayers() {
         return Integer.parseInt(getByKeyInternal(ConfigurationProvider.MAX_PLAYERS_KEY));
+    }
+
+    public String get(String key) {
+        return getByKeyInternal(key);
     }
 
 }
