@@ -6,4 +6,9 @@ public class WhiteCard extends Card {
         super(nText);
     }
 
+    @Override
+    public boolean equals(Card c) {
+        return c instanceof WhiteCard && c.toString().equals(this.toString());
+    }
+
 }
