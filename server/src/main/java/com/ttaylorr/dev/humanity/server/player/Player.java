@@ -2,16 +2,16 @@ package com.ttaylorr.dev.humanity.server.player;
 
 import com.ttaylorr.dev.humanity.server.cards.core.Card;
 import com.ttaylorr.dev.humanity.server.cards.hand.Hand;
-import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class Player implements Serializable{
+public class Player implements Serializable {
 
     private String name;
     private boolean isCardCsar;
     private final Hand hand;
+    private int points;
 
     public Player(String name) {
         this.name = name;
@@ -41,5 +41,13 @@ public class Player implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }
