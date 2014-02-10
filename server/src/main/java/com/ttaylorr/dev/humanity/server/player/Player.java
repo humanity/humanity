@@ -10,7 +10,7 @@ public class Player implements Serializable {
 
     private String name;
     private boolean isCardCsar;
-    private final Hand hand;
+    private Hand hand;
     private int points;
 
     public Player(String name) {
@@ -50,4 +50,18 @@ public class Player implements Serializable {
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public Hand getHand() {
+        return hand;
+    }
+
+    /**
+     *
+     * @param hand
+     */
+    @Deprecated // to discourage use--this may be used only in CardController, but Java doesn't have friend classes.
+    public void setHand(Hand hand) {
+        this.hand = hand;
+    }
+
 }

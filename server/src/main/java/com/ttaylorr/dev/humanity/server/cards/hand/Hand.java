@@ -25,7 +25,7 @@ public class Hand implements Serializable {
     /**
      * Automatically draw all the cards that are needed based on the current number of cards in the player's hand.
      */
-   public void autoDraw() {
+   void autoDraw() {
         for (; cards.size() <= cardsPerHand; ) {
             cards.add(Deck.getWhiteDeck().drawCard());
         }
