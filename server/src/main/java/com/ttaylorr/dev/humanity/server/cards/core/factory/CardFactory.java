@@ -23,7 +23,7 @@ public abstract class CardFactory<C extends Card> {
         }
     }
 
-    public Iterator<C> getIterator() {
+    public Iterator<C> iterator() {
         return cards.iterator();
     }
 
