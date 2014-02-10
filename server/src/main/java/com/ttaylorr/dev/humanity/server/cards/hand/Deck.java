@@ -20,10 +20,18 @@ public class Deck<C extends Card> {
         this.factory = factory;
     }
 
+    /**
+     * This method is "trusting". Optimally, this class wouldn't allow cards to be "owned" without confirmation that they are being used fairly.
+     * @return
+     */
     public synchronized C drawCard() {
         return onDeck.pop();
     }
 
+    /**
+     * This method is "trusting". Optimally, this class wouldn't allow cards to be "owned" without confirmation that they are being used fairly.
+     * @return
+     */
     public synchronized void releaseCard(C card) {
         onDeck.offer(card);
     }
