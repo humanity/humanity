@@ -50,5 +50,4 @@ public class ClientNormalConfigurationProvider implements ConfigurationProvider 
     public boolean hasKey(String key) {
         return data.containsKey(key);
     }
-
 }

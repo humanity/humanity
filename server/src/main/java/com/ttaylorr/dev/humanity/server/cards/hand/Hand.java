@@ -3,10 +3,12 @@ package com.ttaylorr.dev.humanity.server.cards.hand;
 import com.ttaylorr.dev.humanity.server.cards.core.WhiteCard;
 import com.ttaylorr.dev.humanity.server.player.Player;
 
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Hand {
+public class Hand implements Serializable {
     List<WhiteCard> cards;
     static int cardsPerHand;
     private Player owner;
@@ -23,7 +25,7 @@ public class Hand {
     /**
      * Automatically draw all the cards that are needed based on the current number of cards in the player's hand.
      */
-    void autoDraw() {
+   public void autoDraw() {
         for (; cards.size() <= cardsPerHand; ) {
             cards.add(Deck.getWhiteDeck().drawCard());
         }
@@ -33,4 +35,11 @@ public class Hand {
         return !this.owner.isCardCsar();
     }
 
+    public Iterator<WhiteCard> getIterator() {
+        return cards.iterator();
+    }
+
+    public void playCard(int index) {
+        cards.remove(index);
+    }
 }

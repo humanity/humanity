@@ -10,7 +10,7 @@ public abstract class Packet implements Serializable {
      */
     final protected Client owner;
 
-    Packet(Client owner) {
+    public Packet(Client owner) {
         this.owner = owner;
     }
 

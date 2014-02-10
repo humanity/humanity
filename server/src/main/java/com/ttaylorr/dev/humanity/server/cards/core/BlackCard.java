@@ -12,8 +12,9 @@ public class BlackCard extends Card {
     public BlackCard(String... components) {
         super(joinOnComponents(components));
         for (String x : components) {
-            if (x == null)
+            if (x == null) {
                 blanks++;
+            }
         }
     }
 
@@ -36,4 +37,19 @@ public class BlackCard extends Card {
         return blanks;
     }
 
+
+    /**
+     * Test for equality.
+     * To be equal, two Cards must:
+     * * be either Black or White, but they <i>both</i> must be Black or White
+     * * have the same text
+     * * if both are Black, have the same number of blanks
+     *
+     * @param c
+     * @return
+     */
+    @Override
+    public boolean equals(Card c) {
+        return c instanceof BlackCard && ((BlackCard) c).getBlanks() == this.blanks && c.toString().equals(this.toString());
+    }
 }

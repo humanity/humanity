@@ -28,15 +28,13 @@ public class SimplePacketManager {
         if (!this.packets.containsKey(clazz)) {
             throw new IllegalArgumentException("No packet can handle that type of packet");
         }
-
         this.packets.get(clazz).put(inst, handler);
     }
 
     public void unregisterHandler(Class<? extends Packet> clazz, Method handler) throws IllegalArgumentException {
         if (!this.packets.containsKey(clazz)) {
-            throw new IllegalArgumentException("No packet can handle that type of packet");
+            throw new IllegalArgumentException("No handler can handle that type of packet");
         }
-
         this.packets.get(clazz).remove(handler);
     }
 
@@ -44,7 +42,7 @@ public class SimplePacketManager {
         this.packetQueue.offer(packet);
     }
 
-    class PacketQueueRunner implements Runnable {
+    class PacketQueueRunnable implements Runnable {
 
         @Override
         public void run() {
