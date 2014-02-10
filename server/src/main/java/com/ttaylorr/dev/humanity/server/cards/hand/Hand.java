@@ -42,6 +42,4 @@ public class Hand implements Serializable {
     public void playCard(int index) {
         cards.remove(index);
     }
-
-
 }
