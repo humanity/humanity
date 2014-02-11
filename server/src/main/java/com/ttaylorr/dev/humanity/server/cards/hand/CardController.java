@@ -39,5 +39,4 @@ public class CardController {
         h.autoDraw();
         return h;
     }
-
 }

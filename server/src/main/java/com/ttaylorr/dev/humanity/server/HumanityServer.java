@@ -46,7 +46,7 @@ public class HumanityServer implements Runnable {
             try {
                 clientSocket = serverSocket.accept();
 
-                System.out.println("Received [" + serverSocket.getLocalPort() + "]: ");
+                logger.info("Received [" + serverSocket.getLocalPort() + "]: ");
                 this.addClientListener(clientSocket);
             } catch (IOException e) {
                 e.printStackTrace();
