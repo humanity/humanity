@@ -1,5 +1,6 @@
 package com.ttaylorr.dev.humanity.server.packets;
 
+import com.ttaylorr.dev.humanity.server.Client;
 import com.ttaylorr.dev.humanity.server.handlers.Listener;
 
 import java.lang.reflect.InvocationTargetException;

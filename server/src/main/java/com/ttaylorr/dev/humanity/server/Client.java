@@ -71,4 +71,8 @@ public class Client {
         return output;
     }
 
+    public ObjectInputStream getInput() {
+        return input;
+    }
+
 }

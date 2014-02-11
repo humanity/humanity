@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Hand implements Serializable {
-    List<WhiteCard> cards;
+    List<WhiteCard> cards; // package-protected
     static int cardsPerHand;
     private Player owner;
 
@@ -39,7 +39,4 @@ public class Hand implements Serializable {
         return cards.iterator();
     }
 
-    public void playCard(int index) {
-        cards.remove(index);
-    }
 }
