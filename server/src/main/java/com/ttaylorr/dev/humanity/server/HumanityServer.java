@@ -38,14 +38,14 @@ public class HumanityServer implements Runnable {
     @Override
     public void run() {
         // TODO because most time will be spent before socket.accept, a call to requestClose won't do anything.
-        // put it on a thread that continuously check, instead.
+        // TODO put it on a thread that continuously check, instead.
         while (!closeRequested) {
             Socket clientSocket = null;
 
             try {
                 clientSocket = serverSocket.accept();
 
-                System.out.println("Recieved [" + serverSocket.getLocalPort() + "]: ");
+                System.out.println("Received [" + serverSocket.getLocalPort() + "]: ");
 
             } catch (IOException e) {
                 e.printStackTrace();
