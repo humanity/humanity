@@ -1,7 +1,6 @@
 package com.ttaylorr.dev.humanity.server;
 
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
-import com.ttaylorr.dev.humanity.server.handlers.Listener;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.SimplePacketManager;
 import com.ttaylorr.dev.humanity.server.queue.PacketQueueRunnable;
@@ -73,8 +72,8 @@ public class HumanityServer implements Runnable {
         manager.queuePacket(packet);
     }
 
-    public static void registerPacketHandler(Listener inst) {
-        Method[] methods = inst.getClass().getMethods();
+    public static void registerPacketHandler(Object instance) {
+        Method[] methods = instance.getClass().getMethods();
         for (Method method : methods) {
             if (method.getAnnotation(Handler.class) != null) {
                 Class<?>[] params = method.getParameterTypes();
@@ -85,7 +84,7 @@ public class HumanityServer implements Runnable {
                     } catch (ClassCastException e) {
                         throw new IllegalArgumentException(params[0].getSimpleName() + " is not a valid packet class.");
                     }
-                    manager.registerHandler(clazz, inst, method);
+                    manager.registerHandler(clazz, instance, method);
                 }
             }
         }
