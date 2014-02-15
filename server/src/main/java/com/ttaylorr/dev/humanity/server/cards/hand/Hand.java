@@ -4,17 +4,18 @@ import com.ttaylorr.dev.humanity.server.cards.core.WhiteCard;
 import com.ttaylorr.dev.humanity.server.player.Player;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Hand implements Serializable {
-    List<WhiteCard> cards; // package-protected
+    List<WhiteCard> cards; // package-protected for access to CardController
     static int cardsPerHand;
     private Player owner;
 
     static {
-        cardsPerHand = 7;
+        cardsPerHand = 7; // TODO replace with a call to the Configuration object.
     }
 
     public Hand(Player player) {
@@ -35,8 +36,11 @@ public class Hand implements Serializable {
         return !this.owner.isCardCsar();
     }
 
+    /**
+     * Allow clients of this class to read the cards, but never change them.
+     * @return An iterator to an unmodifiable version of the List that represents the cards.
+     */
     public Iterator<WhiteCard> getIterator() {
-        return cards.iterator();
+        return Collections.unmodifiableList(cards).iterator();
     }
-
 }
