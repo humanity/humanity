@@ -3,6 +3,7 @@ package com.ttaylorr.dev.humanity.server;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.SimplePacketManager;
+import com.ttaylorr.dev.humanity.server.queue.ClientListener;
 import com.ttaylorr.dev.humanity.server.queue.PacketQueueRunnable;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
@@ -37,15 +38,15 @@ public class HumanityServer implements Runnable {
     @Override
     public void run() {
         // TODO because most time will be spent before socket.accept, a call to requestClose won't do anything.
-        // put it on a thread that continuously check, instead.
+        // TODO put it on a thread that continuously check, instead.
         while (!closeRequested) {
             Socket clientSocket = null;
 
             try {
                 clientSocket = serverSocket.accept();
 
-                System.out.println("Recieved [" + serverSocket.getLocalPort() + "]: ");
-
+                logger.info("Received [" + serverSocket.getLocalPort() + "]: ");
+                this.addClientListener(clientSocket);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -61,8 +62,16 @@ public class HumanityServer implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    private Client addClientListener(Socket socket) {
+        Client cl = new Client(socket);
+        ClientListener listener = new ClientListener(this.getPacketManager(), cl);
+        Thread thread = new Thread(listener);
+        thread.start();
+        return cl;
+    }
+
 
     public SimplePacketManager getPacketManager() {
         return this.manager;

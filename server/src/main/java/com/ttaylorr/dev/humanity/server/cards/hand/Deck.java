@@ -33,7 +33,11 @@ public class Deck<C extends Card> {
      * @return
      */
     public synchronized void releaseCard(C card) {
-        onDeck.offer(card);
+        if (!onDeck.contains(card)) {
+            onDeck.offer(card);
+        } else {
+            // TODO there is a duplicate card, which may or may not be intentional.
+        }
     }
 
     private static Deck<BlackCard> blackDeck;

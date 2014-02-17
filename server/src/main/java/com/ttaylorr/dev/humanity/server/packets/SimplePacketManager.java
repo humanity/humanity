@@ -37,7 +37,7 @@ public class SimplePacketManager {
     }
 
     public void queuePacket(Packet packet) {
-        this.packetQueue.offer(packet);
+        this.packetQueue.offer(packet); // this doesn't need to be synchronized because it's a Synchronous list.
     }
 
     class PacketQueueRunnable implements Runnable {

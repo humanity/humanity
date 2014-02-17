@@ -8,7 +8,7 @@ public abstract class Packet implements Serializable {
     /**
      * If the owner was the server, then this is null.
      */
-    final protected Client owner;
+    protected Client owner;
 
     public Packet(Client owner) {
         this.owner = owner;
@@ -16,6 +16,10 @@ public abstract class Packet implements Serializable {
 
     public Client getOwner() {
         return owner;
+    }
+
+    public void setOwner(Client client) {
+        this.owner = client;
     }
 
 }
