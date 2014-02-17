@@ -44,16 +44,20 @@ public class SimplePacketManager {
 
         @Override
         public void run() {
+            Packet packet = null;
             synchronized (packetQueue) {
-                Packet packet = packetQueue.poll();
-                for (Method handler : packets.get(packet).values()) {
-                    try {
-                        if (handler.getParameterTypes()[0].isInstance(packet)) {
-                            handler.invoke(packets.get(packet).get(handler), packet);
-                        }
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                        e.printStackTrace();
+                packet = packetQueue.poll();
+            }
+            if (packet == null) {
+                return;
+            }
+            for (Method handler : packets.get(packet).values()) {
+                try {
+                    if (handler.getParameterTypes()[0].isInstance(packet)) {
+                        handler.invoke(packets.get(packet).get(handler), packet);
                     }
+                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                    e.printStackTrace();
                 }
             }
         }
