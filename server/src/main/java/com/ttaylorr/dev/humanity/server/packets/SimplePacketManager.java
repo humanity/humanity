@@ -8,8 +8,8 @@ import java.util.concurrent.SynchronousQueue;
 
 public class SimplePacketManager {
 
-    final private Map<Class<? extends Packet>, Map<Object, Method>> packets;
-    private final SynchronousQueue<Packet> packetQueue;
+    final Map<Class<? extends Packet>, Map<Object, Method>> packets;
+    final SynchronousQueue<Packet> packetQueue;
 
     public SimplePacketManager() {
         this.packets = new HashMap<>();
@@ -40,22 +40,4 @@ public class SimplePacketManager {
         this.packetQueue.offer(packet); // this doesn't need to be synchronized because it's a Synchronous list.
     }
 
-    class PacketQueueRunnable implements Runnable {
-
-        @Override
-        public void run() {
-            synchronized (packetQueue) {
-                Packet packet = packetQueue.poll();
-                for (Method handler : packets.get(packet).values()) {
-                    try {
-                        if (handler.getParameterTypes()[0].isInstance(packet)) {
-                            handler.invoke(packets.get(packet).get(handler), packet);
-                        }
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
 }
