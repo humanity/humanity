@@ -7,8 +7,8 @@ public class Bootstrap {
 
     public static void main(String[] args) {
         try {
-            server = new HumanityServer(7002);
-            server.getLogger().info("Starting server \"humanity\"...");
+            server = new HumanityServer(7000); // make this use Configuration.
+            System.out.println("Starting server \"humanity\"...");
             Thread thread = new Thread(server);
             thread.start();
         } catch (IOException e) {

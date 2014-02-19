@@ -32,8 +32,8 @@ public class ClientPacketSender implements Runnable {
         }
     }
 
-    public synchronized void addPacket(Packet p) {
-        packets.add(p);
+    public synchronized boolean addPacket(Packet p) {
+        return packets.add(p);
     }
 
     private void sendPacket(Packet p) throws IOException {

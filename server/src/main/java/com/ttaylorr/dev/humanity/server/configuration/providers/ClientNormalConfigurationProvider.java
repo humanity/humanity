@@ -33,7 +33,7 @@ public class ClientNormalConfigurationProvider implements ConfigurationProvider 
      */
     private void readFromFile() {
 
-        throw new UnsupportedOperationException("ClientNormalConfigurationProvider not implemented yet.");
+//        throw new UnsupportedOperationException("ClientNormalConfigurationProvider not implemented yet.");
     }
 
     @Override

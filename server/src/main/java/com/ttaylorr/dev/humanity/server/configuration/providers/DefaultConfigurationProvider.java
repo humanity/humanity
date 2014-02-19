@@ -2,6 +2,7 @@ package com.ttaylorr.dev.humanity.server.configuration.providers;
 
 import com.ttaylorr.dev.humanity.server.configuration.ConfigurationProvider;
 
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -17,19 +18,29 @@ public class DefaultConfigurationProvider implements ConfigurationProvider {
     public DefaultConfigurationProvider() {
     }
 
+    HashMap<String, String> config;
+
+    {
+        config = new HashMap<>();
+        config.put(ConfigurationProvider.SERVER_IP_KEY, "localhost");
+        config.put(ConfigurationProvider.SERVER_PORT_KEY, "7000");
+        config.put(ConfigurationProvider.CLIENT_NAME_KEY, "Player");
+    }
+
+
     @Override
     public String getByKey(String key) {
-        return null;
+        return config.get(key);
     }
 
     @Override
     public Set<String> getKeys() {
-        return null;
+        return config.keySet();
     }
 
     @Override
     public boolean hasKey(String key) {
-        return false;
+        return config.containsKey(key);
     }
 
 }

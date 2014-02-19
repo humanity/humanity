@@ -8,6 +8,9 @@ import java.util.AbstractMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
+/**
+ * Sends outbound packets.
+ */
 public class PacketQueueRunnable implements Runnable {
 
     private ConcurrentLinkedDeque<Map.Entry<Packet, Client>> packets;

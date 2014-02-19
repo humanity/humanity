@@ -4,13 +4,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
+ * Runs the Packets that currently live in the SPM.
+ *
  * User: Jack Date: 2/16/14 Time: 11:50 PM
  */
-class PacketQueueRunnable implements Runnable {
+class PacketRunner implements Runnable {
 
     private SimplePacketManager simplePacketManager;
 
-    public PacketQueueRunnable(SimplePacketManager simplePacketManager) {
+    public PacketRunner(SimplePacketManager simplePacketManager) {
         this.simplePacketManager = simplePacketManager;
     }
 
