@@ -1,8 +1,10 @@
 package com.ttaylorr.dev.humanity.server.queue;
 
 import com.ttaylorr.dev.humanity.server.Client;
+import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.SimplePacketManager;
+import com.ttaylorr.dev.logger.LoggerProvider;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -31,6 +33,10 @@ public class ClientListener implements Runnable {
         ObjectInputStream input = client.getInput();
         while (true) {
             try {
+                if(client.getSocket().isClosed()) {
+                    LoggerProvider.getLogger(HumanityServer.class).warn("Client dropped connection.  Aborting.");
+                    break;
+                }
                 Object obj = input.readObject();
                 if (obj instanceof Packet) {
                     Packet p = (Packet) obj;
