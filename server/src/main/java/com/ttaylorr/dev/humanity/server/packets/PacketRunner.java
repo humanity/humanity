@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  *
  * User: Jack Date: 2/16/14 Time: 11:50 PM
  */
-class PacketRunner implements Runnable {
+public class PacketRunner implements Runnable {
 
     private SimplePacketManager simplePacketManager;
 

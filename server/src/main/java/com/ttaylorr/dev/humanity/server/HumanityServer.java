@@ -2,6 +2,8 @@ package com.ttaylorr.dev.humanity.server;
 
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
+import com.ttaylorr.dev.humanity.server.packets.PacketRunner;
+
 import com.ttaylorr.dev.humanity.server.packets.SimplePacketManager;
 import com.ttaylorr.dev.humanity.server.queue.ClientListener;
 import com.ttaylorr.dev.humanity.server.queue.PacketQueueRunnable;
@@ -20,6 +22,7 @@ public class HumanityServer implements Runnable {
     private static final SimplePacketManager manager;
     private boolean closeRequested;
     private final PacketQueueRunnable runner;
+    private final PacketRunner packetQueue;
     private final Logger logger;
     ArrayList<Client> clients;
 
@@ -31,6 +34,7 @@ public class HumanityServer implements Runnable {
         this.serverSocket = new ServerSocket(port);
         this.closeRequested = false;
         this.runner = new PacketQueueRunnable();
+        this.packetQueue = new PacketRunner(manager);
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.clients = new ArrayList<>();
     }
@@ -39,14 +43,21 @@ public class HumanityServer implements Runnable {
     public void run() {
         // TODO because most time will be spent before socket.accept, a call to requestClose won't do anything.
         // TODO put it on a thread that continuously check, instead.
+
+        Thread packetQueueRunnableThread = new Thread(runner);
+        packetQueueRunnableThread.start();
+
+        Thread packetRunnerThread = new Thread(packetQueue);
+        packetRunnerThread.start();
+
         while (!closeRequested) {
             Socket clientSocket = null;
 
             try {
                 clientSocket = serverSocket.accept();
 
-
                 this.addClientListener(clientSocket);
+                logger.info("New client has connected!");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -66,6 +77,7 @@ public class HumanityServer implements Runnable {
 
     private void addClientListener(Socket socket) {
         Client client = new Client(socket);
+         System.out.println("Constructor complete");
         ClientListener listener = new ClientListener(this.getPacketManager(), client);
         Thread thread = new Thread(listener);
         thread.start();
