@@ -30,8 +30,9 @@ public class Client {
     }
 
     private void constructObjectStreams() throws IOException {
-        input = new ObjectInputStream(socket.getInputStream());
         output = new ObjectOutputStream(socket.getOutputStream());
+        output.flush();
+        input = new ObjectInputStream(socket.getInputStream());
     }
 
     public Player getPlayer() {
