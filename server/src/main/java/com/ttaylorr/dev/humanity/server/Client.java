@@ -31,7 +31,7 @@ public class Client {
 
     private void constructObjectStreams() throws IOException {
         System.out.println("1before input construction");
-       // input = new ObjectInputStream(socket.getInputStream());
+        input = new ObjectInputStream(socket.getInputStream());
 
         System.out.println("1before output construction");
         output = new ObjectOutputStream(socket.getOutputStream());
