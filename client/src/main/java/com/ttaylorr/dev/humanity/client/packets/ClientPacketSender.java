@@ -26,11 +26,14 @@ public class ClientPacketSender implements Runnable {
             synchronized (packets) {
                 p = packets.pollLast();
             }
+            if(p == null) // perhaps an "owner check," too?
+                continue;
             try {
                 sendPacket(p);
             } catch (IOException e) {
                 // TODO error reporting thing.
-                logError(e);
+                // logError(e);
+                e.printStackTrace();
             }
         }
     }
@@ -40,6 +43,7 @@ public class ClientPacketSender implements Runnable {
         e.printStackTrace(new PrintWriter(writer));
         for (String s : writer.toString().split("\n")) {
             LoggerProvider.putLogger(ClientPacketSender.class).severe(s);
+
         }
     }
 
@@ -48,7 +52,9 @@ public class ClientPacketSender implements Runnable {
     }
 
     private void sendPacket(Packet p) throws IOException {
+       server.getOutput().flush();
         server.getOutput().writeObject(p);
+        server.getOutput().flush();
     }
 
 }

@@ -40,6 +40,10 @@ public class ClientRunner {
 
     public static void main(String[] args) throws IOException {
         ClientRunner client = new ClientRunner();
+
+        Thread clientPacketSenderThread = new Thread(client.getOutputSender());
+        clientPacketSenderThread.start();
+
         Packet03ClientHandshake handshake = new Packet03ClientHandshake(client.client, client.configuration.get(ConfigurationProvider.CLIENT_NAME_KEY));
 
         client.sendPacket(handshake);
