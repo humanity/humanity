@@ -33,9 +33,12 @@ public class ClientListener implements Runnable {
         ObjectInputStream input = client.getInput();
         while (true) {
             try {
-                if(client.getSocket().isClosed()) {
+                if (client.getSocket().isClosed()) {
                     LoggerProvider.getLogger(HumanityServer.class).warn("Client dropped connection.  Aborting.");
                     break;
+                }
+                if (input == null) { // TODO add a timeout.
+                    continue;
                 }
                 Object obj = input.readObject();
                 if (obj instanceof Packet) {

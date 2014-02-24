@@ -14,25 +14,24 @@ import java.net.Socket;
 public class ClientRunner {
 
     private ClientPacketSender outputSender;
-    private ServerStream sstream;
+    //private ServerStream sstream;
     public final Configuration configuration;
     private final Client client;
 
     public ClientRunner(String ip, int port) throws IOException {
         Socket sock = new Socket(ip, port); // The client is now connected
-        sstream = new ServerStream(sock);
-        outputSender = new ClientPacketSender(sstream);
+        // sstream = new ServerStream(sock);
         configuration = new Configuration(new ClientNormalConfigurationProvider());
         client = new Client(sock, configuration.get(ConfigurationProvider.CLIENT_NAME_KEY));
+        outputSender = new ClientPacketSender(client);
     }
 
     public ClientRunner() throws IOException {
         configuration = new Configuration(new ClientNormalConfigurationProvider());
         Socket sock = new Socket(configuration.getServerIp(), configuration.getServerPort());
-        sstream = new ServerStream(sock);
-        outputSender = new ClientPacketSender(sstream);
+        //sstream = new ServerStream(sock);
         client = new Client(sock, configuration.get(ConfigurationProvider.CLIENT_NAME_KEY));
-
+        outputSender = new ClientPacketSender(client);
     }
 
     public void sendPacket(Packet packet) {
@@ -53,8 +52,8 @@ public class ClientRunner {
         return outputSender;
     }
 
-    public ServerStream getSstream() {
-        return sstream;
+    public Client getClient() {
+        return client;
     }
 
 }
