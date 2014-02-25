@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HumanityServer implements Runnable {
 
@@ -22,11 +23,12 @@ public class HumanityServer implements Runnable {
     private boolean closeRequested;
     private final PacketQueueRunnable runner;
     private final PacketRunner packetQueue;
-    private final Logger logger;
+    private static final Logger logger;
     ArrayList<Client> clients;
 
     static {
         manager = new SimplePacketManager();
+        logger = LoggerProvider.putLogger(HumanityServer.class);
     }
 
     public HumanityServer(int port) throws IOException {
@@ -34,7 +36,6 @@ public class HumanityServer implements Runnable {
         this.closeRequested = false;
         this.runner = new PacketQueueRunnable();
         this.packetQueue = new PacketRunner(manager);
-        this.logger = LoggerProvider.putLogger(this.getClass());
         this.clients = new ArrayList<>();
     }
 
@@ -104,6 +105,7 @@ public class HumanityServer implements Runnable {
                     } catch (ClassCastException e) {
                         throw new IllegalArgumentException(params[0].getSimpleName() + " is not a valid packet class.");
                     }
+                    logger.info("Registered packet handler: {}.{}", instance.getClass().getName(), method.getName());
                     manager.registerHandler(clazz, instance, method);
                 }
             }

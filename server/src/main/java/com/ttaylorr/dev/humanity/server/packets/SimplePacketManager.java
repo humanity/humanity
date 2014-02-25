@@ -1,5 +1,7 @@
 package com.ttaylorr.dev.humanity.server.packets;
 
+import com.ttaylorr.dev.humanity.server.packets.core.Packet03ClientHandshake;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +15,12 @@ public class SimplePacketManager {
     public SimplePacketManager() {
         this.packets = new HashMap<>();
         this.packetQueue = new SynchronousQueue<>();
+
+        this.setUpPackets();
+    }
+
+    private void setUpPackets() {
+        this.addPacket(Packet03ClientHandshake.class);
     }
 
     public void addPacket(Class<? extends Packet> clazz) {

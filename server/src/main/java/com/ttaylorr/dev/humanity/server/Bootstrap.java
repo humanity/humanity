@@ -1,5 +1,7 @@
 package com.ttaylorr.dev.humanity.server;
 
+import com.ttaylorr.dev.humanity.server.handlers.core.HandshakeHandler;
+
 import java.io.IOException;
 
 public class Bootstrap {
@@ -8,7 +10,8 @@ public class Bootstrap {
     public static void main(String[] args) {
         try {
             server = new HumanityServer(7000); // make this use Configuration.
-            System.out.println("Starting server \"humanity\"...");
+            server.getLogger().info("Starting server \"humanity\"...");
+            registerHandlers();
             Thread thread = new Thread(server);
             thread.start();
         } catch (IOException e) {
@@ -16,6 +19,10 @@ public class Bootstrap {
         } finally {
 
         }
+    }
+
+    private static void registerHandlers() {
+        server.registerPacketHandler(new HandshakeHandler());
     }
 
     public static HumanityServer getServer() {

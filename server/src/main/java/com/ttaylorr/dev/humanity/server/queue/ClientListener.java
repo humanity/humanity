@@ -37,7 +37,7 @@ public class ClientListener implements Runnable {
                     LoggerProvider.getLogger(HumanityServer.class).warn("Client dropped connection.  Aborting.");
                     break;
                 }
-                if (input == null) { // TODO add a timeout.
+                if (input == null || input.available() < 1) { // TODO add a timeout.
                     continue;
                 }
                 Object obj = input.readObject();

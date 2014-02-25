@@ -34,8 +34,8 @@ public class ClientRunner {
         outputSender = new ClientPacketSender(client);
     }
 
-    public void sendPacket(Packet packet) {
-        this.getOutputSender().addPacket(packet);
+    public static void sendPacket(ClientPacketSender sender, Packet packet) {
+        sender.addPacket(packet);
     }
 
     public static void main(String[] args) throws IOException {
@@ -46,7 +46,7 @@ public class ClientRunner {
 
         Packet03ClientHandshake handshake = new Packet03ClientHandshake(client.client, client.configuration.get(ConfigurationProvider.CLIENT_NAME_KEY));
 
-        client.sendPacket(handshake);
+        sendPacket(client.outputSender, handshake);
         while(true){}
         // run the Client backend.
         // perhaps the GUI will have its own main() that would call this?
