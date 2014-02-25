@@ -14,30 +14,25 @@ public class Client {
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
-    public Client(Socket socket) {
-        this(socket, null);
+    public Client(Socket socket, boolean isServer) {
+        this(socket, null, isServer);
     }
 
-    public Client(Socket socket, String name) {
+    public Client(Socket socket, String name, boolean isServer) {
         player = new Player(name);
         this.socket = socket;
         try {
-            constructObjectStreams();
+            constructObjectStreams(isServer);
         } catch (IOException e) {
             // assume no dropped connections--at least for now (the security system could help in re-authenticating Clients).
             e.printStackTrace();
         }
     }
 
-    private void constructObjectStreams() throws IOException {
-        System.out.println("1before input construction");
-        input = new ObjectInputStream(socket.getInputStream());
-
-        System.out.println("1before output construction");
-        output = new ObjectOutputStream(socket.getOutputStream());
-
-        System.out.println("1after output construction and flushing");
-
+    private void constructObjectStreams(boolean isServer) throws IOException {
+        output = new ObjectOutputStream(this.getSocket().getOutputStream());
+        output.flush();
+        input = new ObjectInputStream(this.getSocket().getInputStream());
     }
 
     public Player getPlayer() {

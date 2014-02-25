@@ -22,7 +22,7 @@ public class ClientRunner {
         Socket sock = new Socket(ip, port); // The client is now connected
         // sstream = new ServerStream(sock);
         configuration = new Configuration(new ClientNormalConfigurationProvider());
-        client = new Client(sock, configuration.get(ConfigurationProvider.CLIENT_NAME_KEY));
+        client = new Client(sock, configuration.get(ConfigurationProvider.CLIENT_NAME_KEY), false);
         outputSender = new ClientPacketSender(client);
     }
 
@@ -30,7 +30,7 @@ public class ClientRunner {
         configuration = new Configuration(new ClientNormalConfigurationProvider());
         Socket sock = new Socket(configuration.getServerIp(), configuration.getServerPort());
         //sstream = new ServerStream(sock);
-        client = new Client(sock, configuration.get(ConfigurationProvider.CLIENT_NAME_KEY));
+        client = new Client(sock, configuration.get(ConfigurationProvider.CLIENT_NAME_KEY), false);
         outputSender = new ClientPacketSender(client);
     }
 
