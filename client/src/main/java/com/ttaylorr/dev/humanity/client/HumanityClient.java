@@ -1,5 +1,8 @@
 package com.ttaylorr.dev.humanity.client;
 
+import com.ttaylorr.dev.humanity.server.packets.Packet;
+import com.ttaylorr.dev.humanity.server.packets.core.Packet02Handshake;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,8 +34,12 @@ public class HumanityClient {
         while (this.serverConnection == null) {
             try {
                 this.serverConnection = new Socket(this.address.getHostName(), this.address.getPort());
+
                 this.inputStream = new ObjectInputStream(this.serverConnection.getInputStream());
                 this.outputStream = new ObjectOutputStream(this.serverConnection.getOutputStream());
+
+                this.sendPacket(new Packet02Handshake("Fred"));
+
                 break;
             } catch (ConnectException e) {
                 // keep going!
@@ -40,5 +47,16 @@ public class HumanityClient {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean sendPacket(Packet packet) {
+        try {
+            this.outputStream.writeObject(packet);
+            this.outputStream.reset();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

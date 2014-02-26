@@ -3,6 +3,8 @@ package com.ttaylorr.dev.humanity.server;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
+import com.ttaylorr.dev.humanity.server.handlers.PacketHandler;
+import com.ttaylorr.dev.humanity.server.listeners.HandshakeListener;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet03Disconnect;
 import com.ttaylorr.dev.humanity.server.queue.core.InboundPacketQueue;
 import com.ttaylorr.dev.humanity.server.queue.core.OutboundPacketQueue;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HumanityServer {
+
+    private PacketHandler packetHandler;
 
     private List<ClientConnection> connectedClients;
     private OutboundPacketQueue outboundPacketQueue;
@@ -28,6 +32,7 @@ public class HumanityServer {
     public HumanityServer(int port) {
         Preconditions.checkArgument(port > 0, "port must be greater than 0");
         this.port = port;
+        this.packetHandler = new PacketHandler(this);
     }
 
     public void open() {
@@ -55,10 +60,16 @@ public class HumanityServer {
         this.outboundPacketQueue = new OutboundPacketQueue();
         this.inboundPacketQueue = new InboundPacketQueue();
 
+        this.registerHandlers();
+
         this.connectionListener = new ConnectionListener(this);
         Thread thread = new Thread(connectionListener);
         thread.setName("Connection-Listener");
         thread.start();
+    }
+
+    private void registerHandlers() {
+        this.packetHandler.registerHandlers(new HandshakeListener());
     }
 
     private void teardown() throws IOException {
