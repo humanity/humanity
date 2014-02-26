@@ -111,7 +111,7 @@ public class HumanityServer {
     public void disconnectClient(ClientConnection client) {
         this.connectedClients.remove(client);
 
-        this.logger.info("Removing client (#{}) and closing thread...", Integer.valueOf(this.connectedClients.size()));
+        this.logger.info("Removing client (#{}) and closing thread...", Integer.valueOf(this.connectedClients.size() + 1));
 
         Map.Entry<IncomingPacketListener, Thread> value = this.packets.remove(client);
         value.getValue().stop();
