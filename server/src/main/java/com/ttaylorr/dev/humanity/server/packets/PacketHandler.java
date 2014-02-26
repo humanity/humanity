@@ -36,9 +36,9 @@ public class PacketHandler {
 
     public void handlePacket(PacketSnapshot snapshot) {
         Packet packet = snapshot.getPacket();
-        ClientConnection owner = snapshot.getOwner();
-        for (HandlerSnapshot handler : this.handlers.get(packet.getClass())) {
-            if (handler.getHandlingType() == packet.getClass()) {
+
+        for (HandlerSnapshot handler : this.handlers.get(packet.getClass())) { // TODO sorting
+            if (handler.getHandlingType().equals(packet.getClass())) {
                 try {
                     handler.getMethod().invoke(handler.getInstance(), packet);
                 } catch (IllegalAccessException e) {
