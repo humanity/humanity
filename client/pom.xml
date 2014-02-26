@@ -21,11 +21,6 @@
     <dependencies>
         <dependency>
             <groupId>com.ttaylorr.dev</groupId>
-            <artifactId>humanity-core</artifactId>
-            <version>0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ttaylorr.dev</groupId>
             <artifactId>humanity-server</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
