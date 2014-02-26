@@ -56,7 +56,7 @@ public class HumanityServer implements Runnable {
             try {
                 clientSocket = serverSocket.accept();
 
-                this.addClientListener(clientSocket);
+                this.addClientListener(clientSocket.getInetAddress().getHostName(), clientSocket.getPort());
                 logger.info("New client has connected!");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -75,8 +75,8 @@ public class HumanityServer implements Runnable {
         }
     }
 
-    private void addClientListener(Socket socket) {
-        Client client = new Client(socket, true);
+    private void addClientListener(String ip, int port) throws IOException {
+        Client client = new Client(ip, port, true);
         System.out.println("Constructor complete");
         ClientListener listener = new ClientListener(this.getPacketManager(), client);
         Thread thread = new Thread(listener);

@@ -14,8 +14,8 @@ public class Client {
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
-    public Client(Socket socket, boolean isServer) {
-        this(socket, null, isServer);
+    public Client(String ip, int port, boolean isServer) throws IOException {
+        this(new Socket(ip, port), null, isServer);
     }
 
     public Client(Socket socket, String name, boolean isServer) {
@@ -24,7 +24,6 @@ public class Client {
         try {
             constructObjectStreams(isServer);
         } catch (IOException e) {
-            // assume no dropped connections--at least for now (the security system could help in re-authenticating Clients).
             e.printStackTrace();
         }
     }
@@ -32,7 +31,7 @@ public class Client {
     private void constructObjectStreams(boolean isServer) throws IOException {
         output = new ObjectOutputStream(this.getSocket().getOutputStream());
         output.flush();
-        input = new ObjectInputStream(this.getSocket().getInputStream());
+//        input = new ObjectInputStream(this.getSocket().getInputStream());
     }
 
     public Player getPlayer() {
