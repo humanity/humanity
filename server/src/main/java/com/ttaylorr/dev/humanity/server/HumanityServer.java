@@ -10,9 +10,7 @@ import com.ttaylorr.dev.humanity.server.queue.core.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class HumanityServer {
 
@@ -23,7 +21,7 @@ public class HumanityServer {
     private InboundPacketQueue inboundPacketQueue;
 
     private ConnectionListener connectionListener;
-    private Map<ClientConnection, IncomingPacketListener> packets;
+    private Map<ClientConnection, Map.Entry<IncomingPacketListener, Thread>> packets;
 
     private ServerSocket serverSocket;
     private boolean open;
@@ -34,6 +32,7 @@ public class HumanityServer {
         Preconditions.checkArgument(port > 0, "port must be greater than 0");
         this.port = port;
         this.packetHandler = new PacketHandler(this);
+        this.packets = new HashMap<ClientConnection, Map.Entry<IncomingPacketListener, Thread>>();
     }
 
     public void open() {
@@ -98,7 +97,15 @@ public class HumanityServer {
         Thread thread = new Thread(packetListener);
         thread.run();
 
-        this.packets.put(client, packetListener);
+        this.packets.put(client, new AbstractMap.SimpleEntry<>(packetListener, thread));
+    }
+
+    public void disconnectClient(ClientConnection client) {
+        this.connectedClients.remove(client);
+        System.out.println(this.packets);
+        Map.Entry<IncomingPacketListener, Thread> value = this.packets.remove(client);
+        System.out.println(value);
+        value.getValue().stop();
     }
 
     public PacketHandler getPacketManager() {
@@ -110,10 +117,11 @@ public class HumanityServer {
             throw new IllegalArgumentException("that client is not connected");
         }
 
-        return this.packets.get(client);
+        return this.packets.get(client).getKey();
     }
 
     public boolean isOpen() {
         return this.open;
     }
+
 }

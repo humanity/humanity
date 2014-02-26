@@ -6,6 +6,7 @@ import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.PacketSnapshot;
 
 import java.io.IOException;
+import java.net.SocketException;
 
 public class IncomingPacketListener implements Runnable {
 
@@ -27,6 +28,9 @@ public class IncomingPacketListener implements Runnable {
                     PacketSnapshot snapshot = new PacketSnapshot(packet, this.client);
                     this.server.getPacketManager().handlePacket(snapshot);
                 }
+            } catch(SocketException e) {
+                // The client closed
+                this.server.disconnectClient(this.client);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
