@@ -1,6 +1,8 @@
 package com.ttaylorr.dev.humanity.server.client;
 
 import com.google.common.base.Preconditions;
+import com.ttaylorr.dev.logger.Logger;
+import com.ttaylorr.dev.logger.LoggerProvider;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,7 +15,10 @@ public class ClientConnection {
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
+    private Logger logger;
+
     public ClientConnection(Socket connection) {
+        this.logger = LoggerProvider.putLogger(this.getClass());
         this.connection = Preconditions.checkNotNull(connection);
         try {
             this.output = new ObjectOutputStream(connection.getOutputStream());
@@ -21,7 +26,6 @@ public class ClientConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public Socket getConnection() {
@@ -38,6 +42,7 @@ public class ClientConnection {
 
     public boolean sendObject(Object obj) {
         try {
+            this.logger.debug("Sending {} to the server", obj);
             this.output.writeObject(obj);
             this.output.reset();
         } catch (IOException e) {
