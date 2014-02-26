@@ -31,7 +31,6 @@ public class HumanityClient {
         while (this.serverConnection == null) {
             try {
                 this.serverConnection = new Socket(this.address.getHostName(), this.address.getPort());
-                this.serverConnection.connect(this.address);
                 this.inputStream = new ObjectInputStream(this.serverConnection.getInputStream());
                 this.outputStream = new ObjectOutputStream(this.serverConnection.getOutputStream());
                 break;
