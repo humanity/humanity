@@ -17,7 +17,7 @@ public class ConnectionListener implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Now listening for clients...");
+        server.getLogger().info("Now listening for clients...");
         while (true) {
             try {
                 Socket clientSocket = server.getSocket().accept();
@@ -25,7 +25,6 @@ public class ConnectionListener implements Runnable {
                 if (clientSocket != null) {
                     ClientConnection client = new ClientConnection(clientSocket);
                     this.server.connectClient(client);
-                    System.out.println("Connected a client!");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

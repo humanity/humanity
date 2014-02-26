@@ -39,6 +39,7 @@ public class PacketHandler {
         for (HandlerSnapshot handler : this.handlers.get(packet.getClass())) { // TODO sorting
             if (handler.getHandlingType().equals(packet.getClass())) {
                 try {
+                    this.server.getLogger().debug("Running {}.{} with packet type: {}", handler.getInstance().getClass().getName(), handler.getMethod().getName(), snapshot.getPacket().getClass().getSimpleName());
                     handler.getMethod().invoke(handler.getInstance(), packet);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -74,6 +75,7 @@ public class PacketHandler {
         } else {
             List<HandlerSnapshot> handlers = this.handlers.get(handlingType);
 
+            this.server.getLogger().debug("Registered handler {}.{}", snapshot.getInstance().getClass().getName(), snapshot.getMethod().getName());
             return handlers.add(snapshot);
         }
     }

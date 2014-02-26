@@ -7,6 +7,8 @@ import com.ttaylorr.dev.humanity.server.packets.PacketHandler;
 import com.ttaylorr.dev.humanity.server.listeners.HandshakeListener;
 import com.ttaylorr.dev.humanity.server.packets.core.*;
 import com.ttaylorr.dev.humanity.server.queue.core.*;
+import com.ttaylorr.dev.logger.Logger;
+import com.ttaylorr.dev.logger.LoggerProvider;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -28,15 +30,18 @@ public class HumanityServer {
 
     private int port;
 
+    private Logger logger;
+
     public HumanityServer(int port) {
         Preconditions.checkArgument(port > 0, "port must be greater than 0");
+        this.logger = LoggerProvider.putLogger(this.getClass());
         this.port = port;
         this.packetHandler = new PacketHandler(this);
         this.packets = new HashMap<ClientConnection, Map.Entry<IncomingPacketListener, Thread>>();
     }
 
     public void open() {
-        System.out.println("Opening server...");
+        this.logger.info("Opening server \"humanity\"...");
         try {
             this.setup();
         } catch (IOException e) {
@@ -45,6 +50,7 @@ public class HumanityServer {
     }
 
     public void close() {
+        this.logger.info("Closing server \"humanity\"...");
         try {
             this.teardown();
         } catch (IOException e) {
@@ -69,7 +75,7 @@ public class HumanityServer {
     }
 
     private void registerHandlers() {
-        this.packetHandler.registerHandlers(new HandshakeListener());
+        this.packetHandler.registerHandlers(new HandshakeListener(this));
     }
 
     private void teardown() throws IOException {
@@ -93,6 +99,8 @@ public class HumanityServer {
     public void connectClient(ClientConnection client) {
         this.connectedClients.add(client);
 
+        this.logger.info("Connecting a new client (#{})", Integer.valueOf(this.connectedClients.size()+1));
+
         IncomingPacketListener packetListener = new IncomingPacketListener(client, this);
         Thread thread = new Thread(packetListener);
         thread.run();
@@ -102,9 +110,10 @@ public class HumanityServer {
 
     public void disconnectClient(ClientConnection client) {
         this.connectedClients.remove(client);
-        System.out.println(this.packets);
+
+        this.logger.info("Removing client (#{}) and closing thread...", Integer.valueOf(this.connectedClients.size()));
+
         Map.Entry<IncomingPacketListener, Thread> value = this.packets.remove(client);
-        System.out.println(value);
         value.getValue().stop();
     }
 
@@ -124,4 +133,7 @@ public class HumanityServer {
         return this.open;
     }
 
+    public Logger getLogger() {
+        return this.logger;
+    }
 }

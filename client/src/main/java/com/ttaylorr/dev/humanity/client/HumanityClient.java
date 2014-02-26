@@ -2,6 +2,8 @@ package com.ttaylorr.dev.humanity.client;
 
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet02Handshake;
+import com.ttaylorr.dev.logger.Logger;
+import com.ttaylorr.dev.logger.LoggerProvider;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,17 +20,22 @@ public class HumanityClient {
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
 
+    private Logger logger;
+
     public HumanityClient(String hostname, int port) {
         this(new InetSocketAddress(hostname, port));
     }
 
     public HumanityClient(InetSocketAddress address) {
         this.address = address;
+        this.logger = LoggerProvider.putLogger(this.getClass());
     }
 
     public void openConnection() {
+        this.logger.info("Attempting to open a connection...");
         if (this.serverConnection != null) {
-            throw new IllegalArgumentException("already connected to a server");
+            this.logger.severe("Already connected to a server!");
+            return;
         }
 
         while (this.serverConnection == null) {
@@ -37,6 +44,10 @@ public class HumanityClient {
 
                 this.inputStream = new ObjectInputStream(this.serverConnection.getInputStream());
                 this.outputStream = new ObjectOutputStream(this.serverConnection.getOutputStream());
+
+                if (this.serverConnection.isConnected()) {
+                    this.logger.info("Successfully connected to server at{}", this.address);
+                }
 
                 this.sendPacket(new Packet02Handshake("Fred"));
 
@@ -51,6 +62,7 @@ public class HumanityClient {
 
     public boolean sendPacket(Packet packet) {
         try {
+            this.logger.debug("Sending {} packet", packet.getClass().getSimpleName());
             this.outputStream.writeObject(packet);
             this.outputStream.reset();
         } catch (IOException e) {
@@ -58,5 +70,9 @@ public class HumanityClient {
             return false;
         }
         return true;
+    }
+
+    public Logger getLogger() {
+        return this.logger;
     }
 }
