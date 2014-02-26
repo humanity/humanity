@@ -4,6 +4,10 @@ Cards Against Humanity
 
 ----------------
 
+![](http://puu.sh/7bE7P.png)
+
+----------------
+
 ## conventions
 
 - No weird line-wrapping, leave your lines as long as they need to be
