@@ -46,7 +46,7 @@ public class HumanityClient {
                 this.outputStream = new ObjectOutputStream(this.serverConnection.getOutputStream());
 
                 if (this.serverConnection.isConnected()) {
-                    this.logger.info("Successfully connected to server at{}", this.address);
+                    this.logger.info("Successfully connected to server at {}", this.address);
                 }
 
                 this.sendPacket(new Packet02Handshake("Fred"));

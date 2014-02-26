@@ -99,7 +99,7 @@ public class HumanityServer {
     public void connectClient(ClientConnection client) {
         this.connectedClients.add(client);
 
-        this.logger.info("Connecting a new client (#{})", Integer.valueOf(this.connectedClients.size()+1));
+        this.logger.info("Connecting a new client (#{})", Integer.valueOf(this.connectedClients.size()));
 
         IncomingPacketListener packetListener = new IncomingPacketListener(client, this);
         Thread thread = new Thread(packetListener);
