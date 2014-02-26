@@ -3,7 +3,6 @@ package com.ttaylorr.dev.humanity.server.packets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
-import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerSnapshot;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
