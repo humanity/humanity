@@ -1,6 +1,6 @@
 package com.ttaylorr.dev.humanity.server.queue.core;
 
-import com.ttaylorr.dev.humanity.server.client.Client;
+import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.queue.Queuable;
 
@@ -9,18 +9,18 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class OutboundPacketQueue implements Queuable {
 
-    private final Map<Client, ConcurrentLinkedDeque<Packet>> outgoing;
+    private final Map<ClientConnection, ConcurrentLinkedDeque<Packet>> outgoing;
 
     public OutboundPacketQueue() {
         this.outgoing = new HashMap<>();
     }
 
-    public void addPacket(Packet packet, Client... clients) {
+    public void addPacket(Packet packet, ClientConnection... clients) {
         this.addPacket(packet, Arrays.asList(clients));
     }
 
-    public void addPacket(Packet packet, List<Client> clients) {
-        for (Client client : clients) {
+    public void addPacket(Packet packet, List<ClientConnection> clients) {
+        for (ClientConnection client : clients) {
             this.outgoing.get(client).offer(packet);
         }
     }
@@ -34,7 +34,7 @@ public class OutboundPacketQueue implements Queuable {
         return queues;
     }
 
-    public Queue getQueueFor(Client client) {
+    public Queue getQueueFor(ClientConnection client) {
         return outgoing.get(client);
     }
 
