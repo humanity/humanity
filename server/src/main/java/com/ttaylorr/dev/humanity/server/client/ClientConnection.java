@@ -28,6 +28,14 @@ public class ClientConnection {
         return this.connection;
     }
 
+    public ObjectOutputStream getOutput() {
+        return output;
+    }
+
+    public ObjectInputStream getInput() {
+        return input;
+    }
+
     public boolean sendObject(Object obj) {
         try {
             this.output.writeObject(obj);

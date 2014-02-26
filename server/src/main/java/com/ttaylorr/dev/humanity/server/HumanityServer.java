@@ -3,16 +3,16 @@ package com.ttaylorr.dev.humanity.server;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
-import com.ttaylorr.dev.humanity.server.handlers.PacketHandler;
+import com.ttaylorr.dev.humanity.server.packets.PacketHandler;
 import com.ttaylorr.dev.humanity.server.listeners.HandshakeListener;
-import com.ttaylorr.dev.humanity.server.packets.core.Packet03Disconnect;
-import com.ttaylorr.dev.humanity.server.queue.core.InboundPacketQueue;
-import com.ttaylorr.dev.humanity.server.queue.core.OutboundPacketQueue;
+import com.ttaylorr.dev.humanity.server.packets.core.*;
+import com.ttaylorr.dev.humanity.server.queue.core.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class HumanityServer {
 
@@ -23,6 +23,7 @@ public class HumanityServer {
     private InboundPacketQueue inboundPacketQueue;
 
     private ConnectionListener connectionListener;
+    private Map<ClientConnection, IncomingPacketListener> packets;
 
     private ServerSocket serverSocket;
     private boolean open;
@@ -92,6 +93,24 @@ public class HumanityServer {
 
     public void connectClient(ClientConnection client) {
         this.connectedClients.add(client);
+
+        IncomingPacketListener packetListener = new IncomingPacketListener(client, this);
+        Thread thread = new Thread(packetListener);
+        thread.run();
+
+        this.packets.put(client, packetListener);
+    }
+
+    public PacketHandler getPacketManager() {
+        return this.packetHandler;
+    }
+
+    public IncomingPacketListener getListenerFor(ClientConnection client) {
+        if (this.packets.get(client) == null) {
+            throw new IllegalArgumentException("that client is not connected");
+        }
+
+        return this.packets.get(client);
     }
 
     public boolean isOpen() {

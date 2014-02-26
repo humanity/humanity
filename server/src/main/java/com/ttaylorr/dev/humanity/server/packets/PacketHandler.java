@@ -1,11 +1,15 @@
-package com.ttaylorr.dev.humanity.server.handlers;
+package com.ttaylorr.dev.humanity.server.packets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
-import com.ttaylorr.dev.humanity.server.packets.Packet;
+import com.ttaylorr.dev.humanity.server.client.ClientConnection;
+import com.ttaylorr.dev.humanity.server.handlers.Handler;
+import com.ttaylorr.dev.humanity.server.handlers.HandlerSnapshot;
+import com.ttaylorr.dev.humanity.server.handlers.Listenable;
 import com.ttaylorr.dev.humanity.server.packets.core.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +32,22 @@ public class PacketHandler {
         this.handlers.put(Packet01KeepAlive.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet02Handshake.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet03Disconnect.class, new ArrayList<HandlerSnapshot>());
+    }
+
+    public void handlePacket(PacketSnapshot snapshot) {
+        Packet packet = snapshot.getPacket();
+        ClientConnection owner = snapshot.getOwner();
+        for (HandlerSnapshot handler : this.handlers.get(packet.getClass())) {
+            if (handler.getHandlingType() == packet.getClass()) {
+                try {
+                    handler.getMethod().invoke(handler.getInstance(), packet);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void registerHandlers(Listenable listenable) {
