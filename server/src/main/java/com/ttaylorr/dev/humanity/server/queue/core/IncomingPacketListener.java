@@ -30,7 +30,7 @@ public class IncomingPacketListener implements Runnable {
                 }
             } catch(SocketException e) {
                 // The client closed
-                this.server.disconnectClient(this.client);
+                this.server.getClientManager().disconnectClient(this.client);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {

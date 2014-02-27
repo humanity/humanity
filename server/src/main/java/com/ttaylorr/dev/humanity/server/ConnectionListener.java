@@ -24,7 +24,7 @@ public class ConnectionListener implements Runnable {
 
                 if (clientSocket != null) {
                     ClientConnection client = new ClientConnection(clientSocket);
-                    this.server.connectClient(client);
+                    this.server.getClientManager().connectClient(client);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
