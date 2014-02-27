@@ -18,6 +18,7 @@ public class JoinVerificationListener implements Listenable {
     public void onJoin(Packet04Join packet) {
         if (packet.getState() == Packet04Join.JoinState.ALLOWED) {
             this.client.getLogger().info("Able to join game with status '{}'", packet.getReason());
+            this.client.getLogger().info("Assigned UUID (from server): {}", packet.getServerAssignedUUID());
         } else {
             this.client.getLogger().info("Forced to disconnect from the server with status '{}'", packet.getReason());
         }

@@ -6,6 +6,7 @@ import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
+import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet02Handshake;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet04Join;
 
@@ -21,6 +22,7 @@ public class HandshakeListener implements Listenable {
     public void onClientHandshake(Packet02Handshake handshake, ClientConnection client) {
         this.server.getLogger().info("Received handshake from client named: \"{}\".", handshake.getName());
 
-        client.sendObject(new Packet04Join(Packet04Join.JoinState.ALLOWED, "Welcome to the server!"));
+        Packet packet = new Packet04Join(Packet04Join.JoinState.ALLOWED, "Welcome to the server!", server.getClientManager().getUUIDForClient(client));
+        client.sendObject(packet);
     }
 }
