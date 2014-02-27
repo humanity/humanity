@@ -2,7 +2,7 @@ package com.ttaylorr.dev.humanity.client;
 
 public class Bootstrap {
 
-    private static HumanityClient client = new HumanityClient("localhost", 7000);
+    private static HumanityClient client = new HumanityClient("localhost", 8000);
 
     public static boolean closeRequested = false;
 

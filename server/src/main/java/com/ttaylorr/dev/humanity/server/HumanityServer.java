@@ -103,7 +103,7 @@ public class HumanityServer {
 
         IncomingPacketListener packetListener = new IncomingPacketListener(client, this);
         Thread thread = new Thread(packetListener);
-        thread.run();
+        thread.start();
 
         this.packets.put(client, new AbstractMap.SimpleEntry<>(packetListener, thread));
     }

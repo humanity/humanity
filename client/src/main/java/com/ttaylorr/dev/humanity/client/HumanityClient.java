@@ -1,7 +1,8 @@
 package com.ttaylorr.dev.humanity.client;
 
+import com.ttaylorr.dev.humanity.client.listeners.JoinVerificationListener;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
-import com.ttaylorr.dev.humanity.server.packets.core.Packet02Handshake;
+import com.ttaylorr.dev.humanity.server.packets.core.*;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 
@@ -22,6 +23,9 @@ public class HumanityClient {
 
     private Logger logger;
 
+    private ClientPacketHandler packetHandler;
+    private IncomingPacketListener packetListener;
+
     public HumanityClient(String hostname, int port) {
         this(new InetSocketAddress(hostname, port));
     }
@@ -29,9 +33,11 @@ public class HumanityClient {
     public HumanityClient(InetSocketAddress address) {
         this.address = address;
         this.logger = LoggerProvider.putLogger(this.getClass());
+        this.packetHandler = new ClientPacketHandler(this);
     }
 
     public void openConnection() {
+        this.setup();
         this.logger.info("Attempting to open a connection...");
         if (this.serverConnection != null) {
             this.logger.severe("Already connected to a server!");
@@ -44,6 +50,11 @@ public class HumanityClient {
 
                 this.inputStream = new ObjectInputStream(this.serverConnection.getInputStream());
                 this.outputStream = new ObjectOutputStream(this.serverConnection.getOutputStream());
+
+                this.packetListener = new IncomingPacketListener(this);
+                Thread thread = new Thread(packetListener);
+                thread.setName("Packet-Listener");
+                thread.start();
 
                 if (this.serverConnection.isConnected()) {
                     this.logger.info("Successfully connected to server at {}", this.address);
@@ -60,6 +71,10 @@ public class HumanityClient {
         }
     }
 
+    private void setup() {
+        this.packetHandler.registerHandlers(new JoinVerificationListener(this));
+    }
+
     public boolean sendPacket(Packet packet) {
         try {
             this.logger.debug("Sending {} packet", packet.getClass().getSimpleName());
@@ -70,6 +85,14 @@ public class HumanityClient {
             return false;
         }
         return true;
+    }
+
+    public ClientPacketHandler getPacketHandler() {
+        return this.packetHandler;
+    }
+
+    public ObjectInputStream getInputStream() {
+        return inputStream;
     }
 
     public Logger getLogger() {
