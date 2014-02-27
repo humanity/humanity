@@ -22,6 +22,5 @@ public class HandshakeListener implements Listenable {
         this.server.getLogger().info("Received handshake from client named: \"{}\".", handshake.getName());
 
         client.sendObject(new Packet04Join(Packet04Join.JoinState.ALLOWED, "Welcome to the server!"));
-
     }
 }

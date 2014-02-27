@@ -44,7 +44,7 @@ public class PacketHandler {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                    e.getCause().printStackTrace();
                 }
             }
         }
