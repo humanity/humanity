@@ -95,6 +95,17 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>ttaylorr-deployment</id>
+            <url>http://ttaylorr.com:8081/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>ttaylorr-deployment</id>
+            <url>http://ttaylorr.com:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
         <project.build.sourceEncouding>UTF-8</project.build.sourceEncouding>
     </properties>
