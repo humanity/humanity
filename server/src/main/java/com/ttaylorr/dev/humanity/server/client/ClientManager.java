@@ -30,9 +30,10 @@ public class ClientManager {
     }
 
     public void connectClient(ClientConnection client) {
-        this.connectedClients.put(client, UUID.randomUUID());
+        UUID clientId = UUID.randomUUID();
+        this.connectedClients.put(client, clientId);
 
-        this.logger.info("Connecting a new client (#{})", Integer.valueOf(this.connectedClients.size()));
+        this.logger.info("Connect client with ID: {}", clientId);
 
         IncomingPacketListener packetListener = new IncomingPacketListener(client, this.server);
         Thread thread = new Thread(packetListener);
@@ -44,7 +45,7 @@ public class ClientManager {
     public void disconnectClient(ClientConnection client) {
         this.connectedClients.remove(client);
 
-        this.logger.info("Removing client (#{}) and closing thread...", Integer.valueOf(this.connectedClients.size() + 1));
+        this.logger.info("Removing and closing thread for client: {}", this.getUUIDForClient(client));
 
         Map.Entry<IncomingPacketListener, Thread> value = this.clientPacketListeners.remove(client);
         value.getValue().stop();
@@ -62,6 +63,20 @@ public class ClientManager {
         }
 
         return this.clientPacketListeners.get(client).getKey();
+    }
+
+    public ClientConnection getClientById(UUID id) {
+        for (Map.Entry<ClientConnection, UUID> entry : this.connectedClients.entrySet()) {
+            if (entry.getValue().equals(id)) {
+                return entry.getKey();
+            }
+        }
+
+        return null;
+    }
+
+    public UUID getUUIDForClient(ClientConnection clientConnection) {
+        return this.connectedClients.get(clientConnection);
     }
 
     public ImmutableList<ClientConnection> getConnectedClients() {
