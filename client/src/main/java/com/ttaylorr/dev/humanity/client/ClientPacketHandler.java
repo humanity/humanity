@@ -29,7 +29,6 @@ public class ClientPacketHandler {
 
     private void allowPackets() {
         this.handlers.put(Packet01KeepAlive.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet02Handshake.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet03Disconnect.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet04Join.class, new ArrayList<HandlerSnapshot>());
     }
