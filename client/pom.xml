@@ -98,11 +98,11 @@
     <distributionManagement>
         <repository>
             <id>ttaylorr-deployment</id>
-            <url>http://ttaylorr.com:8081/nexus/content/repositories/releases</url>
+            <url>http://ttaylorr.com:8081/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>ttaylorr-deployment</id>
-            <url>http://ttaylorr.com:8081/nexus/content/repositories/snapshots</url>
+            <url>http://ttaylorr.com:8081/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
