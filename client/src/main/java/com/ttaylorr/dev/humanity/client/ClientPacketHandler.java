@@ -2,12 +2,10 @@ package com.ttaylorr.dev.humanity.client;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerSnapshot;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
-import com.ttaylorr.dev.humanity.server.packets.PacketSnapshot;
 import com.ttaylorr.dev.humanity.server.packets.core.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -40,10 +38,7 @@ public class ClientPacketHandler {
         for (HandlerSnapshot handler : this.handlers.get(packet.getClass())) { // TODO sorting
             if (handler.getHandlingType().equals(packet.getClass())) {
                 try {
-                    this.client.getLogger().debug("Running {}.{} with packet type: {}",
-                            handler.getInstance().getClass().getSimpleName(),
-                            handler.getMethod().getName(),
-                            packet.getClass().getSimpleName());
+                    this.client.getLogger().debug("(S->C) received: {}", packet.getClass().getSimpleName());
                     handler.getMethod().invoke(handler.getInstance(), packet);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

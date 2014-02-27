@@ -42,7 +42,7 @@ public class ClientConnection {
 
     public boolean sendObject(Object obj) {
         try {
-            this.logger.debug("Sending {} to the server", obj.getClass().getSimpleName());
+            this.logger.debug("(S->C) sent: {}", obj.getClass().getSimpleName());
             this.output.writeObject(obj);
             this.output.reset();
         } catch (IOException e) {

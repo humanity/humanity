@@ -77,7 +77,7 @@ public class HumanityClient {
 
     public boolean sendPacket(Packet packet) {
         try {
-            this.logger.debug("Sending {} packet", packet.getClass().getSimpleName());
+            this.logger.debug("(C->S) sent: {}", packet.getClass().getSimpleName());
             this.outputStream.writeObject(packet);
             this.outputStream.reset();
         } catch (IOException e) {
