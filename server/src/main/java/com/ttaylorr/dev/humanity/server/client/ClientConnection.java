@@ -1,6 +1,7 @@
 package com.ttaylorr.dev.humanity.server.client;
 
 import com.google.common.base.Preconditions;
+import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 
@@ -40,10 +41,10 @@ public class ClientConnection {
         return input;
     }
 
-    public boolean sendObject(Object obj) {
+    public boolean sendPacket(Packet packet) {
         try {
-            this.logger.debug("(S->C) sent: {}", obj.getClass().getSimpleName());
-            this.output.writeObject(obj);
+            this.logger.debug("(S->C) sent: {}", packet.getClass().getSimpleName());
+            this.output.writeObject(packet);
             this.output.reset();
         } catch (IOException e) {
             e.printStackTrace();
