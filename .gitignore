@@ -14,3 +14,6 @@ target/
 # IntelliJ
 *.iml
 /.idea
+
+# OS X Filesystem
+.DS_STORE
