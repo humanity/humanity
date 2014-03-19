@@ -111,15 +111,18 @@ public class HumanityClient {
 
                 client.keepAliveWaitable = Bootstrap.threadPoolExecutor.schedule(new KeepAliveTask(client), 0l, TimeUnit.MICROSECONDS);
                 try {
-                    boolean result = (Boolean) client.keepAliveWaitable.get();
+                    // We have until the next cycle to get a response
+                    boolean result = (Boolean) client.keepAliveWaitable.get(5l, TimeUnit.SECONDS);
                     if (!result) {
                         client.getLogger().severe("Got a response, cannot find the server! :(");
                     } else {
                         client.getLogger().debug("Found the server, will try again in 5 seconds...");
                     }
-                } catch (InterruptedException | ExecutionException e) {
+                } catch(TimeoutException e1) {
                     client.getLogger().severe("Timed out, cannot find the server!");
-                    e.printStackTrace();
+                    e1.printStackTrace();
+                } catch (InterruptedException | ExecutionException e1) {
+                    e1.printStackTrace();
                 }
             }
         }, 5l, 5l, TimeUnit.SECONDS);
