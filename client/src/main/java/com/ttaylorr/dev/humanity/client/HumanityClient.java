@@ -13,10 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 public class HumanityClient {
 
@@ -104,28 +101,53 @@ public class HumanityClient {
             this.keepAliveWaitable.cancel(true);
         }
 
-        Bootstrap.threadPoolExecutor.scheduleAtFixedRate(new Runnable() {
+        long DELAY = 2l;
+        new Thread(new Runnable() {
+            HumanityClient client = HumanityClient.this;
+
             @Override
             public void run() {
-                HumanityClient client = HumanityClient.this;
+                int missedSinceSuccess = 0;
 
-                client.keepAliveWaitable = Bootstrap.threadPoolExecutor.schedule(new KeepAliveTask(client), 0l, TimeUnit.MICROSECONDS);
-                try {
-                    // We have until the next cycle to get a response
-                    boolean result = (Boolean) client.keepAliveWaitable.get(5l, TimeUnit.SECONDS);
-                    if (!result) {
-                        client.getLogger().severe("Got a response, cannot find the server! :(");
-                    } else {
-                        client.getLogger().debug("Found the server, will try again in 5 seconds...");
+                while(true) {
+                    try {
+                        // Wait 5 seconds
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                } catch(TimeoutException e1) {
-                    client.getLogger().severe("Timed out, cannot find the server!");
-                    e1.printStackTrace();
-                } catch (InterruptedException | ExecutionException e1) {
-                    e1.printStackTrace();
+
+                    if(missedSinceSuccess > 3) {
+                        Bootstrap.requestClose();
+                    }
+
+                    KeepAliveTask currentTask = new KeepAliveTask(HumanityClient.this);
+                    client.keepAliveWaitable = Bootstrap.threadPoolExecutor.schedule(currentTask, 0l, TimeUnit.SECONDS);
+
+                    try {
+                        // We have until the next cycle to get a response
+                        boolean result = (Boolean) client.keepAliveWaitable.get(5l, TimeUnit.SECONDS);
+                        if (!result) {
+                            client.getLogger().severe("Got a response, cannot find the server! :(");
+                            missedSinceSuccess++;
+                        } else {
+                            client.getLogger().debug("Found the server, will try again in 5 seconds...");
+                            missedSinceSuccess = 0;
+                        }
+                    } catch(TimeoutException e1) {
+                        client.keepAliveWaitable.cancel(true);
+                        client.getPacketHandler().unregisterHandlers(currentTask);
+                        client.getLogger().severe("Timed out, cannot find the server!");
+                        missedSinceSuccess++;
+                        e1.printStackTrace();
+                    } catch (InterruptedException | ExecutionException e1) {
+                        client.keepAliveWaitable.cancel(true);
+                        missedSinceSuccess++;
+                        e1.printStackTrace();
+                    }
                 }
             }
-        }, 5l, 5l, TimeUnit.SECONDS);
+        }).start();
     }
 
     public ClientPacketHandler getPacketHandler() {

@@ -11,14 +11,18 @@ public class Bootstrap {
 
     public static void main(String[] args) {
         client.getLogger().info("Starting humanity client's bootstrap");
-        threadPoolExecutor = new ScheduledThreadPoolExecutor(64);
+
+        threadPoolExecutor = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
         client.getLogger().info("Opened thread pool...");
+
         client.getLogger().info("Deferred process to opening connection!");
         client.openConnection();
 
-        while (!closeRequested) {
-
-        }
+        while (!closeRequested);
         client.getLogger().info("Closing client bootstrap...");
+    }
+
+    public static void requestClose() {
+        Bootstrap.closeRequested = true;
     }
 }

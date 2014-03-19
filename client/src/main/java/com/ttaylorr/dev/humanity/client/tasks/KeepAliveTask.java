@@ -6,6 +6,7 @@ import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet01KeepAlive;
 
+import java.time.Instant;
 import java.util.concurrent.Callable;
 
 public class KeepAliveTask implements Callable<Boolean>, Listenable {
@@ -23,20 +24,23 @@ public class KeepAliveTask implements Callable<Boolean>, Listenable {
     }
 
     @Override
-    public Boolean call() {
+    public Boolean call() throws InterruptedException {
         this.lastSentPacket = new Packet01KeepAlive();
 
         client.sendPacket(this.lastSentPacket);
 
         // Hack to wait until we've received a packet
-        while(this.lastReceivedPacket == null);
+        Instant start = Instant.now();
+        while(this.lastReceivedPacket == null) {
+            Thread.sleep(100);
+        }
 
         this.client.getPacketHandler().unregisterHandlers(this);
         return this.lastReceivedPacket.equals(this.lastSentPacket);
     }
 
     @Handler(priority = HandlerPriority.NORMAL)
-    public void onPotential(Packet01KeepAlive packet) {
+    public void onPotentialKeepAlive(Packet01KeepAlive packet) {
         if(this.lastReceivedPacket == null) {
             this.lastReceivedPacket = packet;
         }
