@@ -1,6 +1,7 @@
 package com.ttaylorr.dev.humanity.client;
 
 import com.ttaylorr.dev.humanity.client.listeners.JoinVerificationListener;
+import com.ttaylorr.dev.humanity.client.tasks.KeepAliveTask;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.core.*;
 import com.ttaylorr.dev.logger.Logger;
@@ -12,6 +13,10 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class HumanityClient {
 
@@ -25,6 +30,8 @@ public class HumanityClient {
 
     private ClientPacketHandler packetHandler;
     private IncomingPacketListener packetListener;
+
+    private ScheduledFuture<?> keepAliveWaitable;
 
     public HumanityClient(String hostname, int port) {
         this(new InetSocketAddress(hostname, port));
@@ -69,6 +76,9 @@ public class HumanityClient {
                 e.printStackTrace();
             }
         }
+
+        // got the connection, start the keep-alive polling task
+        this.initKeepAlive();
     }
 
     private void setup() {
@@ -81,10 +91,38 @@ public class HumanityClient {
             this.outputStream.writeObject(packet);
             this.outputStream.reset();
         } catch (IOException e) {
-            e.printStackTrace();
+            this.getLogger().severe("The server unexpectedly closed, disconnecting!");
+
+            System.exit(-1);
             return false;
         }
         return true;
+    }
+
+    private void initKeepAlive() {
+        if(this.keepAliveWaitable != null) {
+            this.keepAliveWaitable.cancel(true);
+        }
+
+        Bootstrap.threadPoolExecutor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                HumanityClient client = HumanityClient.this;
+
+                client.keepAliveWaitable = Bootstrap.threadPoolExecutor.schedule(new KeepAliveTask(client), 0l, TimeUnit.MICROSECONDS);
+                try {
+                    boolean result = (Boolean) client.keepAliveWaitable.get();
+                    if (!result) {
+                        client.getLogger().severe("Got a response, cannot find the server! :(");
+                    } else {
+                        client.getLogger().debug("Found the server, will try again in 5 seconds...");
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    client.getLogger().severe("Timed out, cannot find the server!");
+                    e.printStackTrace();
+                }
+            }
+        }, 5l, 5l, TimeUnit.SECONDS);
     }
 
     public ClientPacketHandler getPacketHandler() {

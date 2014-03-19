@@ -43,9 +43,8 @@ public class ClientManager {
     }
 
     public void disconnectClient(ClientConnection client) {
-        this.connectedClients.remove(client);
-
         this.logger.info("Removing and closing thread for client: {}", this.getUUIDForClient(client));
+        this.connectedClients.remove(client);
 
         Map.Entry<IncomingPacketListener, Thread> value = this.clientPacketListeners.remove(client);
         value.getValue().stop();

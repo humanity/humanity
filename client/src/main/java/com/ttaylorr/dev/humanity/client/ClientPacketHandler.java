@@ -10,10 +10,7 @@ import com.ttaylorr.dev.humanity.server.packets.core.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ClientPacketHandler {
 
@@ -65,6 +62,24 @@ public class ClientPacketHandler {
                 }
             }
         }
+    }
+
+    public boolean unregisterHandlers(Listenable listenable) {
+        boolean removed = false;
+
+        for (Map.Entry<Class<? extends Packet>, List<HandlerSnapshot>> entry : new HashSet<>(this.handlers.entrySet())) {
+            for(HandlerSnapshot handler : new ArrayList<>(entry.getValue())) {
+                if(handler.getInstance() == listenable) {
+                    this.handlers.get(entry.getKey()).remove(handler);
+                    removed = true;
+                }
+            }
+        }
+
+        if (removed) {
+            this.client.getLogger().debug("Removed all handlers: " + listenable.getClass().getSimpleName());
+        }
+        return removed;
     }
 
     private boolean registerPacketHandler(HandlerSnapshot snapshot, Class<? extends Packet> handlingType) {

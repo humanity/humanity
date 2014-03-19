@@ -1,13 +1,19 @@
 package com.ttaylorr.dev.humanity.client;
 
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 public class Bootstrap {
 
     private static HumanityClient client = new HumanityClient("localhost", 8000);
+    public static ScheduledThreadPoolExecutor threadPoolExecutor;
 
     public static boolean closeRequested = false;
 
     public static void main(String[] args) {
         client.getLogger().info("Starting humanity client's bootstrap");
+        threadPoolExecutor = new ScheduledThreadPoolExecutor(64);
+        client.getLogger().info("Opened thread pool...");
+        client.getLogger().info("Deferred process to opening connection!");
         client.openConnection();
 
         while (!closeRequested) {
