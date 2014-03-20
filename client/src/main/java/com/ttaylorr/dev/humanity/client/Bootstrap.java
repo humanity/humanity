@@ -9,7 +9,7 @@ public class Bootstrap {
 
     public static boolean closeRequested = false;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         client.getLogger().info("Starting humanity client's bootstrap");
 
         threadPoolExecutor = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
@@ -18,7 +18,10 @@ public class Bootstrap {
         client.getLogger().info("Deferred process to opening connection!");
         client.openConnection();
 
-        while (!closeRequested);
+        while (!closeRequested) {
+            // So, you know - we don't murder CPUs.
+            Thread.sleep(1);
+        }
         client.getLogger().info("Closing client bootstrap...");
     }
 

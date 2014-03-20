@@ -72,6 +72,11 @@ public class HumanityClient {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         // got the connection, start the keep-alive polling task
