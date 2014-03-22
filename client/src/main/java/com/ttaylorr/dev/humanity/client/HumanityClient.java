@@ -1,6 +1,7 @@
 package com.ttaylorr.dev.humanity.client;
 
 import com.ttaylorr.dev.humanity.client.listeners.JoinVerificationListener;
+import com.ttaylorr.dev.humanity.client.tasks.KeepAliveTask;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.core.*;
 import com.ttaylorr.dev.logger.Logger;
@@ -12,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.concurrent.*;
 
 public class HumanityClient {
 
@@ -25,6 +27,8 @@ public class HumanityClient {
 
     private ClientPacketHandler packetHandler;
     private IncomingPacketListener packetListener;
+
+    private ScheduledFuture<?> keepAliveWaitable;
 
     public HumanityClient(String hostname, int port) {
         this(new InetSocketAddress(hostname, port));
@@ -68,7 +72,15 @@ public class HumanityClient {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
+        // got the connection, start the keep-alive polling task
+        this.initKeepAlive();
     }
 
     private void setup() {
@@ -81,10 +93,66 @@ public class HumanityClient {
             this.outputStream.writeObject(packet);
             this.outputStream.reset();
         } catch (IOException e) {
-            e.printStackTrace();
+            this.getLogger().severe("The server unexpectedly closed, disconnecting!");
+
+            System.exit(-1);
             return false;
         }
         return true;
+    }
+
+    private void initKeepAlive() {
+        if(this.keepAliveWaitable != null) {
+            this.keepAliveWaitable.cancel(true);
+        }
+
+        long DELAY = 2l;
+        new Thread(new Runnable() {
+            HumanityClient client = HumanityClient.this;
+
+            @Override
+            public void run() {
+                int missedSinceSuccess = 0;
+
+                while(true) {
+                    try {
+                        // Wait 5 seconds
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(missedSinceSuccess > 3) {
+                        Bootstrap.requestClose();
+                    }
+
+                    KeepAliveTask currentTask = new KeepAliveTask(HumanityClient.this);
+                    client.keepAliveWaitable = Bootstrap.threadPoolExecutor.schedule(currentTask, 0l, TimeUnit.SECONDS);
+
+                    try {
+                        // We have until the next cycle to get a response
+                        boolean result = (Boolean) client.keepAliveWaitable.get(5l, TimeUnit.SECONDS);
+                        if (!result) {
+                            client.getLogger().severe("Got a response, cannot find the server! :(");
+                            missedSinceSuccess++;
+                        } else {
+                            client.getLogger().debug("Found the server, will try again in 5 seconds...");
+                            missedSinceSuccess = 0;
+                        }
+                    } catch(TimeoutException e1) {
+                        client.keepAliveWaitable.cancel(true);
+                        client.getPacketHandler().unregisterHandlers(currentTask);
+                        client.getLogger().severe("Timed out, cannot find the server!");
+                        missedSinceSuccess++;
+                        e1.printStackTrace();
+                    } catch (InterruptedException | ExecutionException e1) {
+                        client.keepAliveWaitable.cancel(true);
+                        missedSinceSuccess++;
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
     public ClientPacketHandler getPacketHandler() {

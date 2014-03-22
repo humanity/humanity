@@ -36,6 +36,11 @@ public class IncomingPacketListener implements Runnable {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

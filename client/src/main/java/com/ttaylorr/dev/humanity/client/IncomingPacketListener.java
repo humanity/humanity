@@ -23,6 +23,11 @@ public class IncomingPacketListener implements Runnable {
                     Packet packet = (Packet) incoming;
                     this.client.getPacketHandler().handlePacket(packet);
                 }
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } catch(SocketException e) {
 //                client.disconnect();
                 break;

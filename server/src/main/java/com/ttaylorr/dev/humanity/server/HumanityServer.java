@@ -2,6 +2,7 @@ package com.ttaylorr.dev.humanity.server;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.client.ClientManager;
+import com.ttaylorr.dev.humanity.server.listeners.KeepAliveListener;
 import com.ttaylorr.dev.humanity.server.packets.PacketHandler;
 import com.ttaylorr.dev.humanity.server.listeners.HandshakeListener;
 import com.ttaylorr.dev.humanity.server.queue.core.*;
@@ -72,6 +73,7 @@ public class HumanityServer {
 
     private void registerHandlers() {
         this.packetHandler.registerHandlers(new HandshakeListener(this));
+        this.packetHandler.registerHandlers(new KeepAliveListener(this));
     }
 
     private void teardown() throws IOException {
