@@ -3,7 +3,6 @@ package com.ttaylorr.dev.humanity.server.packets.core;
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 public class Packet01KeepAlive extends Packet {
