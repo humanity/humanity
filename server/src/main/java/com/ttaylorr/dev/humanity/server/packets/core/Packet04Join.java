@@ -5,7 +5,7 @@ import com.ttaylorr.dev.humanity.server.packets.Packet;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Packet04Join extends Packet implements Serializable {
+public class Packet04Join extends Packet {
 
     private JoinState state;
     private String reason;

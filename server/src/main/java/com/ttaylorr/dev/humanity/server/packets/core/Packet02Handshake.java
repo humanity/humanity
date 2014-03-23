@@ -5,7 +5,7 @@ import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.io.Serializable;
 
-public class Packet02Handshake extends Packet implements Serializable {
+public class Packet02Handshake extends Packet {
 
     private String name;
 

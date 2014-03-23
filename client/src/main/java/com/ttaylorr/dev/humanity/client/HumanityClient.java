@@ -1,5 +1,6 @@
 package com.ttaylorr.dev.humanity.client;
 
+import com.ttaylorr.dev.humanity.client.definition.ClientClientDefinition;
 import com.ttaylorr.dev.humanity.client.listeners.JoinVerificationListener;
 import com.ttaylorr.dev.humanity.client.tasks.KeepAliveTask;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
@@ -21,6 +22,8 @@ public class HumanityClient {
     private final Logger logger;
     private final ClientPacketHandler packetHandler;
 
+    private final ClientClientDefinition defnition;
+
     private Socket serverConnection;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
@@ -36,6 +39,7 @@ public class HumanityClient {
         this.address = address;
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.packetHandler = new ClientPacketHandler(this);
+        this.defnition = new ClientClientDefinition(this);
     }
 
     public void openConnection() {
@@ -151,6 +155,10 @@ public class HumanityClient {
                 }
             }
         }).start();
+    }
+
+    public ClientClientDefinition getDefnition() {
+        return this.defnition;
     }
 
     public ClientPacketHandler getPacketHandler() {
