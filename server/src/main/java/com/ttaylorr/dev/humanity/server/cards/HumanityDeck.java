@@ -15,7 +15,7 @@ public abstract class HumanityDeck<T extends HumanityCard> {
         return this.cards;
     }
 
-    public final T pickFirst() {
+    public final synchronized T pickFirst() {
         for(Iterator<T> it = this.cards.iterator(); it.hasNext(); ) {
             T card = it.next();
             if(card.isPlayable()) {
