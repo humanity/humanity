@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 
 import java.util.LinkedList;
 
-public class BlackCard implements HumanityCard {
+public class BlackCard extends HumanityCard {
 
     public static final String BLANK_SEPARATOR = "_______";
 
@@ -17,7 +17,6 @@ public class BlackCard implements HumanityCard {
      */
     private final LinkedList<String> messages;
     private final int pickCards;
-    private boolean playable = true;
 
     public BlackCard(LinkedList<String> messages) {
         this.messages = messages;
@@ -33,21 +32,11 @@ public class BlackCard implements HumanityCard {
     }
 
     @Override
-    public void setPlayable(boolean playable) {
-        this.playable = playable;
-    }
-
-    @Override
-    public boolean isPlayable() {
-        return this.playable;
-    }
-
-    @Override
     public boolean play() {
-        if(!this.playable) {
+        if(!this.state.isPlayable()) {
             return false;
         } else {
-            this.playable = false;
+            this.state = this.state.advance();
             return false;
         }
     }

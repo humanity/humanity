@@ -3,6 +3,10 @@ package com.ttaylorr.dev.humanity.server.cards;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * TODO at some point, a Configuration-based constructor can be added so that cards can be added from files.
+ * @param <T>
+ */
 public abstract class HumanityDeck<T extends HumanityCard> {
 
     protected final Set<T> cards;
@@ -15,13 +19,14 @@ public abstract class HumanityDeck<T extends HumanityCard> {
         return this.cards;
     }
 
-    public final synchronized T pickFirst() {
+    public final synchronized T drawCard() {
         for(Iterator<T> it = this.cards.iterator(); it.hasNext(); ) {
             T card = it.next();
             if(card.isPlayable()) {
+                it.remove();
                 return card;
             }
         }
-        return null;
+        return null; // no cards can be played at all, so this user must...?
     }
 }

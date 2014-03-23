@@ -1,19 +1,35 @@
 package com.ttaylorr.dev.humanity.server.cards;
 
-public interface HumanityCard {
+import java.io.Serializable;
 
-    /** Sets whether the card is able to be played.  If play() is called and this
-     *  is false, the card will not be able to be played.
-     */
-    public void setPlayable(boolean playable);
+public abstract class HumanityCard implements Serializable {
 
-    /** Gets the playable state of the card */
-    public boolean isPlayable();
+    protected CardState state;
 
-    /** Preforms the actual play operation.  Usually includes sending some packets. */
-    public boolean play();
+    public HumanityCard() {
+        this.state = CardState.DRAWABLE;
+    }
+
+    public CardState advanceState() {
+        return (this.state = this.state.advance());
+    }
+
+    public CardState getState() {
+        return this.state;
+    }
+
+    public void setState(CardState state) {
+        this.state = state;
+    }
+
+    public boolean isPlayable() {
+        return this.state.isPlayable();
+    }
+
+    /** Preforms the actual play operation. For this operation to be valid, isPlayable() must be false. Usually includes sending some packets. */
+    public abstract boolean play();
 
     /** Gets the user-readable text of the card */
-    public String getText();
+    public abstract String getText();
 
 }

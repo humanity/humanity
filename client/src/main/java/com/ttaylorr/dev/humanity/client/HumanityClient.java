@@ -130,7 +130,7 @@ public class HumanityClient {
                     client.keepAliveWaitable = Bootstrap.threadPoolExecutor.schedule(currentTask, 0l, TimeUnit.SECONDS);
 
                     try {
-                        // We have until the next cycle to get a response
+                        // We have until the advance cycle to get a response
                         boolean result = (Boolean) client.keepAliveWaitable.get(5l, TimeUnit.SECONDS);
                         if (!result) {
                             client.getLogger().severe("Got a response, cannot find the server! :(");

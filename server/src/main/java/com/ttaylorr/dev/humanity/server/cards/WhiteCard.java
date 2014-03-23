@@ -2,30 +2,20 @@ package com.ttaylorr.dev.humanity.server.cards;
 
 import com.google.common.base.Preconditions;
 
-public class WhiteCard implements HumanityCard {
+public class WhiteCard extends HumanityCard {
 
     protected final String message;
-    protected boolean playable;
 
     public WhiteCard(String message) {
         this.message = Preconditions.checkNotNull(message, "message");
     }
 
     @Override
-    public void setPlayable(boolean playable) {
-        this.playable = playable;
-    }
-
-    @Override
-    public boolean isPlayable() {
-        return this.playable;
-    }
-
-    @Override
     public boolean play() {
-        if(!this.playable) {
+        if(!this.state.isPlayable()) {
             return false;
         } else {
+            this.state = this.state.advance();
             return false;
         }
     }
