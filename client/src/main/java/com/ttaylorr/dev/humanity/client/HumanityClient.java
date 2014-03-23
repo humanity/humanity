@@ -17,15 +17,13 @@ import java.util.concurrent.*;
 
 public class HumanityClient {
 
-    private InetSocketAddress address;
+    private final InetSocketAddress address;
+    private final Logger logger;
+    private final ClientPacketHandler packetHandler;
 
     private Socket serverConnection;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-
-    private Logger logger;
-
-    private ClientPacketHandler packetHandler;
     private IncomingPacketListener packetListener;
 
     private ScheduledFuture<?> keepAliveWaitable;
