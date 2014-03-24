@@ -29,4 +29,9 @@ public abstract class HumanityDeck<T extends HumanityCard> {
         }
         return null; // no cards can be played at all, so this user must...?
     }
+
+    @Override
+    public String toString() {
+        return this.cards.toString();
+    }
 }
