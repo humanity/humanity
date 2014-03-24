@@ -32,7 +32,7 @@ public abstract class HumanityCard implements Serializable {
         return this.state.isPlayable();
     }
 
-    /** Preforms the actual play operation. For this operation to be valid, isPlayable() must be false. Usually includes sending some packets. */
+    /** Preforms the actual play operation. Usually includes sending some packets. */
     public abstract boolean play();
 
     /** Gets the user-readable text of the card */

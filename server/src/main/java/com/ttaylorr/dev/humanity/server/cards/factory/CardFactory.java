@@ -34,7 +34,7 @@ public abstract class CardFactory<T extends HumanityCard> {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        this.cards = new HashSet<T>();
+        this.cards = new HashSet<>();
         this.server = Preconditions.checkNotNull(server, "server");
     }
 

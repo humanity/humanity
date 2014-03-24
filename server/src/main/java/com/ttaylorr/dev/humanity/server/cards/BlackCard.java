@@ -9,7 +9,7 @@ public class BlackCard extends HumanityCard {
     /**
      * Represents all the messages for a black card.  Blank spots are marked as null.
      * For example "Maybe she's born with it, maybe it's __" is represented as
-     * {"Maybe she's born with it...", null}.
+     * {"Maybe she's born with it, maybe it's ", null}.
      */
     private final LinkedList<String> messages;
     private final int pickCards;
