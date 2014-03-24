@@ -5,7 +5,7 @@ import com.ttaylorr.dev.humanity.client.HumanityClient;
 import com.ttaylorr.dev.humanity.client.cards.ClientHand;
 import com.ttaylorr.dev.humanity.server.cards.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.client.definition.IClientDefinition;
-import com.ttaylorr.dev.humanity.server.client.state.PlayerState;
+import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;

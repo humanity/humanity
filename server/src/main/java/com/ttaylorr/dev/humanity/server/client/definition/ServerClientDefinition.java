@@ -7,7 +7,7 @@ import com.ttaylorr.dev.humanity.server.cards.HumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.WhiteCard;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
-import com.ttaylorr.dev.humanity.server.client.state.PlayerState;
+import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet05PlayerStateChange;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet06HandUpdate;
 

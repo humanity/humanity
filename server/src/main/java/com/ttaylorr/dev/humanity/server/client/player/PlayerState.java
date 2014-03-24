@@ -1,4 +1,4 @@
-package com.ttaylorr.dev.humanity.server.client.state;
+package com.ttaylorr.dev.humanity.server.client.player;
 
 import java.io.Serializable;
 

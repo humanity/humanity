@@ -1,7 +1,7 @@
 package com.ttaylorr.dev.humanity.server.packets.core;
 
 import com.google.common.base.Preconditions;
-import com.ttaylorr.dev.humanity.server.client.state.PlayerState;
+import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 public class Packet05PlayerStateChange extends Packet {
