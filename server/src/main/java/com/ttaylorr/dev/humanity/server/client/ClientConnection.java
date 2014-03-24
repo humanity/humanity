@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.client.definition.ServerClientDefinition;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
-import com.ttaylorr.dev.humanity.server.queue.core.ClientDequeue;
+import com.ttaylorr.dev.humanity.server.queue.ClientDequeue;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 

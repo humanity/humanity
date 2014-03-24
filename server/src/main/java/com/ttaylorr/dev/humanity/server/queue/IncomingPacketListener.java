@@ -1,4 +1,4 @@
-package com.ttaylorr.dev.humanity.server.queue.core;
+package com.ttaylorr.dev.humanity.server.queue;
 
 import com.ttaylorr.dev.humanity.server.Bootstrap;
 import com.ttaylorr.dev.humanity.server.HumanityServer;

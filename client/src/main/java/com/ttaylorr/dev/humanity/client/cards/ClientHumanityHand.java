@@ -19,7 +19,7 @@ public class ClientHumanityHand implements IHumanityHand, Listenable, Serializab
     private List<WhiteCard> cards;
 
     public ClientHumanityHand(HumanityClient owner) {
-        this(owner, new ArrayList<WhiteCard>());
+        this(owner, new ArrayList<WhiteCard>(IHumanityHand.MAX_HAND_SIZE));
     }
 
     public ClientHumanityHand(HumanityClient owner, ArrayList<WhiteCard> cards) {

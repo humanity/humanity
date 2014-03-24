@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet03Disconnect;
-import com.ttaylorr.dev.humanity.server.queue.core.IncomingPacketListener;
+import com.ttaylorr.dev.humanity.server.queue.IncomingPacketListener;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 
