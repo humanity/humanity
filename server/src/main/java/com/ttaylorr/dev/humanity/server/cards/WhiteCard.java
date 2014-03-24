@@ -6,7 +6,8 @@ public class WhiteCard extends HumanityCard {
 
     protected final String message;
 
-    public WhiteCard(String message) {
+    public WhiteCard(String message, Expansion expansion) {
+        super(expansion);
         this.message = Preconditions.checkNotNull(message, "message");
     }
 

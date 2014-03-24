@@ -18,7 +18,8 @@ public class BlackCard extends HumanityCard {
     private final LinkedList<String> messages;
     private final int pickCards;
 
-    public BlackCard(LinkedList<String> messages) {
+    public BlackCard(LinkedList<String> messages, Expansion expansion) {
+        super(expansion);
         this.messages = messages;
 
         int blank = 0;
