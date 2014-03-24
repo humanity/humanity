@@ -12,8 +12,6 @@ public class BlackCard extends HumanityCard {
      * Represents all the messages for a black card.  Blank spots are marked as null.
      * For example "Maybe she's born with it, maybe it's __" is represented as
      * {"Maybe she's born with it...", null}.
-     *
-     * @see pickCards
      */
     private final LinkedList<String> messages;
     private final int pickCards;
@@ -48,5 +46,17 @@ public class BlackCard extends HumanityCard {
         joiner.useForNull(BlackCard.BLANK_SEPARATOR).join(this.messages.iterator());
 
         return joiner.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("BlackCard{");
+        builder.append("message='" + this.getText() + "'");
+        builder.append(", state='" + this.state.name() + "'");
+        builder.append(", expansion='" + this.expansion.name() + "'");
+        builder.append(", pickCards='" + this.pickCards + "'");
+        builder.append("}");
+        return builder.toString();
     }
 }

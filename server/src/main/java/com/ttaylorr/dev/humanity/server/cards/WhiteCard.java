@@ -25,4 +25,15 @@ public class WhiteCard extends HumanityCard {
     public String getText() {
         return this.message;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("WhiteCard{");
+        builder.append("message='" + this.getText() + "'");
+        builder.append(", expansion='" + this.getExpansion().name() + "'");
+        builder.append(", state='" + this.getState().name() + "'");
+        builder.append("}");
+        return builder.toString();
+    }
 }
