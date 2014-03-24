@@ -75,7 +75,7 @@ public class HumanityClient {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(1);
+                Thread.sleep(Bootstrap.LOOP_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

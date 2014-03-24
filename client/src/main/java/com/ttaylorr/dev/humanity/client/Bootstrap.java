@@ -6,6 +6,7 @@ public class Bootstrap {
 
     private static HumanityClient client = new HumanityClient("localhost", 8000);
     public static ScheduledThreadPoolExecutor threadPoolExecutor;
+    public static final int LOOP_DELAY = 50;
 
     public static boolean closeRequested = false;
 
@@ -20,7 +21,7 @@ public class Bootstrap {
 
         while (!closeRequested) {
             // So, you know - we don't murder CPUs.
-            Thread.sleep(1);
+            Thread.sleep(Bootstrap.LOOP_DELAY);
         }
         client.getLogger().info("Closing client bootstrap...");
     }

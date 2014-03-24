@@ -1,5 +1,6 @@
 package com.ttaylorr.dev.humanity.server.queue.core;
 
+import com.ttaylorr.dev.humanity.server.Bootstrap;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
@@ -40,7 +41,7 @@ public class IncomingPacketListener implements Runnable {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(1);
+                Thread.sleep(Bootstrap.LOOP_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

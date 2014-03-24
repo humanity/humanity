@@ -25,7 +25,7 @@ public class IncomingPacketListener implements Runnable {
                     this.client.getPacketHandler().handlePacket(packet);
                 }
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(Bootstrap.LOOP_DELAY);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
