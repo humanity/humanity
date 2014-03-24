@@ -1,6 +1,6 @@
 package com.ttaylorr.dev.humanity.server.client.definition;
 
-import com.ttaylorr.dev.humanity.server.cards.IHumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 
 public interface IClientDefinition {

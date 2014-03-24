@@ -1,5 +1,8 @@
-package com.ttaylorr.dev.humanity.server.cards;
+package com.ttaylorr.dev.humanity.server.cards.deck;
 
+import com.ttaylorr.dev.humanity.server.cards.hand.HumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 
 import java.util.*;

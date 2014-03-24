@@ -1,4 +1,4 @@
-package com.ttaylorr.dev.humanity.server.cards;
+package com.ttaylorr.dev.humanity.server.cards.card;
 
 import java.util.LinkedList;
 

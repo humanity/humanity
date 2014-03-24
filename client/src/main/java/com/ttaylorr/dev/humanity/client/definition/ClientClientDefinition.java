@@ -3,7 +3,7 @@ package com.ttaylorr.dev.humanity.client.definition;
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.client.HumanityClient;
 import com.ttaylorr.dev.humanity.client.cards.ClientHand;
-import com.ttaylorr.dev.humanity.server.cards.IHumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.client.definition.IClientDefinition;
 import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;

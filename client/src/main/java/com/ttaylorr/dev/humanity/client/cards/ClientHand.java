@@ -2,8 +2,8 @@ package com.ttaylorr.dev.humanity.client.cards;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.client.HumanityClient;
-import com.ttaylorr.dev.humanity.server.cards.IHumanityHand;
-import com.ttaylorr.dev.humanity.server.cards.WhiteCard;
+import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;

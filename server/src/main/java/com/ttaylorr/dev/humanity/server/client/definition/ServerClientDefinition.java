@@ -2,10 +2,10 @@ package com.ttaylorr.dev.humanity.server.client.definition;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
-import com.ttaylorr.dev.humanity.server.cards.BlackCard;
-import com.ttaylorr.dev.humanity.server.cards.HumanityHand;
-import com.ttaylorr.dev.humanity.server.cards.IHumanityHand;
-import com.ttaylorr.dev.humanity.server.cards.WhiteCard;
+import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
+import com.ttaylorr.dev.humanity.server.cards.hand.HumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet05PlayerStateChange;

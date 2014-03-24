@@ -1,4 +1,6 @@
-package com.ttaylorr.dev.humanity.server.cards;
+package com.ttaylorr.dev.humanity.server.cards.deck;
+
+import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
 
 import java.util.Set;
 

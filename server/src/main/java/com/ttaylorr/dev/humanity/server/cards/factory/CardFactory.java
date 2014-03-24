@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import com.oracle.javafx.jmx.json.JSONDocument;
 import com.oracle.javafx.jmx.json.JSONFactory;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
-import com.ttaylorr.dev.humanity.server.cards.HumanityCard;
-import com.ttaylorr.dev.humanity.server.cards.HumanityDeck;
+import com.ttaylorr.dev.humanity.server.cards.card.HumanityCard;
+import com.ttaylorr.dev.humanity.server.cards.deck.HumanityDeck;
 
 import java.io.File;
 import java.io.FileNotFoundException;

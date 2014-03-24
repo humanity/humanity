@@ -1,4 +1,6 @@
-package com.ttaylorr.dev.humanity.server.cards;
+package com.ttaylorr.dev.humanity.server.cards.hand;
+
+import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 
 import java.util.List;
 

@@ -1,4 +1,7 @@
-package com.ttaylorr.dev.humanity.server.cards;
+package com.ttaylorr.dev.humanity.server.cards.deck;
+
+import com.ttaylorr.dev.humanity.server.cards.card.state.CardState;
+import com.ttaylorr.dev.humanity.server.cards.card.HumanityCard;
 
 import java.util.*;
 

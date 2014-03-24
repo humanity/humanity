@@ -1,7 +1,8 @@
-package com.ttaylorr.dev.humanity.server.cards;
+package com.ttaylorr.dev.humanity.server.cards.hand;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 
 import java.io.Serializable;

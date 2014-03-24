@@ -2,9 +2,9 @@ package com.ttaylorr.dev.humanity.server.cards.factory;
 
 import com.oracle.javafx.jmx.json.JSONDocument;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
-import com.ttaylorr.dev.humanity.server.cards.HumanityCard;
-import com.ttaylorr.dev.humanity.server.cards.WhiteCard;
-import com.ttaylorr.dev.humanity.server.cards.WhiteCardDeck;
+import com.ttaylorr.dev.humanity.server.cards.card.HumanityCard;
+import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
+import com.ttaylorr.dev.humanity.server.cards.deck.WhiteCardDeck;
 
 import java.io.File;
 

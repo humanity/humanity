@@ -2,9 +2,9 @@ package com.ttaylorr.dev.humanity.server.cards.factory;
 
 import com.oracle.javafx.jmx.json.JSONDocument;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
-import com.ttaylorr.dev.humanity.server.cards.BlackCard;
-import com.ttaylorr.dev.humanity.server.cards.BlackCardDeck;
-import com.ttaylorr.dev.humanity.server.cards.HumanityCard;
+import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
+import com.ttaylorr.dev.humanity.server.cards.deck.BlackCardDeck;
+import com.ttaylorr.dev.humanity.server.cards.card.HumanityCard;
 
 import java.io.File;
 import java.util.LinkedList;
