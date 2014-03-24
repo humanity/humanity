@@ -1,10 +1,6 @@
 package com.ttaylorr.dev.humanity.server;
 
 import com.google.common.base.Preconditions;
-import com.ttaylorr.dev.humanity.server.cards.BlackCardDeck;
-import com.ttaylorr.dev.humanity.server.cards.WhiteCardDeck;
-import com.ttaylorr.dev.humanity.server.cards.factory.BlackCardFactory;
-import com.ttaylorr.dev.humanity.server.cards.factory.WhiteCardFactory;
 import com.ttaylorr.dev.humanity.server.client.ClientManager;
 import com.ttaylorr.dev.humanity.server.game.HumanityGame;
 import com.ttaylorr.dev.humanity.server.listeners.KeepAliveListener;
@@ -23,7 +19,6 @@ public class HumanityServer {
     private PacketHandler packetHandler;
 
     private ClientManager clientManager;
-    private OutboundPacketQueue outboundPacketQueue;
 
     private ConnectionListener connectionListener;
 
@@ -67,10 +62,6 @@ public class HumanityServer {
         this.open = true;
 
         this.clientManager.setup();
-        this.outboundPacketQueue = new OutboundPacketQueue(this);
-        Thread outboundPacketQueueThread = new Thread(this.outboundPacketQueue);
-        outboundPacketQueueThread.setName("OutboundPacketQueue");
-        outboundPacketQueueThread.start();
 
         this.registerHandlers();
 
@@ -103,10 +94,6 @@ public class HumanityServer {
 
     public PacketHandler getPacketManager() {
         return this.packetHandler;
-    }
-
-    public OutboundPacketQueue getOutboundPackets() {
-        return this.outboundPacketQueue;
     }
 
     public HumanityGame getGame() {

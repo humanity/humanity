@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.client.definition.ServerClientDefinition;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
+import com.ttaylorr.dev.humanity.server.queue.core.ClientDequeue;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 
@@ -17,6 +18,9 @@ public class ClientConnection {
     private Socket connection;
     private ObjectOutputStream output;
     private ObjectInputStream input;
+
+    private ClientDequeue dequeue;
+    private Thread dequeueThread;
 
     private ServerClientDefinition definition;
     private Logger logger;
@@ -34,6 +38,7 @@ public class ClientConnection {
             e.printStackTrace();
         }
         this.definition = new ServerClientDefinition(this, this.server);
+        this.dequeue = new ClientDequeue(this, this.server);
     }
 
     public Socket getConnection() {
@@ -53,19 +58,20 @@ public class ClientConnection {
     }
 
     public void sendPacket(Packet packet) {
-        this.server.getOutboundPackets().sendPacket(packet, this);
+        this.dequeue.sendPacket(packet);
     }
 
-    public boolean _sendPacket(Packet packet) {
-        try {
-            this.logger.debug("[INTERNAL] (S->C) sent: {}", packet.getClass().getSimpleName());
-            this.output.writeObject(packet);
-            this.output.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public void openDequeue() {
+        this.dequeueThread = new Thread(this.dequeue);
+        this.dequeueThread.setName("PacketDequeue-" + this.server.getClientManager().getUUIDForClient(this));
+        this.dequeueThread.start();
+    }
 
-        return true;
+    public void closeDequeue() {
+        this.dequeueThread.stop();
+    }
+
+    public ClientDequeue getDequeue() {
+        return this.dequeue;
     }
 }

@@ -81,6 +81,12 @@ public class PacketHandler {
         }
     }
 
+    private void sendPacketTo(Packet packet, ClientConnection... clients) {
+        for (ClientConnection client : clients) {
+            client.sendPacket(packet);
+        }
+    }
+
     public List<HandlerSnapshot> getHandler(Class<? extends Packet> packet) {
         return ImmutableList.copyOf(this.handlers.get(packet));
     }

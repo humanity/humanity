@@ -6,30 +6,46 @@ import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentMap;
 
+@Deprecated
 public class OutboundPacketQueue implements Runnable {
 
-    private final Map<ClientConnection, ConcurrentLinkedDeque<Packet>> outgoing;
+    private final ConcurrentMap<ClientConnection, ConcurrentLinkedDeque<Packet>> outgoing;
     private final HumanityServer server;
 
     public OutboundPacketQueue(HumanityServer server) {
         this.server = Preconditions.checkNotNull(server, "server");
-        this.outgoing = new HashMap<>();
+        this.outgoing = new ConcurrentHashMap<>();
     }
 
     @Override
     public void run() {
-        while(true) {
-            Set<Map.Entry<ClientConnection, ConcurrentLinkedDeque<Packet>>> dequeueCopy = new HashSet<>(outgoing.entrySet());
+        synchronized (this.outgoing) {
+            while(true) {
+                Set<Map.Entry<ClientConnection, ConcurrentLinkedDeque<Packet>>> dequeueCopy = new HashSet<>(outgoing.entrySet());
 
-            for(Map.Entry<ClientConnection, ConcurrentLinkedDeque<Packet>> entry : dequeueCopy) {
-                ClientConnection client = entry.getKey();
-                ConcurrentLinkedDeque<Packet> packetsCopy = new ConcurrentLinkedDeque<>(entry.getValue());
+                for(Map.Entry<ClientConnection, ConcurrentLinkedDeque<Packet>> entry : dequeueCopy) {
+                    final ClientConnection client = entry.getKey();
 
-                for(Packet packet : packetsCopy) {
-                    client._sendPacket(packet);
-                    outgoing.get(client).remove(packet);
+                    synchronized (entry.getValue()) {
+                        ConcurrentLinkedDeque<Packet> packetsCopy = new ConcurrentLinkedDeque<>(entry.getValue());
+
+                        for(final Packet packet : packetsCopy) {
+
+                            Thread thread = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+//                                    client._sendPacket(packet);
+                                }
+                            });
+                            thread.start();
+
+                            outgoing.get(client).remove(packet);
+                        }
+                    }
                 }
             }
         }
