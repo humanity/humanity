@@ -4,19 +4,20 @@ import java.io.Serializable;
 
 public enum PlayerState implements Serializable {
 
-    CARD_CSAR(false),
+    CARD_CSAR,
 
-    PLAYING(true),
+    PLAYING,
 
-    OBSERVING(false);
-
-    private final boolean canSubmitCards;
-
-    private PlayerState(boolean canSubmitCards) {
-        this.canSubmitCards = canSubmitCards;
-    }
+    OBSERVING;
 
     public boolean canSubmitCards() {
-        return this.canSubmitCards;
+        switch (this) {
+            case CARD_CSAR:
+            case OBSERVING:
+            default:
+                return false;
+            case PLAYING:
+                return true;
+        }
     }
 }
