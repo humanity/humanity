@@ -1,7 +1,6 @@
 package com.ttaylorr.dev.humanity.server.cards;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  * TODO at some point, a Configuration-based constructor can be added so that cards can be added from files.
@@ -24,6 +23,7 @@ public abstract class HumanityDeck<T extends HumanityCard> {
             T card = it.next();
             if(card.isPlayable()) {
                 it.remove();
+                card.setState(CardState.IN_HAND);
                 return card;
             }
         }

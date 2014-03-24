@@ -48,6 +48,10 @@ public class ClientConnection {
         return input;
     }
 
+    public ServerClientDefinition getDefinition() {
+        return this.definition;
+    }
+
     public void sendPacket(Packet packet) {
         this.server.getOutboundPackets().sendPacket(packet, this);
     }

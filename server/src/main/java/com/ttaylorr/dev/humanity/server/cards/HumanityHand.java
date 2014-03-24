@@ -1,6 +1,7 @@
 package com.ttaylorr.dev.humanity.server.cards;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 
 import java.io.Serializable;
@@ -30,5 +31,10 @@ public class HumanityHand implements IHumanityHand, Serializable {
     @Override
     public boolean shouldDraw() {
         return this.cards.size() != IHumanityHand.MAX_HAND_SIZE;
+    }
+
+    @Override
+    public ImmutableList<WhiteCard> getCards() {
+        return ImmutableList.copyOf(this.cards);
     }
 }

@@ -2,11 +2,11 @@ package com.ttaylorr.dev.humanity.server;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.cards.BlackCardDeck;
-import com.ttaylorr.dev.humanity.server.cards.WhiteCard;
 import com.ttaylorr.dev.humanity.server.cards.WhiteCardDeck;
 import com.ttaylorr.dev.humanity.server.cards.factory.BlackCardFactory;
 import com.ttaylorr.dev.humanity.server.cards.factory.WhiteCardFactory;
 import com.ttaylorr.dev.humanity.server.client.ClientManager;
+import com.ttaylorr.dev.humanity.server.game.HumanityGame;
 import com.ttaylorr.dev.humanity.server.listeners.KeepAliveListener;
 import com.ttaylorr.dev.humanity.server.packets.PacketHandler;
 import com.ttaylorr.dev.humanity.server.listeners.HandshakeListener;
@@ -34,8 +34,7 @@ public class HumanityServer {
 
     private Logger logger;
 
-    private WhiteCardDeck whiteCardDeck;
-    private BlackCardDeck blackCardDeck;
+    private HumanityGame game;
 
     public HumanityServer(int port) {
         Preconditions.checkArgument(port > 0, "port must be greater than 0");
@@ -75,8 +74,7 @@ public class HumanityServer {
 
         this.registerHandlers();
 
-        this.whiteCardDeck = new WhiteCardFactory(new File("./server/src/main/resources/cards-all.json"), this).parse().build();
-        this.blackCardDeck = new BlackCardFactory(new File("./server/src/main/resources/cards-all.json"), this).parse().build();
+        this.game = new HumanityGame(new File("./server/src/main/resources/cards-all.json"), this);
 
         this.connectionListener = new ConnectionListener(this);
         Thread thread = new Thread(connectionListener);
@@ -109,6 +107,10 @@ public class HumanityServer {
 
     public OutboundPacketQueue getOutboundPackets() {
         return this.outboundPacketQueue;
+    }
+
+    public HumanityGame getGame() {
+        return this.game;
     }
 
     public boolean isOpen() {
