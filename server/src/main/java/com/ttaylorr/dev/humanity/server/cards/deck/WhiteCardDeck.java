@@ -1,6 +1,6 @@
 package com.ttaylorr.dev.humanity.server.cards.deck;
 
-import com.ttaylorr.dev.humanity.server.cards.hand.HumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.hand.ServerHumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
@@ -14,7 +14,7 @@ public class WhiteCardDeck extends HumanityDeck<WhiteCard> {
     }
 
     public void dealCards(ClientConnection client) {
-        HumanityHand hand = client.getDefinition().getPlayerHand();
+        ServerHumanityHand hand = client.getDefinition().getPlayerHand();
 
         while(hand.getCards().size() < IHumanityHand.MAX_HAND_SIZE) {
             hand.addCard(this.drawCard());

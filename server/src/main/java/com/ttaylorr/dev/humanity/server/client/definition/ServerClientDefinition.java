@@ -3,7 +3,7 @@ package com.ttaylorr.dev.humanity.server.client.definition;
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
-import com.ttaylorr.dev.humanity.server.cards.hand.HumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.hand.ServerHumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
@@ -23,13 +23,13 @@ public class ServerClientDefinition implements IClientDefinition {
     private PlayerState state;
     private final ClientConnection owner;
     private final HumanityServer server;
-    private final HumanityHand hand;
+    private final ServerHumanityHand hand;
     private int score;
 
     public ServerClientDefinition(ClientConnection owner, HumanityServer server) {
         this.owner = Preconditions.checkNotNull(owner, "client connection");
         this.server = Preconditions.checkNotNull(server, "server");
-        this.hand = new HumanityHand(owner);
+        this.hand = new ServerHumanityHand(owner);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ServerClientDefinition implements IClientDefinition {
     }
 
     @Override
-    public HumanityHand getPlayerHand() {
+    public ServerHumanityHand getPlayerHand() {
         return this.hand;
     }
 

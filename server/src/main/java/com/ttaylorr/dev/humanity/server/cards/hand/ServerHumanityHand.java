@@ -9,12 +9,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HumanityHand implements IHumanityHand, Serializable {
+public class ServerHumanityHand implements IHumanityHand, Serializable {
 
     private final ClientConnection owner;
     private final List<WhiteCard> cards;
 
-    public HumanityHand(ClientConnection owner) {
+    public ServerHumanityHand(ClientConnection owner) {
         this.cards = new ArrayList<>();
         this.owner = Preconditions.checkNotNull(owner, "owner");
     }
@@ -24,7 +24,6 @@ public class HumanityHand implements IHumanityHand, Serializable {
         return this.cards.remove(card);
     }
 
-    @Override
     public boolean addCard(WhiteCard card) {
         return this.cards.add(card);
     }

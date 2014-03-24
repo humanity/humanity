@@ -13,22 +13,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientHand implements IHumanityHand, Listenable, Serializable {
+public class ClientHumanityHand implements IHumanityHand, Listenable, Serializable {
 
     private final HumanityClient owner;
     private List<WhiteCard> cards;
 
-    public ClientHand(HumanityClient owner) {
+    public ClientHumanityHand(HumanityClient owner) {
         this(owner, new ArrayList<WhiteCard>());
     }
 
-    public ClientHand(HumanityClient owner, ArrayList<WhiteCard> cards) {
+    public ClientHumanityHand(HumanityClient owner, ArrayList<WhiteCard> cards) {
         this.cards = new ArrayList<>();
         this.owner = Preconditions.checkNotNull(owner, "owner");
         this.owner.getPacketHandler().registerHandlers(this);
     }
 
-    @Handler(priority = HandlerPriority.MONITOR)
+    @Handler(priority = HandlerPriority.MONITOR) // TODO it seems to me that this would be a high-priority, not a run-last item.
     public void onHandUpdate(Packet06HandUpdate packet) {
         this.cards = packet.getCards();
         System.out.println(this.getCards());
@@ -37,11 +37,6 @@ public class ClientHand implements IHumanityHand, Listenable, Serializable {
     @Override
     public boolean releaseCard(WhiteCard card) {
         return this.cards.remove(card);
-    }
-
-    @Override
-    public boolean addCard(WhiteCard card) {
-        return this.cards.add(card);
     }
 
     @Override

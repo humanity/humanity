@@ -10,8 +10,6 @@ public interface IHumanityHand {
 
     public boolean releaseCard(WhiteCard card);
 
-    public boolean addCard(WhiteCard card);
-
     public boolean shouldDraw();
 
     public List<WhiteCard> getCards();
