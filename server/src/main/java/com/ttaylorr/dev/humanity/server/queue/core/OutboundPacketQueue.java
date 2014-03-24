@@ -1,58 +1,60 @@
 package com.ttaylorr.dev.humanity.server.queue.core;
 
+import com.google.common.base.Preconditions;
+import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
-import com.ttaylorr.dev.humanity.server.queue.Queuable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-public class OutboundPacketQueue implements Queuable {
+public class OutboundPacketQueue implements Runnable {
 
     private final Map<ClientConnection, ConcurrentLinkedDeque<Packet>> outgoing;
+    private final HumanityServer server;
 
-    public OutboundPacketQueue() {
+    public OutboundPacketQueue(HumanityServer server) {
+        this.server = Preconditions.checkNotNull(server, "server");
         this.outgoing = new HashMap<>();
     }
 
-    public void addPacket(Packet packet, ClientConnection... clients) {
-        this.addPacket(packet, Arrays.asList(clients));
+    @Override
+    public void run() {
+        while(true) {
+            Set<Map.Entry<ClientConnection, ConcurrentLinkedDeque<Packet>>> dequeueCopy = new HashSet<>(outgoing.entrySet());
+
+            for(Map.Entry<ClientConnection, ConcurrentLinkedDeque<Packet>> entry : dequeueCopy) {
+                ClientConnection client = entry.getKey();
+                ConcurrentLinkedDeque<Packet> packetsCopy = new ConcurrentLinkedDeque<>(entry.getValue());
+
+                for(Packet packet : packetsCopy) {
+                    client._sendPacket(packet);
+                    outgoing.get(client).remove(packet);
+                }
+            }
+        }
     }
 
-    public void addPacket(Packet packet, List<ClientConnection> clients) {
+    public void connectClient(ClientConnection client) {
+        this.outgoing.put(client, new ConcurrentLinkedDeque<Packet>());
+    }
+
+    public void disconnectClient(ClientConnection client) {
+        this.outgoing.remove(client);
+    }
+
+    public void sendPacket(Packet packet, ClientConnection... clients) {
+        this.sendPacket(packet, Arrays.asList(clients));
+    }
+
+    public void sendPacket(Packet packet, List<ClientConnection> clients) {
         for (ClientConnection client : clients) {
             this.outgoing.get(client).offer(packet);
         }
-    }
-
-    @Override
-    public Queue getQueue() {
-        ConcurrentLinkedDeque<Packet> queues = new ConcurrentLinkedDeque<>();
-        for (ConcurrentLinkedDeque<Packet> outgoing : this.outgoing.values()) {
-            queues.addAll(outgoing);
-        }
-        return queues;
     }
 
     public Queue getQueueFor(ClientConnection client) {
         return outgoing.get(client);
     }
 
-    public Queue getQueueOf(Class<? extends Packet> type) {
-        ConcurrentLinkedDeque<Packet> packets = new ConcurrentLinkedDeque<>();
-        for (ConcurrentLinkedDeque<Packet> outgoing : this.outgoing.values()) {
-            for (Packet packet : outgoing) {
-                if (packet.getClass() == type) {
-                    packets.add(packet);
-                }
-            }
-        }
-
-        return packets;
-    }
-
-    @Override
-    public void handleFirst() {
-
-    }
 }

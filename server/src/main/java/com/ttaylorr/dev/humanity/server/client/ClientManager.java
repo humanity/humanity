@@ -37,9 +37,11 @@ public class ClientManager {
 
         IncomingPacketListener packetListener = new IncomingPacketListener(client, this.server);
         Thread thread = new Thread(packetListener);
+        thread.setName("IncomingPacketListener-" + clientId.toString());
         thread.start();
 
         this.clientPacketListeners.put(client, new AbstractMap.SimpleEntry<>(packetListener, thread));
+        this.server.getOutboundPackets().connectClient(client);
     }
 
     public void disconnectClient(ClientConnection client) {
@@ -48,11 +50,13 @@ public class ClientManager {
 
         Map.Entry<IncomingPacketListener, Thread> value = this.clientPacketListeners.remove(client);
         value.getValue().stop();
+
+        this.server.getOutboundPackets().disconnectClient(client);
     }
 
     public void disconnectAll(HumanityServer server) {
         if (this.server.equals(server)) {
-            this.server.getOutboundPackets().addPacket(new Packet03Disconnect(), this.getConnectedClients());
+            this.server.getOutboundPackets().sendPacket(new Packet03Disconnect(), this.getConnectedClients());
         }
     }
 

@@ -8,6 +8,9 @@ import com.ttaylorr.dev.humanity.server.packets.PacketSnapshot;
 import java.io.IOException;
 import java.net.SocketException;
 
+/**
+ * Packet listener, specific per client's connect.
+ */
 public class IncomingPacketListener implements Runnable {
 
     private final ClientConnection client;

@@ -1,6 +1,7 @@
 package com.ttaylorr.dev.humanity.server.client;
 
 import com.google.common.base.Preconditions;
+import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
@@ -18,9 +19,12 @@ public class ClientConnection {
 
     private Logger logger;
 
-    public ClientConnection(Socket connection) {
+    private HumanityServer server;
+
+    public ClientConnection(Socket connection, HumanityServer server) {
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.connection = Preconditions.checkNotNull(connection);
+        this.server = Preconditions.checkNotNull(server, "server");
         try {
             this.output = new ObjectOutputStream(connection.getOutputStream());
             this.input = new ObjectInputStream(connection.getInputStream());
@@ -41,9 +45,13 @@ public class ClientConnection {
         return input;
     }
 
-    public boolean sendPacket(Packet packet) {
+    public void sendPacket(Packet packet) {
+        this.server.getOutboundPackets().sendPacket(packet, this);
+    }
+
+    public boolean _sendPacket(Packet packet) {
         try {
-            this.logger.debug("(S->C) sent: {}", packet.getClass().getSimpleName());
+            this.logger.debug("[INTERNAL] (S->C) sent: {}", packet.getClass().getSimpleName());
             this.output.writeObject(packet);
             this.output.reset();
         } catch (IOException e) {

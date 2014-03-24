@@ -10,12 +10,12 @@ import com.ttaylorr.dev.humanity.server.packets.core.Packet05PlayerStateChange;
  *
  * Fallback to the definitions given in this class.
  */
-public class ClientDefinition implements IClientDefinition {
+public class ServerClientDefinition implements IClientDefinition {
 
     private PlayerState state;
     private final ClientConnection owner;
 
-    public ClientDefinition(ClientConnection owner) {
+    public ServerClientDefinition(ClientConnection owner) {
         this.owner = Preconditions.checkNotNull(owner, "client connection");
     }
 

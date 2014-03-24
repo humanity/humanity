@@ -18,7 +18,6 @@ public class HumanityServer {
 
     private ClientManager clientManager;
     private OutboundPacketQueue outboundPacketQueue;
-    private InboundPacketQueue inboundPacketQueue;
 
     private ConnectionListener connectionListener;
 
@@ -60,8 +59,10 @@ public class HumanityServer {
         this.open = true;
 
         this.clientManager.setup();
-        this.outboundPacketQueue = new OutboundPacketQueue();
-        this.inboundPacketQueue = new InboundPacketQueue();
+        this.outboundPacketQueue = new OutboundPacketQueue(this);
+        Thread outboundPacketQueueThread = new Thread(this.outboundPacketQueue);
+        outboundPacketQueueThread.setName("OutboundPacketQueue");
+        outboundPacketQueueThread.start();
 
         this.registerHandlers();
 
