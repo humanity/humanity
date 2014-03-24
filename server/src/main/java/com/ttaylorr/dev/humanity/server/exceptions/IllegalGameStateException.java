@@ -2,9 +2,6 @@ package com.ttaylorr.dev.humanity.server.exceptions;
 
 public class IllegalGameStateException extends Exception{
 
-
-
-
     public IllegalGameStateException() {
     }
 

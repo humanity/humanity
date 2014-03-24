@@ -74,7 +74,6 @@ public class ClientManager {
                 return entry.getKey();
             }
         }
-
         return null;
     }
 

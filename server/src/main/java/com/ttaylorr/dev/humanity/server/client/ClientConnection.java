@@ -2,6 +2,7 @@ package com.ttaylorr.dev.humanity.server.client;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
+import com.ttaylorr.dev.humanity.server.client.definition.ServerClientDefinition;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
@@ -17,6 +18,7 @@ public class ClientConnection {
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
+    private ServerClientDefinition definition;
     private Logger logger;
 
     private HumanityServer server;
@@ -31,6 +33,7 @@ public class ClientConnection {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.definition = new ServerClientDefinition(this, this.server);
     }
 
     public Socket getConnection() {

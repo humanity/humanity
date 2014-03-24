@@ -8,6 +8,7 @@ import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerSnapshot;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
 import com.ttaylorr.dev.humanity.server.packets.core.*;
+import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
