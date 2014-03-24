@@ -1,12 +1,10 @@
 package com.ttaylorr.dev.humanity.server.cards;
 
-import com.google.common.base.Joiner;
-
 import java.util.LinkedList;
 
 public class BlackCard extends HumanityCard {
 
-    public static final String BLANK_SEPARATOR = "_______";
+    public static final String BLANK_SEPARATOR = "__";
 
     /**
      * Represents all the messages for a black card.  Blank spots are marked as null.
@@ -42,10 +40,15 @@ public class BlackCard extends HumanityCard {
 
     @Override
     public String getText() {
-        Joiner joiner = Joiner.on(' ');
-        joiner.useForNull(BlackCard.BLANK_SEPARATOR).join(this.messages.iterator());
-
-        return joiner.toString();
+        StringBuilder builder = new StringBuilder();
+        for(String message : this.messages) {
+            if(message == null) {
+                builder.append(BlackCard.BLANK_SEPARATOR);
+            } else {
+                builder.append(message);
+            }
+        }
+        return builder.toString();
     }
 
     @Override
