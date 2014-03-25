@@ -1,7 +1,7 @@
 package com.ttaylorr.dev.humanity.client.cards;
 
 import com.google.common.base.Preconditions;
-import com.ttaylorr.dev.humanity.client.HumanityClient;
+import com.ttaylorr.dev.humanity.client.client.HumanityClient;
 import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;

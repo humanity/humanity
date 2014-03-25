@@ -1,7 +1,7 @@
 package com.ttaylorr.dev.humanity.client.game;
 
 import com.google.common.base.Preconditions;
-import com.ttaylorr.dev.humanity.client.HumanityClient;
+import com.ttaylorr.dev.humanity.client.client.HumanityClient;
 import com.ttaylorr.dev.humanity.client.cards.ClientTrick;
 import com.ttaylorr.dev.humanity.server.game.state.GameState;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
