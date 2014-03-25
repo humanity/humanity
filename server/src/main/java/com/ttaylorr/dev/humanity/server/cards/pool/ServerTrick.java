@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ServerPool implements IPool, Serializable {
+public class ServerTrick implements ITrick, Serializable {
 
     private final BlackCard choice;
     private Map<ClientConnection, List<WhiteCard>> submitted;
 
-    public ServerPool(final BlackCard card) {
+    public ServerTrick(final BlackCard card) {
         this.choice = Preconditions.checkNotNull(card, "card");
         this.submitted = new ConcurrentHashMap<>();
     }

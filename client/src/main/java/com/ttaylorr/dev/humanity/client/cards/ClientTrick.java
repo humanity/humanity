@@ -4,14 +4,14 @@ import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.client.game.ClientGame;
 import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
 import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
-import com.ttaylorr.dev.humanity.server.cards.pool.IPool;
+import com.ttaylorr.dev.humanity.server.cards.pool.ITrick;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ClientPool implements IPool, Listenable {
+public class ClientTrick implements ITrick, Listenable {
 
     private final BlackCard choiceCard;
     private final List<WhiteCard> submitted;
@@ -19,7 +19,7 @@ public class ClientPool implements IPool, Listenable {
     private final ClientGame game;
     private final UUID poolID;
 
-    public ClientPool(UUID poolId, BlackCard choiceCard, ClientGame game) {
+    public ClientTrick(UUID poolId, BlackCard choiceCard, ClientGame game) {
         this.game = Preconditions.checkNotNull(game, "game");
         this.poolID = poolId;
 

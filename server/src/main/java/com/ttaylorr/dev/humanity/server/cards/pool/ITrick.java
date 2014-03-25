@@ -5,7 +5,7 @@ import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 
 import java.util.List;
 
-public interface IPool {
+public interface ITrick {
 
     public BlackCard getChoiceCard();
 

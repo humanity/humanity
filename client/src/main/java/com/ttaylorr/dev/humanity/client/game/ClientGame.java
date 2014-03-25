@@ -2,7 +2,7 @@ package com.ttaylorr.dev.humanity.client.game;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.client.HumanityClient;
-import com.ttaylorr.dev.humanity.client.cards.ClientPool;
+import com.ttaylorr.dev.humanity.client.cards.ClientTrick;
 import com.ttaylorr.dev.humanity.server.game.state.GameState;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
@@ -14,7 +14,7 @@ public class ClientGame implements Listenable {
 
     private HumanityClient client;
 
-    private ClientPool currentPool;
+    private ClientTrick currentPool;
     private GameState currentState;
 
     public ClientGame(HumanityClient client) {
@@ -30,7 +30,7 @@ public class ClientGame implements Listenable {
         this.client.getPacketHandler().unregisterHandlers(listenable);
     }
 
-    public ClientPool getCurrentPool() {
+    public ClientTrick getCurrentPool() {
         return this.currentPool;
     }
 
@@ -40,7 +40,7 @@ public class ClientGame implements Listenable {
 
     @Handler(priority = HandlerPriority.MONITOR)
     public void onPoolCreate(Packet07CreatePool packet) {
-        this.currentPool = new ClientPool(packet.getGameId(), packet.getChoice(), this);
+        this.currentPool = new ClientTrick(packet.getGameId(), packet.getChoice(), this);
     }
 
     @Handler(priority = HandlerPriority.MONITOR)
