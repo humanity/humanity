@@ -1,5 +1,6 @@
 package com.ttaylorr.dev.humanity.server.packets.core;
 
+import com.ttaylorr.dev.humanity.server.client.player.MaskedClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.io.Serializable;
@@ -11,10 +12,10 @@ public class Packet04Join extends Packet implements Serializable {
     private String reason;
     private final UUID id;
 
-    public Packet04Join(JoinState state, String reason, UUID id) {
+    public Packet04Join(JoinState state, String reason, MaskedClientConnection client) {
         this.state = state;
         this.reason = reason;
-        this.id = id;
+        this.id = client.getClientId();
     }
 
     public JoinState getState() {
