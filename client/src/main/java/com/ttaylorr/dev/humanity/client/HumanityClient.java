@@ -108,7 +108,10 @@ public class HumanityClient {
             this.keepAliveWaitable.cancel(true);
         }
 
-        long DELAY = 2l;
+        final long DELAY = 5l;
+        final int SCALE = 2;
+        final TimeUnit UNIT = TimeUnit.SECONDS;
+
         new Thread(new Runnable() {
             HumanityClient client = HumanityClient.this;
 
@@ -118,7 +121,6 @@ public class HumanityClient {
 
                 while(true) {
                     try {
-                        // Wait 5 seconds
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -133,12 +135,12 @@ public class HumanityClient {
 
                     try {
                         // We have until the advance cycle to get a response
-                        boolean result = (Boolean) client.keepAliveWaitable.get(5l, TimeUnit.SECONDS);
+                        boolean result = (Boolean) client.keepAliveWaitable.get(DELAY * SCALE, UNIT);
                         if (!result) {
                             client.getLogger().severe("Got a response, cannot find the server! :(");
                             missedSinceSuccess++;
                         } else {
-                            client.getLogger().debug("Found the server, will try again in 5 seconds...");
+                            client.getLogger().debug("Found the server, will try again...");
                             missedSinceSuccess = 0;
                         }
                     } catch(TimeoutException e1) {
