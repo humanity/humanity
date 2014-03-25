@@ -23,14 +23,14 @@ public class ConnectionListener implements Runnable {
                 Socket clientSocket = server.getSocket().accept();
 
                 if (clientSocket != null) {
-                    ClientConnection client = new ClientConnection(clientSocket);
+                    ClientConnection client = new ClientConnection(clientSocket, server);
                     this.server.getClientManager().connectClient(client);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(1);
+                Thread.sleep(Bootstrap.LOOP_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

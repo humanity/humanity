@@ -2,13 +2,14 @@ package com.ttaylorr.dev.humanity.server;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.client.ClientManager;
+import com.ttaylorr.dev.humanity.server.game.HumanityGame;
 import com.ttaylorr.dev.humanity.server.listeners.KeepAliveListener;
 import com.ttaylorr.dev.humanity.server.packets.PacketHandler;
 import com.ttaylorr.dev.humanity.server.listeners.HandshakeListener;
-import com.ttaylorr.dev.humanity.server.queue.core.*;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -17,8 +18,6 @@ public class HumanityServer {
     private PacketHandler packetHandler;
 
     private ClientManager clientManager;
-    private OutboundPacketQueue outboundPacketQueue;
-    private InboundPacketQueue inboundPacketQueue;
 
     private ConnectionListener connectionListener;
 
@@ -28,6 +27,8 @@ public class HumanityServer {
     private int port;
 
     private Logger logger;
+
+    private HumanityGame game;
 
     public HumanityServer(int port) {
         Preconditions.checkArgument(port > 0, "port must be greater than 0");
@@ -60,10 +61,10 @@ public class HumanityServer {
         this.open = true;
 
         this.clientManager.setup();
-        this.outboundPacketQueue = new OutboundPacketQueue();
-        this.inboundPacketQueue = new InboundPacketQueue();
 
         this.registerHandlers();
+
+        this.game = new HumanityGame(new File("./server/src/main/resources/cards-all.json"), this);
 
         this.connectionListener = new ConnectionListener(this);
         Thread thread = new Thread(connectionListener);
@@ -94,8 +95,8 @@ public class HumanityServer {
         return this.packetHandler;
     }
 
-    public OutboundPacketQueue getOutboundPackets() {
-        return this.outboundPacketQueue;
+    public HumanityGame getGame() {
+        return this.game;
     }
 
     public boolean isOpen() {

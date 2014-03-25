@@ -1,5 +1,6 @@
 package com.ttaylorr.dev.humanity.client;
 
+import com.ttaylorr.dev.humanity.client.definition.ClientClientDefinition;
 import com.ttaylorr.dev.humanity.client.listeners.JoinVerificationListener;
 import com.ttaylorr.dev.humanity.client.tasks.KeepAliveTask;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
@@ -17,15 +18,15 @@ import java.util.concurrent.*;
 
 public class HumanityClient {
 
-    private InetSocketAddress address;
+    private final InetSocketAddress address;
+    private final Logger logger;
+    private final ClientPacketHandler packetHandler;
+
+    private final ClientClientDefinition defnition;
 
     private Socket serverConnection;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
-
-    private Logger logger;
-
-    private ClientPacketHandler packetHandler;
     private IncomingPacketListener packetListener;
 
     private ScheduledFuture<?> keepAliveWaitable;
@@ -38,6 +39,7 @@ public class HumanityClient {
         this.address = address;
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.packetHandler = new ClientPacketHandler(this);
+        this.defnition = new ClientClientDefinition(this);
     }
 
     public void openConnection() {
@@ -50,6 +52,7 @@ public class HumanityClient {
 
         while (this.serverConnection == null) {
             try {
+                this.logger.info("Looking for a server to connect to...");
                 this.serverConnection = new Socket(this.address.getHostName(), this.address.getPort());
 
                 this.inputStream = new ObjectInputStream(this.serverConnection.getInputStream());
@@ -73,7 +76,7 @@ public class HumanityClient {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(1);
+                Thread.sleep(Bootstrap.LOOP_DELAY * 20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -106,7 +109,10 @@ public class HumanityClient {
             this.keepAliveWaitable.cancel(true);
         }
 
-        long DELAY = 2l;
+        final long DELAY = 5l;
+        final int SCALE = 2;
+        final TimeUnit UNIT = TimeUnit.SECONDS;
+
         new Thread(new Runnable() {
             HumanityClient client = HumanityClient.this;
 
@@ -116,7 +122,6 @@ public class HumanityClient {
 
                 while(true) {
                     try {
-                        // Wait 5 seconds
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -130,13 +135,13 @@ public class HumanityClient {
                     client.keepAliveWaitable = Bootstrap.threadPoolExecutor.schedule(currentTask, 0l, TimeUnit.SECONDS);
 
                     try {
-                        // We have until the next cycle to get a response
-                        boolean result = (Boolean) client.keepAliveWaitable.get(5l, TimeUnit.SECONDS);
+                        // We have until the advance cycle to get a response
+                        boolean result = (Boolean) client.keepAliveWaitable.get(DELAY * SCALE, UNIT);
                         if (!result) {
                             client.getLogger().severe("Got a response, cannot find the server! :(");
                             missedSinceSuccess++;
                         } else {
-                            client.getLogger().debug("Found the server, will try again in 5 seconds...");
+                            client.getLogger().debug("Found the server, will try again...");
                             missedSinceSuccess = 0;
                         }
                     } catch(TimeoutException e1) {
@@ -153,6 +158,10 @@ public class HumanityClient {
                 }
             }
         }).start();
+    }
+
+    public ClientClientDefinition getDefnition() {
+        return this.defnition;
     }
 
     public ClientPacketHandler getPacketHandler() {

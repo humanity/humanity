@@ -1,5 +1,6 @@
-package com.ttaylorr.dev.humanity.server.queue.core;
+package com.ttaylorr.dev.humanity.server.queue;
 
+import com.ttaylorr.dev.humanity.server.Bootstrap;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
@@ -8,6 +9,9 @@ import com.ttaylorr.dev.humanity.server.packets.PacketSnapshot;
 import java.io.IOException;
 import java.net.SocketException;
 
+/**
+ * Packet listener, specific per client's connect.
+ */
 public class IncomingPacketListener implements Runnable {
 
     private final ClientConnection client;
@@ -32,12 +36,12 @@ public class IncomingPacketListener implements Runnable {
                 // The client closed
                 this.server.getClientManager().disconnectClient(this.client);
             } catch (IOException e) {
-                e.printStackTrace();
+                this.server.getClientManager().disconnectClient(this.client);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(1);
+                Thread.sleep(Bootstrap.LOOP_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
