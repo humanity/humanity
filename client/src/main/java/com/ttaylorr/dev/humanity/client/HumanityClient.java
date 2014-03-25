@@ -52,6 +52,7 @@ public class HumanityClient {
 
         while (this.serverConnection == null) {
             try {
+                this.logger.info("Looking for a server to connect to...");
                 this.serverConnection = new Socket(this.address.getHostName(), this.address.getPort());
 
                 this.inputStream = new ObjectInputStream(this.serverConnection.getInputStream());
@@ -75,7 +76,7 @@ public class HumanityClient {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(Bootstrap.LOOP_DELAY);
+                Thread.sleep(Bootstrap.LOOP_DELAY * 20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
