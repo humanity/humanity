@@ -3,6 +3,7 @@ package com.ttaylorr.dev.humanity.server.client;
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.client.definition.ServerClientDefinition;
+import com.ttaylorr.dev.humanity.server.client.player.MaskedClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.queue.ClientDequeue;
 import com.ttaylorr.dev.logger.Logger;
@@ -13,7 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientConnection {
+public class ClientConnection extends MaskedClientConnection {
 
     private Socket connection;
     private ObjectOutputStream output;
@@ -28,6 +29,7 @@ public class ClientConnection {
     private HumanityServer server;
 
     public ClientConnection(Socket connection, HumanityServer server) {
+        super();
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.connection = Preconditions.checkNotNull(connection);
         this.server = Preconditions.checkNotNull(server, "server");

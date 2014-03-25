@@ -14,7 +14,7 @@ public class ClientManager {
 
     private HumanityServer server;
 
-    private Map<ClientConnection, UUID> connectedClients;
+    private List<ClientConnection> connectedClients;
     private Map<ClientConnection, Map.Entry<IncomingPacketListener, Thread>> clientPacketListeners;
 
     private Logger logger;
@@ -25,20 +25,19 @@ public class ClientManager {
     }
 
     public void setup() {
-        this.connectedClients = new HashMap<>();
+        this.connectedClients = new ArrayList<>();
         this.clientPacketListeners = new HashMap<>();
     }
 
     public void connectClient(ClientConnection client) {
-        UUID clientId = UUID.randomUUID();
-        this.connectedClients.put(client, clientId);
+        this.connectedClients.add(client);
 
-        this.logger.info("Connect client with ID: {}", clientId);
+        this.logger.info("Connect client with ID: {}", client.getClientId());
 
         client.openDequeue();
         IncomingPacketListener packetListener = new IncomingPacketListener(client, this.server);
         Thread thread = new Thread(packetListener);
-        thread.setName("IncomingPacketListener-" + clientId.toString());
+        thread.setName("IncomingPacketListener-" + client.getClientId().toString());
         thread.start();
 
         this.clientPacketListeners.put(client, new AbstractMap.SimpleEntry<>(packetListener, thread));
@@ -71,19 +70,24 @@ public class ClientManager {
     }
 
     public ClientConnection getClientById(UUID id) {
-        for (Map.Entry<ClientConnection, UUID> entry : this.connectedClients.entrySet()) {
-            if (entry.getValue().equals(id)) {
-                return entry.getKey();
+        for (ClientConnection client : this.connectedClients) {
+            if (client.getClientId().equals(id)) {
+                return client;
             }
         }
         return null;
     }
 
     public UUID getUUIDForClient(ClientConnection clientConnection) {
-        return this.connectedClients.get(clientConnection);
+        for (ClientConnection client : this.connectedClients) {
+            if (client == clientConnection) {
+                return client.getClientId();
+            }
+        }
+        return null;
     }
 
     public ImmutableList<ClientConnection> getConnectedClients() {
-        return ImmutableList.copyOf(this.connectedClients.keySet());
+        return ImmutableList.copyOf(this.connectedClients);
     }
 }
