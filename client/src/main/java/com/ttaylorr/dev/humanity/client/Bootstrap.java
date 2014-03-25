@@ -1,5 +1,7 @@
 package com.ttaylorr.dev.humanity.client;
 
+import com.ttaylorr.dev.humanity.client.client.HumanityClient;
+
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Bootstrap {

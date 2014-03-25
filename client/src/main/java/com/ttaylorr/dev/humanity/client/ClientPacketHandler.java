@@ -2,6 +2,7 @@ package com.ttaylorr.dev.humanity.client;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.ttaylorr.dev.humanity.client.client.HumanityClient;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerSnapshot;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;

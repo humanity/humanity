@@ -1,5 +1,6 @@
 package com.ttaylorr.dev.humanity.client;
 
+import com.ttaylorr.dev.humanity.client.client.HumanityClient;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.io.IOException;

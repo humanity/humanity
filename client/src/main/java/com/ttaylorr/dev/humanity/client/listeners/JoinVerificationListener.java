@@ -1,6 +1,6 @@
 package com.ttaylorr.dev.humanity.client.listeners;
 
-import com.ttaylorr.dev.humanity.client.HumanityClient;
+import com.ttaylorr.dev.humanity.client.client.HumanityClient;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;

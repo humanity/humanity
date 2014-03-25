@@ -1,5 +1,8 @@
-package com.ttaylorr.dev.humanity.client;
+package com.ttaylorr.dev.humanity.client.client;
 
+import com.ttaylorr.dev.humanity.client.Bootstrap;
+import com.ttaylorr.dev.humanity.client.ClientPacketHandler;
+import com.ttaylorr.dev.humanity.client.IncomingPacketListener;
 import com.ttaylorr.dev.humanity.client.listeners.JoinVerificationListener;
 import com.ttaylorr.dev.humanity.client.tasks.KeepAliveTask;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
