@@ -62,4 +62,8 @@ public class BlackCard extends HumanityCard {
         builder.append("}");
         return builder.toString();
     }
+
+    public int getNumberToFill() {
+        return this.pickCards;
+    }
 }

@@ -9,6 +9,9 @@ import com.ttaylorr.dev.humanity.server.cards.factory.BlackCardFactory;
 import com.ttaylorr.dev.humanity.server.cards.factory.WhiteCardFactory;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
+import com.ttaylorr.dev.humanity.server.game.state.GameState;
+import com.ttaylorr.dev.humanity.server.packets.Packet;
+import com.ttaylorr.dev.humanity.server.packets.core.Packet08GameChangeState;
 
 import java.io.File;
 import java.util.HashSet;
@@ -23,12 +26,15 @@ public class HumanityGame {
 
     private final Set<ClientConnection> players;
 
+    private GameState currentState;
+
     public HumanityGame(File cardsFile, HumanityServer server) {
         this.server = Preconditions.checkNotNull(server, "server");
 
         this.whiteCardDeck = new WhiteCardFactory(cardsFile, this.server).parse().build();
         this.blackCardDeck = new BlackCardFactory(cardsFile, this.server).parse().build();
         this.players = new HashSet<>();
+        this.currentState = GameState.LOBBY;
     }
 
     public ImmutableSet<ClientConnection> getPlayers() {
@@ -53,5 +59,18 @@ public class HumanityGame {
 
     public BlackCardDeck getBlackCardDeck() {
         return this.blackCardDeck;
+    }
+
+    public GameState getCurrentState() {
+        return this.currentState;
+    }
+
+    public void setCurrentState(GameState state) {
+        Packet08GameChangeState packet = new Packet08GameChangeState(this.currentState, state);
+        this.currentState = state;
+
+        for(ClientConnection client : this.players) {
+            client.sendPacket(packet);
+        }
     }
 }
