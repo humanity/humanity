@@ -3,6 +3,7 @@ package com.ttaylorr.dev.humanity.client;
 import com.ttaylorr.dev.humanity.client.client.HumanityClient;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketException;
 
@@ -25,12 +26,15 @@ public class IncomingPacketListener implements Runnable {
                     this.client.getPacketHandler().handlePacket(packet);
                 }
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(Bootstrap.LOOP_DELAY);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             } catch(SocketException e) {
-//                client.disconnect();
+                Bootstrap.requestClose();
+                break;
+            } catch(EOFException e) {
+                Bootstrap.requestClose();
                 break;
             } catch (IOException e) {
                 e.printStackTrace();

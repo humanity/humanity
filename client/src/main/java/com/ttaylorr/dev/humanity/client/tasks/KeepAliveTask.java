@@ -1,6 +1,7 @@
 package com.ttaylorr.dev.humanity.client.tasks;
 
 import com.ttaylorr.dev.humanity.client.client.HumanityClient;
+import com.ttaylorr.dev.humanity.client.Bootstrap;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
@@ -31,7 +32,7 @@ public class KeepAliveTask implements Callable<Boolean>, Listenable {
         // Hack to wait until we've received a packet
         Instant start = Instant.now();
         while(this.lastReceivedPacket == null) {
-            Thread.sleep(100);
+            Thread.sleep(Bootstrap.LOOP_DELAY);
         }
         this.client.getLogger().debug("Received a response in " + new Duration(start, Instant.now()).getMillis() + " ms!");
 

@@ -25,5 +25,7 @@ public class HandshakeListener implements Listenable {
 
         Packet packet = new Packet04Join(Packet04Join.JoinState.ALLOWED, "Welcome to the server!", new MaskedClientConnection(client));
         client.sendPacket(packet);
+
+        this.server.getGame().getWhiteCardDeck().dealCards(client);
     }
 }

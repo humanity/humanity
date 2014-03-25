@@ -29,6 +29,10 @@ public class ClientPacketHandler {
         this.handlers.put(Packet01KeepAlive.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet03Disconnect.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet04Join.class, new ArrayList<HandlerSnapshot>());
+        this.handlers.put(Packet05PlayerStateChange.class, new ArrayList<HandlerSnapshot>());
+        this.handlers.put(Packet06HandUpdate.class, new ArrayList<HandlerSnapshot>());
+        this.handlers.put(Packet07CreatePool.class, new ArrayList<HandlerSnapshot>());
+        this.handlers.put(Packet08GameChangeState.class, new ArrayList<HandlerSnapshot>());
     }
 
     public void handlePacket(Packet packet) {
