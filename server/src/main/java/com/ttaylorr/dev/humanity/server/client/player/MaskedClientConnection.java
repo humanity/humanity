@@ -2,9 +2,10 @@ package com.ttaylorr.dev.humanity.server.client.player;
 
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class MaskedClientConnection {
+public class MaskedClientConnection implements Serializable {
 
     private final UUID clientId;
 
@@ -22,15 +23,5 @@ public class MaskedClientConnection {
 
     public final UUID getClientId() {
         return this.clientId;
-    }
-
-    @Override
-    public final boolean equals(Object o) {
-        if (o instanceof MaskedClientConnection) {
-            MaskedClientConnection conn = (MaskedClientConnection) o;
-            return conn.getClientId().equals(this.clientId);
-        } else {
-            return false;
-        }
     }
 }

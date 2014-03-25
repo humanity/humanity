@@ -1,12 +1,14 @@
 package com.ttaylorr.dev.humanity.client;
 
 import com.ttaylorr.dev.humanity.client.client.HumanityClient;
+import com.ttaylorr.dev.humanity.client.game.ClientGame;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Bootstrap {
 
     private static HumanityClient client = new HumanityClient("localhost", 8000);
+    private static ClientGame game;
     public static ScheduledThreadPoolExecutor threadPoolExecutor;
     public static final int LOOP_DELAY = 50;
 
@@ -17,6 +19,9 @@ public class Bootstrap {
 
         threadPoolExecutor = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
         client.getLogger().info("Opened thread pool...");
+
+        game = new ClientGame(client);
+        game.getLogger().info("Created the game, now listening for updates...");
 
         client.getLogger().info("Deferred process to opening connection!");
         client.openConnection();
