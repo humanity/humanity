@@ -5,12 +5,15 @@ import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 
 import java.util.List;
 
-public interface ITrick {
+/**
+ * TODO add a TrickUpdate Packet
+ */
+public abstract class ITrick {
 
-    public BlackCard getChoiceCard();
+    public abstract BlackCard getChoiceCard();
 
-    public List<WhiteCard> getSubmitted();
+    public abstract List<WhiteCard> getSubmitted();
 
-    public boolean isComplete();
+    public abstract boolean isComplete();
 
 }

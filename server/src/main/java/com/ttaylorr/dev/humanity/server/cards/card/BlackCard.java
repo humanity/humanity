@@ -29,16 +29,6 @@ public class BlackCard extends HumanityCard {
     }
 
     @Override
-    public boolean play() {
-        if(!this.state.isPlayable()) {
-            return false;
-        } else {
-            this.state = this.state.advance();
-            return false;
-        }
-    }
-
-    @Override
     public String getText() {
         StringBuilder builder = new StringBuilder();
         for(String message : this.messages) {

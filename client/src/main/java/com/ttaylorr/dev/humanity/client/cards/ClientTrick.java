@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ClientTrick implements ITrick, Listenable {
+public class ClientTrick extends ITrick implements Listenable {
 
     private final BlackCard choiceCard;
     private final List<WhiteCard> submitted;
 
     private final ClientGame game;
-    private final UUID poolID;
+    private final UUID trickID;
 
-    public ClientTrick(UUID poolId, BlackCard choiceCard, ClientGame game) {
+    public ClientTrick(UUID trickId, BlackCard choiceCard, ClientGame game) {
         this.game = Preconditions.checkNotNull(game, "game");
-        this.poolID = poolId;
+        this.trickID = trickId;
 
         this.choiceCard = Preconditions.checkNotNull(choiceCard, "card");
         this.submitted = new CopyOnWriteArrayList<>();

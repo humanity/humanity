@@ -36,4 +36,8 @@ public class Bootstrap {
     public static void requestClose() {
         Bootstrap.closeRequested = true;
     }
+
+    public static HumanityClient getClient() {
+        return Bootstrap.client;
+    }
 }

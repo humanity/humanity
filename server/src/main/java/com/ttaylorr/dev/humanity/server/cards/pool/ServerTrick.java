@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ServerTrick implements ITrick, Serializable {
+public class ServerTrick extends ITrick implements Serializable {
 
     private final BlackCard choice;
     private Map<ClientConnection, List<WhiteCard>> submitted;

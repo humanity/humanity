@@ -10,18 +10,8 @@ public class WhiteCard extends HumanityCard {
         super(expansion);
         this.message = Preconditions.checkNotNull(message, "message");
     }
-
     @Override
-    public boolean play() {
-        if(!this.state.isPlayable()) {
-            return false;
-        } else {
-            this.state = this.state.advance();
-            return false;
-        }
-    }
 
-    @Override
     public String getText() {
         return this.message;
     }

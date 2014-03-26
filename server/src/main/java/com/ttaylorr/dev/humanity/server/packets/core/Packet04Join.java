@@ -1,6 +1,6 @@
 package com.ttaylorr.dev.humanity.server.packets.core;
 
-import com.ttaylorr.dev.humanity.server.client.player.MaskedClientConnection;
+import com.ttaylorr.dev.humanity.server.client.MaskedClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.util.UUID;

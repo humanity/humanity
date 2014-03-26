@@ -24,7 +24,6 @@ public class ServerClientDefinition implements IClientDefinition {
     private final ClientConnection owner;
     private final HumanityServer server;
     private final ServerHumanityHand hand;
-    private int score;
 
     public ServerClientDefinition(ClientConnection owner, HumanityServer server) {
         this.owner = Preconditions.checkNotNull(owner, "client connection");
@@ -56,18 +55,5 @@ public class ServerClientDefinition implements IClientDefinition {
         Packet06HandUpdate packet = new Packet06HandUpdate(cards);
         this.owner.sendPacket(packet);
         return packet.getCards();
-    }
-
-    @Override
-    public int getScore() {
-        return score;
-    }
-
-    public void incrementScore(BlackCard card) {
-        this.score++;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 }
