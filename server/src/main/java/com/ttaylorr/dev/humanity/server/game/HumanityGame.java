@@ -12,7 +12,7 @@ import com.ttaylorr.dev.humanity.server.client.MaskedClientConnection;
 import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.game.state.GameState;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet08GameChangeState;
-import com.ttaylorr.dev.humanity.server.packets.core.Packet11MaskedDisconnect;
+import com.ttaylorr.dev.humanity.server.packets.masked.core.Packet11MaskedDisconnect;
 
 import java.io.File;
 import java.util.Collections;

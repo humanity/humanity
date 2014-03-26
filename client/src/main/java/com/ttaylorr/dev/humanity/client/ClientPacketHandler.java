@@ -8,6 +8,7 @@ import com.ttaylorr.dev.humanity.server.handlers.HandlerSnapshot;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.core.*;
+import com.ttaylorr.dev.humanity.server.packets.masked.core.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,9 +34,10 @@ public class ClientPacketHandler {
         this.handlers.put(Packet06HandUpdate.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet07CreatePool.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet08GameChangeState.class, new ArrayList<HandlerSnapshot>());
+
         this.handlers.put(Packet09MaskedJoin.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet10PlayerUpdate.class, new ArrayList<HandlerSnapshot>());
         this.handlers.put(Packet11MaskedDisconnect.class, new ArrayList<HandlerSnapshot>());
+        this.handlers.put(Packet12MaskedPlayerStateChange.class, new ArrayList<HandlerSnapshot>());
     }
 
     public void handlePacket(Packet packet) {

@@ -19,11 +19,13 @@ public class ServerHumanityHand implements IHumanityHand, Serializable {
         this.owner = Preconditions.checkNotNull(owner, "owner");
     }
 
+    /** Doesn't actually send updates to the client */
     @Override
     public boolean releaseCard(WhiteCard card) {
         return this.cards.remove(card);
     }
 
+    /** Doesn't actually send updates to the client */
     public boolean addCard(WhiteCard card) {
         return this.cards.add(card);
     }

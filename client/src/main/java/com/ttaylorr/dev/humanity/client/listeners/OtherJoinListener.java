@@ -6,8 +6,8 @@ import com.ttaylorr.dev.humanity.client.game.ClientGame;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
-import com.ttaylorr.dev.humanity.server.packets.core.Packet09MaskedJoin;
-import com.ttaylorr.dev.humanity.server.packets.core.Packet11MaskedDisconnect;
+import com.ttaylorr.dev.humanity.server.packets.masked.core.Packet09MaskedJoin;
+import com.ttaylorr.dev.humanity.server.packets.masked.core.Packet11MaskedDisconnect;
 
 public class OtherJoinListener implements Listenable {
 

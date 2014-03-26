@@ -9,7 +9,7 @@ import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet02Handshake;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet04Join;
-import com.ttaylorr.dev.humanity.server.packets.core.Packet09MaskedJoin;
+import com.ttaylorr.dev.humanity.server.packets.masked.core.Packet09MaskedJoin;
 
 public class HandshakeListener implements Listenable {
 
