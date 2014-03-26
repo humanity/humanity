@@ -7,7 +7,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Bootstrap {
 
-    private static HumanityClient client = new HumanityClient("localhost", 8000);
+    private static HumanityClient client;
     private static ClientGame game;
     public static ScheduledThreadPoolExecutor threadPoolExecutor;
     public static final int LOOP_DELAY = 50;
@@ -15,6 +15,7 @@ public class Bootstrap {
     public static boolean closeRequested = false;
 
     public static void main(String[] args) throws InterruptedException {
+        client = new HumanityClient("localhost", 8000);
         client.getLogger().info("Starting humanity client's bootstrap");
 
         threadPoolExecutor = new ScheduledThreadPoolExecutor(Runtime.getRuntime().availableProcessors());
@@ -27,7 +28,7 @@ public class Bootstrap {
         client.openConnection();
 
         while (!closeRequested) {
-            // So, you know - we don't murder CPUs.
+            // So, you know, we don't murder CPUs.
             Thread.sleep(Bootstrap.LOOP_DELAY);
         }
         client.getLogger().info("Closing client bootstrap...");
