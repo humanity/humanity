@@ -9,7 +9,7 @@ import com.ttaylorr.dev.humanity.server.packets.core.Packet10PlayerUpdate;
 
 public abstract class ClientPlayerDefinition implements IPlayerDefinition {
 
-    protected String name;
+    protected final String name;
     protected int score;
     protected PlayerState state;
 

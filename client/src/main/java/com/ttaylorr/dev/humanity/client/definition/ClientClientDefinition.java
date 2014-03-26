@@ -43,4 +43,9 @@ public class ClientClientDefinition implements IClientDefinition, Listenable {
         return clientUUID;
     }
 
+    @Override
+    public IHumanityHand getPlayerHand() {
+        return null;
+    }
+
 }

@@ -12,6 +12,7 @@ import com.ttaylorr.dev.humanity.server.packets.core.Packet05PlayerStateChange;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet06HandUpdate;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The server's perception on what the current state of the client is.
@@ -34,6 +35,11 @@ public class ServerClientDefinition implements IClientDefinition {
     @Override
     public PlayerState getPlayerState() {
         return this.state;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return this.owner.getClientId();
     }
 
     public PlayerState setPlayerState(PlayerState newPlayerState) {

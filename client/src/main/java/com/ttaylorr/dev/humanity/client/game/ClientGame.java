@@ -5,12 +5,15 @@ import com.ttaylorr.dev.humanity.client.client.HumanityClient;
 import com.ttaylorr.dev.humanity.client.cards.ClientTrick;
 import com.ttaylorr.dev.humanity.client.client.MaskedHumanityClient;
 import com.ttaylorr.dev.humanity.client.listeners.OtherJoinListener;
+import com.ttaylorr.dev.humanity.server.client.MaskedClientConnection;
 import com.ttaylorr.dev.humanity.server.game.state.GameState;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet07CreatePool;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet08GameChangeState;
+import com.ttaylorr.dev.humanity.server.packets.core.Packet09MaskedJoin;
+import com.ttaylorr.dev.humanity.server.packets.core.Packet11MaskedDisconnect;
 import com.ttaylorr.dev.logger.Logger;
 
 import java.util.HashSet;
@@ -64,5 +67,13 @@ public class ClientGame implements Listenable {
     @Handler(priority = HandlerPriority.MONITOR)
     public void onGameStateChange(Packet08GameChangeState packet) {
         this.currentState = packet.getTo();
+    }
+
+    public void connectPlayer(MaskedHumanityClient client) {
+        this.connectedPlayers.add(client);
+    }
+
+    public void handleLogout(MaskedHumanityClient client) {
+        this.connectedPlayers.remove(client);
     }
 }

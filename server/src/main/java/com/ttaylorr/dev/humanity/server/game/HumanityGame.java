@@ -8,12 +8,14 @@ import com.ttaylorr.dev.humanity.server.cards.deck.WhiteCardDeck;
 import com.ttaylorr.dev.humanity.server.cards.factory.BlackCardFactory;
 import com.ttaylorr.dev.humanity.server.cards.factory.WhiteCardFactory;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
+import com.ttaylorr.dev.humanity.server.client.MaskedClientConnection;
 import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.game.state.GameState;
-import com.ttaylorr.dev.humanity.server.packets.Packet;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet08GameChangeState;
+import com.ttaylorr.dev.humanity.server.packets.core.Packet11MaskedDisconnect;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +26,7 @@ public class HumanityGame {
     private final WhiteCardDeck whiteCardDeck;
     private final BlackCardDeck blackCardDeck;
 
-    private final Set<ClientConnection> players;
+    private final Set<ClientConnection> players; // synchronized
 
     private GameState currentState;
 
@@ -33,7 +35,7 @@ public class HumanityGame {
 
         this.whiteCardDeck = new WhiteCardFactory(cardsFile, this.server).parse().build();
         this.blackCardDeck = new BlackCardFactory(cardsFile, this.server).parse().build();
-        this.players = new HashSet<>();
+        this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
         this.currentState = GameState.LOBBY;
     }
 
@@ -59,6 +61,22 @@ public class HumanityGame {
 
     public BlackCardDeck getBlackCardDeck() {
         return this.blackCardDeck;
+    }
+
+    public void handleLogin(ClientConnection connecting) {
+        synchronized (this.players) {
+            this.players.add(connecting);
+        }
+    }
+
+    public void disconnectPlayer(ClientConnection disconnecting) {
+        synchronized (this.players) {
+            this.players.remove(disconnecting);
+        }
+
+        for (ClientConnection client : this.players) {
+            client.sendPacket(new Packet11MaskedDisconnect(MaskedClientConnection.fromClient(disconnecting)));
+        }
     }
 
     public GameState getCurrentState() {

@@ -3,6 +3,7 @@ package com.ttaylorr.dev.humanity.server.client.player.definition;
 import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.cards.pool.ITrick;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
+import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 
 public class ServerPlayerDefinition implements IPlayerDefinition{
 
@@ -42,5 +43,10 @@ public class ServerPlayerDefinition implements IPlayerDefinition{
     @Override
     public void updateHand() {
         // TODO
+    }
+
+    @Override
+    public PlayerState getPlayerState() {
+        return null;
     }
 }

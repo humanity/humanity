@@ -1,7 +1,5 @@
 package com.ttaylorr.dev.humanity.server.client;
 
-import com.ttaylorr.dev.humanity.server.client.ClientConnection;
-
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -20,6 +18,10 @@ public class MaskedClientConnection implements Serializable {
 
     private MaskedClientConnection(UUID id) {
         this.clientId = id;
+    }
+
+    public static MaskedClientConnection fromClient(ClientConnection real) {
+        return new MaskedClientConnection(real);
     }
 
     public final UUID getClientId() {

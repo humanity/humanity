@@ -10,7 +10,7 @@ import java.util.UUID;
  */
 public class Packet10PlayerUpdate extends Packet {
 
-    private final  int score;
+    private final int score;
     private final String name;
     private final PlayerState state;
     private final UUID clientUuid;

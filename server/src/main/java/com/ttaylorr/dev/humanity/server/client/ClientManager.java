@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet03Disconnect;
+import com.ttaylorr.dev.humanity.server.packets.core.Packet11MaskedDisconnect;
 import com.ttaylorr.dev.humanity.server.queue.IncomingPacketListener;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
@@ -15,7 +16,7 @@ public class ClientManager {
     private HumanityServer server;
 
     private List<ClientConnection> connectedClients;
-    private Map<ClientConnection, Map.Entry<IncomingPacketListener, Thread>> clientPacketListeners;
+    private Map<ClientConnection, IncomingPacketListener> clientPacketListeners;
 
     private Logger logger;
 
@@ -40,15 +41,21 @@ public class ClientManager {
         thread.setName("IncomingPacketListener-" + client.getClientId().toString());
         thread.start();
 
-        this.clientPacketListeners.put(client, new AbstractMap.SimpleEntry<>(packetListener, thread));
+        this.clientPacketListeners.put(client, packetListener);
     }
 
     public void disconnectClient(ClientConnection client) {
         this.logger.info("Removing and closing thread for client: {}", this.getUUIDForClient(client));
         this.connectedClients.remove(client);
 
-        Map.Entry<IncomingPacketListener, Thread> value = this.clientPacketListeners.remove(client);
-        value.getValue().stop();
+        IncomingPacketListener value = this.clientPacketListeners.remove(client);
+        value.requestClose();
+
+        Packet11MaskedDisconnect maskedDisconnectPacket = new Packet11MaskedDisconnect(new MaskedClientConnection(client));
+        for (ClientConnection connected : this.connectedClients) {
+            this.logger.debug("fu");
+            connected.sendPacket(maskedDisconnectPacket);
+        }
 
         client.closeDequeue();
     }
@@ -66,7 +73,7 @@ public class ClientManager {
             throw new IllegalArgumentException("that client is not connected");
         }
 
-        return this.clientPacketListeners.get(client).getKey();
+        return this.clientPacketListeners.get(client);
     }
 
     public ClientConnection getClientById(UUID id) {

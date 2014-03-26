@@ -10,4 +10,6 @@ public interface IClientDefinition {
     public PlayerState getPlayerState();
 
     public UUID getUUID();
+
+    public IHumanityHand getPlayerHand();
 }
