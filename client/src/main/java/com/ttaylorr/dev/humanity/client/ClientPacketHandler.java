@@ -2,6 +2,7 @@ package com.ttaylorr.dev.humanity.client;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.sun.javafx.collections.transformation.SortedList;
 import com.ttaylorr.dev.humanity.client.client.HumanityClient;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerSnapshot;
@@ -16,7 +17,7 @@ import java.util.*;
 
 public class ClientPacketHandler {
 
-    private Map<Class<? extends Packet>, List<HandlerSnapshot>> handlers;
+    private Map<Class<? extends Packet>, SortedList<HandlerSnapshot>> handlers;
     private HumanityClient client;
 
     public ClientPacketHandler(HumanityClient client) {
@@ -27,17 +28,19 @@ public class ClientPacketHandler {
     }
 
     private void allowPackets() {
-        this.handlers.put(Packet01KeepAlive.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet03Disconnect.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet04Join.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet05PlayerStateChange.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet06HandUpdate.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet07CreatePool.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet08GameChangeState.class, new ArrayList<HandlerSnapshot>());
+        // Non-masked packets
+        this.handlers.put(Packet01KeepAlive.class,               new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet03Disconnect.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet04Join.class,                    new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet05PlayerStateChange.class,       new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet06HandUpdate.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet07CreatePool.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet08GameChangeState.class,         new SortedList<>(new ArrayList<HandlerSnapshot>()));
 
-        this.handlers.put(Packet09MaskedJoin.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet11MaskedDisconnect.class, new ArrayList<HandlerSnapshot>());
-        this.handlers.put(Packet12MaskedPlayerStateChange.class, new ArrayList<HandlerSnapshot>());
+        // Masked packets
+        this.handlers.put(Packet09MaskedJoin.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet11MaskedDisconnect.class,        new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet12MaskedPlayerStateChange.class, new SortedList<>(new ArrayList<HandlerSnapshot>()));
     }
 
     public void handlePacket(Packet packet) {
@@ -77,7 +80,7 @@ public class ClientPacketHandler {
     public boolean unregisterHandlers(Listenable listenable) {
         boolean removed = false;
 
-        for (Map.Entry<Class<? extends Packet>, List<HandlerSnapshot>> entry : new HashSet<>(this.handlers.entrySet())) {
+        for (Map.Entry<Class<? extends Packet>, SortedList<HandlerSnapshot>> entry : new HashSet<>(this.handlers.entrySet())) {
             for(HandlerSnapshot handler : new ArrayList<>(entry.getValue())) {
                 if(handler.getInstance() == listenable) {
                     this.handlers.get(entry.getKey()).remove(handler);
@@ -105,6 +108,13 @@ public class ClientPacketHandler {
 
     public List<HandlerSnapshot> getHandler(Class<? extends Packet> packet) {
         return ImmutableList.copyOf(this.handlers.get(packet));
+    }
+
+    private static class snapshotComparator implements Comparator<HandlerSnapshot> {
+        @Override
+        public int compare(HandlerSnapshot o1, HandlerSnapshot o2) {
+            return o1.getAnnotation().priority().compareTo(o2.getAnnotation().priority());
+        }
     }
 
 }
