@@ -29,13 +29,13 @@ public class ClientPacketHandler {
 
     private void allowPackets() {
         // Non-masked packets
-        this.handlers.put(Packet01KeepAlive.class,               new SortedList<>(new ArrayList<HandlerSnapshot>()));
-        this.handlers.put(Packet03Disconnect.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
-        this.handlers.put(Packet04Join.class,                    new SortedList<>(new ArrayList<HandlerSnapshot>()));
-        this.handlers.put(Packet05PlayerStateChange.class,       new SortedList<>(new ArrayList<HandlerSnapshot>()));
-        this.handlers.put(Packet06HandUpdate.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
-        this.handlers.put(Packet07CreatePool.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
-        this.handlers.put(Packet08GameChangeState.class,         new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet01KeepAlive.class,               new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet03Disconnect.class,              new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet04Join.class,                    new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet05PlayerStateChange.class,       new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet06HandUpdate.class,              new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet07CreatePool.class,              new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet08GameChangeState.class,         new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
 
         // Masked packets
         this.handlers.put(Packet09MaskedJoin.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
@@ -110,11 +110,11 @@ public class ClientPacketHandler {
         return ImmutableList.copyOf(this.handlers.get(packet));
     }
 
-    private static class snapshotComparator implements Comparator<HandlerSnapshot> {
+    private Comparator<HandlerSnapshot> snapshotComparator = new Comparator<HandlerSnapshot>() {
         @Override
         public int compare(HandlerSnapshot o1, HandlerSnapshot o2) {
             return o1.getAnnotation().priority().compareTo(o2.getAnnotation().priority());
         }
-    }
+    };
 
 }
