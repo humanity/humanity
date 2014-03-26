@@ -38,9 +38,9 @@ public class ClientPacketHandler {
         this.handlers.put(Packet08GameChangeState.class,         new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
 
         // Masked packets
-        this.handlers.put(Packet09MaskedJoin.class,              new SortedList<>(new ArrayList<HandlerSnapshot>()));
-        this.handlers.put(Packet11MaskedDisconnect.class,        new SortedList<>(new ArrayList<HandlerSnapshot>()));
-        this.handlers.put(Packet12MaskedPlayerStateChange.class, new SortedList<>(new ArrayList<HandlerSnapshot>()));
+        this.handlers.put(Packet09MaskedJoin.class,              new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet11MaskedDisconnect.class,        new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet12MaskedPlayerStateChange.class, new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
     }
 
     public void handlePacket(Packet packet) {
