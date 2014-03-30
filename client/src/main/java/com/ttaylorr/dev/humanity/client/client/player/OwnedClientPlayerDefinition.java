@@ -34,12 +34,12 @@ public class OwnedClientPlayerDefinition extends ClientPlayerDefinition {
         return this.playerHand;
     }
 
-    public void handleHandUpdate(Packet12HandUpdate packet) {
-        Preconditions.checkNotNull(packet, "packet");
-        Preconditions.checkNotNull(this.playerHand);
-
-
-    }
+//    public void handleHandUpdate(Packet12HandUpdate packet) {
+//        Preconditions.checkNotNull(packet, "packet");
+//        Preconditions.checkNotNull(this.playerHand);
+//
+//
+//    }
 
     @Override
     public void playCard(WhiteCard card, ITrick forTrick) {
