@@ -1,4 +1,4 @@
-# humanity [![Gitter chat](https://badges.gitter.im/ttaylorr/humanity.png)](https://gitter.im/ttaylorr/humanity)
+# humanity [![Build Status](https://travis-ci.org/humanity/humanity.svg?branch=master)](https://travis-ci.org/humanity/humanity)
 
 Cards Against Humanity
 
