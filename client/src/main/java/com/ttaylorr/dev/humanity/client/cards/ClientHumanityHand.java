@@ -2,8 +2,8 @@ package com.ttaylorr.dev.humanity.client.cards;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.client.client.HumanityClient;
-import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
+import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.handlers.Handler;
 import com.ttaylorr.dev.humanity.server.handlers.HandlerPriority;
 import com.ttaylorr.dev.humanity.server.handlers.Listenable;
@@ -30,7 +30,8 @@ public class ClientHumanityHand implements IHumanityHand, Listenable, Serializab
 
     @Handler(priority = HandlerPriority.MONITOR) // TODO it seems to me that this would be a high-priority, not a run-last item.
     public void onHandUpdate(Packet06HandUpdate packet) {
-        this.cards = packet.getCards();
+        this.cards.removeAll(packet.getRemovedCards());
+        this.cards.addAll(packet.getDrawnCards());
         System.out.println(this.getCards());
     }
 

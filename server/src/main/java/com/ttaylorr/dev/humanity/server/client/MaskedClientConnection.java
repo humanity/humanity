@@ -10,6 +10,7 @@ public class MaskedClientConnection implements Serializable {
 
     public MaskedClientConnection(ClientConnection realClient) {
         this(realClient.getClientId());
+
     }
 
     protected MaskedClientConnection() {

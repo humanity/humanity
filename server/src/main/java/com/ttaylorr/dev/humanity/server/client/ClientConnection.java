@@ -28,7 +28,7 @@ public class ClientConnection extends MaskedClientConnection {
     private HumanityServer server;
 
     public ClientConnection(Socket connection, HumanityServer server) {
-        super();
+        super(); // this will generate the UUID
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.connection = Preconditions.checkNotNull(connection);
         this.server = Preconditions.checkNotNull(server, "server");
@@ -75,4 +75,11 @@ public class ClientConnection extends MaskedClientConnection {
     public ClientDequeue getDequeue() {
         return this.dequeue;
     }
+
+    public MaskedClientConnection getMaskedVersion() {
+        MaskedClientConnection nmasked = new MaskedClientConnection(this);
+        nmasked.setName(this.getName());
+        return nmasked;
+    }
+
 }
