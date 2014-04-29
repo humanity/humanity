@@ -1,6 +1,6 @@
 package com.ttaylorr.dev.humanity.server.packets.core;
 
-import com.ttaylorr.dev.humanity.server.client.MaskedClientConnection;
+import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
 
 import java.util.UUID;
@@ -11,10 +11,10 @@ public class Packet04Join extends Packet {
     private String reason;
     private final UUID id;
 
-    public Packet04Join(JoinState state, String reason, MaskedClientConnection client) {
+    public Packet04Join(JoinState state, String reason, UUID uuid) {
         this.state = state;
         this.reason = reason;
-        this.id = client.getClientId();
+        this.id = Preconditions.checkNotNull(uuid, "invalid client uuid");
     }
 
     public JoinState getState() {

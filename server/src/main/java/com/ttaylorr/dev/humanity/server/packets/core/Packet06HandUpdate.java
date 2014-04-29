@@ -12,11 +12,22 @@ public class Packet06HandUpdate extends Packet {
 
     private final List<WhiteCard> newCards;
     private final List<WhiteCard> removedCards;
+    private final REMOVE_BEHAVIOR remove;
 
     public Packet06HandUpdate(Collection<WhiteCard> newCards, Collection<WhiteCard> removedCards) {
         this.newCards = Lists.newArrayList(newCards);
         this.removedCards = Lists.newArrayList(removedCards);
+        remove = REMOVE_BEHAVIOR.UNSPECIFIED;
     }
+
+    // perhaps a factory would be better here, but that can happen later. Should not have a dummy variable...but whatever!
+    public Packet06HandUpdate(Collection<WhiteCard> newCards, REMOVE_BEHAVIOR behavior, int dummy) {
+        this.newCards = Lists.newArrayList(newCards);
+        removedCards = null;
+        remove = behavior;
+    }
+
+    enum REMOVE_BEHAVIOR {REMOVE_ALL, REMOVE_NONE, UNSPECIFIED}
 
     public ImmutableList<WhiteCard> getDrawnCards() {
         return ImmutableList.copyOf(newCards);
@@ -26,4 +37,7 @@ public class Packet06HandUpdate extends Packet {
         return ImmutableList.copyOf(removedCards);
     }
 
+    public boolean shouldRemoveAll() {
+        return remove == REMOVE_BEHAVIOR.REMOVE_ALL;
+    }
 }

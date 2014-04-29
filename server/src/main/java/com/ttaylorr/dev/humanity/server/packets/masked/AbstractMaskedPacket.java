@@ -2,22 +2,23 @@ package com.ttaylorr.dev.humanity.server.packets.masked;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
-import com.ttaylorr.dev.humanity.server.client.MaskedClientConnection;
 import com.ttaylorr.dev.humanity.server.packets.Packet;
+
+import java.util.UUID;
 
 public class AbstractMaskedPacket extends Packet {
 
-    private final MaskedClientConnection target;
+    private final UUID target;
 
-    public AbstractMaskedPacket(MaskedClientConnection target) {
-        this.target = Preconditions.checkNotNull(target, "masked target");
+    public AbstractMaskedPacket(UUID target) {
+        this.target = Preconditions.checkNotNull(target, "null uuid target");
     }
 
     public AbstractMaskedPacket(ClientConnection realTarget) {
-        this.target = MaskedClientConnection.fromClient(Preconditions.checkNotNull(realTarget, "real target"));
+        this.target = Preconditions.checkNotNull(realTarget.getClientId(), "null target uuid");
     }
 
-    public MaskedClientConnection getTarget() {
-        return this.target;
+    public UUID getTarget() {
+        return target;
     }
 }

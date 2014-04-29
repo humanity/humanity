@@ -8,7 +8,6 @@ import com.ttaylorr.dev.humanity.server.cards.deck.WhiteCardDeck;
 import com.ttaylorr.dev.humanity.server.cards.factory.BlackCardFactory;
 import com.ttaylorr.dev.humanity.server.cards.factory.WhiteCardFactory;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
-import com.ttaylorr.dev.humanity.server.client.MaskedClientConnection;
 import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.game.state.GameState;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet08GameChangeState;
@@ -75,7 +74,7 @@ public class HumanityGame {
         }
 
         for (ClientConnection client : this.players) {
-            client.sendPacket(new Packet11MaskedDisconnect(MaskedClientConnection.fromClient(disconnecting)));
+            client.sendPacket(new Packet11MaskedDisconnect(disconnecting.getClientId()));
         }
     }
 

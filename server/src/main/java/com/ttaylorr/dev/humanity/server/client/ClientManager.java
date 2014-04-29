@@ -51,7 +51,7 @@ public class ClientManager {
         IncomingPacketListener value = this.clientPacketListeners.remove(client);
         value.requestClose();
 
-        Packet11MaskedDisconnect maskedDisconnectPacket = new Packet11MaskedDisconnect(new MaskedClientConnection(client));
+        Packet11MaskedDisconnect maskedDisconnectPacket = new Packet11MaskedDisconnect(client.getClientId());
         for (ClientConnection connected : this.connectedClients) {
             this.logger.debug("fu");
             connected.sendPacket(maskedDisconnectPacket);

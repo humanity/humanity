@@ -2,10 +2,9 @@ package com.ttaylorr.dev.humanity.server.client.definition;
 
 import com.google.common.base.Preconditions;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
-import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
-import com.ttaylorr.dev.humanity.server.cards.hand.ServerHumanityHand;
-import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
 import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
+import com.ttaylorr.dev.humanity.server.cards.hand.IHumanityHand;
+import com.ttaylorr.dev.humanity.server.cards.hand.ServerHumanityHand;
 import com.ttaylorr.dev.humanity.server.client.ClientConnection;
 import com.ttaylorr.dev.humanity.server.client.player.PlayerState;
 import com.ttaylorr.dev.humanity.server.packets.core.Packet05PlayerStateChange;
@@ -57,9 +56,10 @@ public class ServerClientDefinition implements IClientDefinition {
         this.updatePlayerHand(hand.getCards());
     }
 
-    public List<WhiteCard> updatePlayerHand(List<WhiteCard> cards) {
-        Packet06HandUpdate packet = new Packet06HandUpdate(cards);
+    public void updatePlayerHand(List<WhiteCard> newCards) {
+        Packet06HandUpdate packet = new Packet06HandUpdate(newCards, null);
         this.owner.sendPacket(packet);
-        return packet.getCards();
     }
+
+
 }

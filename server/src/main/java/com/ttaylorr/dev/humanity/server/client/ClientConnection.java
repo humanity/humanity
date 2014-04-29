@@ -12,8 +12,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.UUID;
 
-public class ClientConnection extends MaskedClientConnection {
+public class ClientConnection {
 
     private Socket connection;
     private ObjectOutputStream output;
@@ -27,8 +28,18 @@ public class ClientConnection extends MaskedClientConnection {
 
     private HumanityServer server;
 
+    private final UUID clientId;
+    private String name;
+
+    /**
+     * Sets the name to null--after the initialize packet you must set the name correctly.
+     *
+     * @param connection
+     * @param server
+     */
     public ClientConnection(Socket connection, HumanityServer server) {
-        super(); // this will generate the UUID
+        clientId = UUID.randomUUID();
+        name = null;
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.connection = Preconditions.checkNotNull(connection);
         this.server = Preconditions.checkNotNull(server, "server");
@@ -76,10 +87,16 @@ public class ClientConnection extends MaskedClientConnection {
         return this.dequeue;
     }
 
-    public MaskedClientConnection getMaskedVersion() {
-        MaskedClientConnection nmasked = new MaskedClientConnection(this);
-        nmasked.setName(this.getName());
-        return nmasked;
+    public UUID getClientId() {
+        return clientId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
