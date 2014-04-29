@@ -54,6 +54,7 @@
                                     <include>joda-time:joda-time</include>
                                     <include>com.google.guava:guava</include>
                                     <include>com.ttaylorr.dev:logger</include>
+                                    <include>com.google.gson:gson</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
