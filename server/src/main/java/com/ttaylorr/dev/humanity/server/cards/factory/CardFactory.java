@@ -1,23 +1,22 @@
 package com.ttaylorr.dev.humanity.server.cards.factory;
 
-import com.google.common.base.Preconditions;
-import com.oracle.javafx.jmx.json.JSONDocument;
-import com.oracle.javafx.jmx.json.JSONFactory;
+import com.google.gson.*;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
+import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
 import com.ttaylorr.dev.humanity.server.cards.card.HumanityCard;
+import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.cards.deck.HumanityDeck;
+import com.ttaylorr.dev.humanity.server.cards.gson.BlackCardTypeAdapter;
+import com.ttaylorr.dev.humanity.server.cards.gson.WhiteCardTypeAdapter;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
+import java.io.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public abstract class CardFactory<T extends HumanityCard> {
 
-    protected JSONDocument document;
+    protected Gson gson;
+    protected JsonElement doc;
     protected Set<T> cards;
     protected HumanityServer server;
 
@@ -28,28 +27,14 @@ public abstract class CardFactory<T extends HumanityCard> {
     public static final String ANSWERS = "numAnswers";
     public static final String EXPANSION = "expansion";
 
-    protected CardFactory(File f, HumanityServer server) {
-        try {
-            this.document = JSONFactory.instance().makeReader(new FileReader(f)).build();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    protected CardFactory(File f, HumanityServer server) throws FileNotFoundException {
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(WhiteCard.class, new WhiteCardTypeAdapter())
+                .registerTypeAdapter(BlackCard.class, new BlackCardTypeAdapter())
+                .create();
+
         this.cards = new HashSet<>();
-        this.server = Preconditions.checkNotNull(server, "server");
-    }
-
-    protected JSONDocument getDocument() {
-        return this.document;
-    }
-
-    protected List<JSONDocument> getConvertedDocuments() {
-        List<JSONDocument> documents = new ArrayList<>();
-
-        for (Object o : this.getDocument().array()) {
-            documents.add((JSONDocument) o);
-        }
-
-        return documents;
+        this.doc = new JsonParser().parse(new BufferedReader(new FileReader(f)));
     }
 
     protected Set<T> getCards() {

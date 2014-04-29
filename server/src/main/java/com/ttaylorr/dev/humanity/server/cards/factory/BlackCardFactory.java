@@ -1,49 +1,24 @@
 package com.ttaylorr.dev.humanity.server.cards.factory;
 
-import com.oracle.javafx.jmx.json.JSONDocument;
+import com.google.gson.JsonElement;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
 import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
 import com.ttaylorr.dev.humanity.server.cards.deck.BlackCardDeck;
-import com.ttaylorr.dev.humanity.server.cards.card.HumanityCard;
 
 import java.io.File;
-import java.util.LinkedList;
+import java.io.FileNotFoundException;
 
 public class BlackCardFactory extends CardFactory<BlackCard> {
 
-    public BlackCardFactory(File f, HumanityServer server) {
+    public BlackCardFactory(File f, HumanityServer server) throws FileNotFoundException {
         super(f, server);
     }
 
     @Override
     public BlackCardFactory parse() {
-        for(JSONDocument doc : this.getConvertedDocuments()) {
-            if (doc.getString(CardFactory.CARD_TYPE).equals("Q")) {
-                String messageRaw = doc.getString(CardFactory.TEXT);
-                LinkedList<String> messages = new LinkedList<>();
-
-                // TODO: fixme!
-                StringBuilder word = new StringBuilder();
-                for(char c : messageRaw.toCharArray()) {
-                    if(c == '_') {
-                        if(word.toString().length() > 0) {
-                            messages.add(word.toString());
-                        }
-                        word = new StringBuilder();
-                        messages.add(null);
-                    } else {
-                        word.append(c);
-                    }
-                }
-                if(word.toString().length() > 0) {
-                    messages.add(word.toString());
-                }
-
-                HumanityCard.Expansion expansion = HumanityCard.Expansion.forString(doc.getString(CardFactory.EXPANSION));
-
-                BlackCard card = new BlackCard(messages, expansion);
-                this.getCards().add(card);
-                this.getServer().getLogger().info("Added black card: " + card.toString());
+        for (JsonElement element : this.doc.getAsJsonArray()) {
+            if (element.getAsJsonObject().get(CardFactory.CARD_TYPE).getAsCharacter() == 'Q') {
+                this.cards.add(this.gson.fromJson(element, BlackCard.class));
             }
         }
         return this;
