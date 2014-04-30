@@ -36,7 +36,6 @@ public class HumanityGame {
     public HumanityGame(File cardsFile, HumanityServer server) {
         this.server = Preconditions.checkNotNull(server, "server");
 
-        this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
         try {
             this.whiteCardDeck = new WhiteCardFactory(cardsFile, this.server).parse().build();
             this.blackCardDeck = new BlackCardFactory(cardsFile, this.server).parse().build();
@@ -44,7 +43,8 @@ public class HumanityGame {
             System.err.println("Could not find requested deck file... " + e.getMessage());
             Bootstrap.requestClose();
         }
-        this.players = new HashSet<>();
+
+        this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
         this.currentState = GameState.LOBBY;
     }
 
