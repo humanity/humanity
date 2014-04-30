@@ -2,7 +2,10 @@ package com.ttaylorr.dev.humanity.server.game;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+import com.ttaylorr.dev.humanity.server.Bootstrap;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
+import com.ttaylorr.dev.humanity.server.cards.card.BlackCard;
+import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.cards.deck.BlackCardDeck;
 import com.ttaylorr.dev.humanity.server.cards.deck.WhiteCardDeck;
 import com.ttaylorr.dev.humanity.server.cards.factory.BlackCardFactory;
@@ -15,6 +18,7 @@ import com.ttaylorr.dev.humanity.server.packets.masked.core.Packet11MaskedDiscon
 
 import java.io.File;
 import java.util.Collections;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,8 +26,8 @@ public class HumanityGame {
 
     private final HumanityServer server;
 
-    private final WhiteCardDeck whiteCardDeck;
-    private final BlackCardDeck blackCardDeck;
+    private WhiteCardDeck whiteCardDeck;
+    private BlackCardDeck blackCardDeck;
 
     private final Set<ClientConnection> players; // synchronized
 
@@ -32,9 +36,15 @@ public class HumanityGame {
     public HumanityGame(File cardsFile, HumanityServer server) {
         this.server = Preconditions.checkNotNull(server, "server");
 
-        this.whiteCardDeck = new WhiteCardFactory(cardsFile, this.server).parse().build();
-        this.blackCardDeck = new BlackCardFactory(cardsFile, this.server).parse().build();
         this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
+        try {
+            this.whiteCardDeck = new WhiteCardFactory(cardsFile, this.server).parse().build();
+            this.blackCardDeck = new BlackCardFactory(cardsFile, this.server).parse().build();
+        } catch (FileNotFoundException e) {
+            System.err.println("Could not find requested deck file... " + e.getMessage());
+            Bootstrap.requestClose();
+        }
+        this.players = new HashSet<>();
         this.currentState = GameState.LOBBY;
     }
 

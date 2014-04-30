@@ -1,29 +1,24 @@
 package com.ttaylorr.dev.humanity.server.cards.factory;
 
-import com.oracle.javafx.jmx.json.JSONDocument;
+import com.google.gson.JsonElement;
 import com.ttaylorr.dev.humanity.server.HumanityServer;
-import com.ttaylorr.dev.humanity.server.cards.card.HumanityCard;
 import com.ttaylorr.dev.humanity.server.cards.card.WhiteCard;
 import com.ttaylorr.dev.humanity.server.cards.deck.WhiteCardDeck;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class WhiteCardFactory extends CardFactory<WhiteCard> {
 
-    public WhiteCardFactory(File f, HumanityServer server) {
+    public WhiteCardFactory(File f, HumanityServer server) throws FileNotFoundException {
         super(f, server);
     }
 
     @Override
     public WhiteCardFactory parse() {
-        for(JSONDocument doc : this.getConvertedDocuments()) {
-            if (doc.getString(CardFactory.CARD_TYPE).equals("A")) {
-                String message = doc.getString(CardFactory.TEXT);
-                HumanityCard.Expansion expansion = HumanityCard.Expansion.forString(doc.getString(CardFactory.EXPANSION));
-
-                WhiteCard card = new WhiteCard(message, expansion);
-                this.getCards().add(card);
-                this.getServer().getLogger().info("Added white card: " + card.toString());
+        for (JsonElement element : this.doc.getAsJsonArray()) {
+            if (element.getAsJsonObject().get(CardFactory.CARD_TYPE).getAsCharacter() == 'A') {
+                this.cards.add(this.gson.fromJson(element, WhiteCard.class));
             }
         }
         return this;

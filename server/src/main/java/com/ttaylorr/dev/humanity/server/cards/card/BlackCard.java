@@ -1,5 +1,7 @@
 package com.ttaylorr.dev.humanity.server.cards.card;
 
+import com.ttaylorr.dev.humanity.server.cards.gson.BlackCardTypeAdapter;
+
 import java.util.LinkedList;
 
 public class BlackCard extends HumanityCard {
@@ -25,7 +27,7 @@ public class BlackCard extends HumanityCard {
             }
         }
 
-        this.pickCards = blank;
+        this.pickCards = blank == 0 ? 1 : blank;
     }
 
     @Override

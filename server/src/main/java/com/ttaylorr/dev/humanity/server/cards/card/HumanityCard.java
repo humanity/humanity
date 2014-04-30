@@ -1,5 +1,6 @@
 package com.ttaylorr.dev.humanity.server.cards.card;
 
+import com.google.gson.TypeAdapter;
 import com.ttaylorr.dev.humanity.server.cards.card.state.CardState;
 
 import java.io.Serializable;
