@@ -4,10 +4,6 @@ Cards Against Humanity
 
 ----------------
 
-![](http://puu.sh/7bE7P.png)
-
-----------------
-
 ## conventions
 
 - No weird line-wrapping, leave your lines as long as they need to be
@@ -21,3 +17,9 @@ Cards Against Humanity
 - If you're not an approved contributor, changes must be forked out of `master`, and then run through a pull-request
 - Large changes should always go through pull-requests
 - Provide informative commit messages (<50chars)
+
+## thanks
+
+- [Taylor Blau](https://github.com/user/ttaylorr)
+- [Jack Townsend](https://github.com/user/jack-t)
+
