@@ -1,7 +1,7 @@
 package net.humanity_game.server;
 
 import com.google.common.base.Preconditions;
-import net.humanity_game.server.client.ClientManager;
+import net.humanity_game.server.client.ServerClientManager;
 import net.humanity_game.server.game.HumanityGame;
 import net.humanity_game.server.listeners.KeepAliveListener;
 import net.humanity_game.server.packets.PacketHandler;
@@ -17,7 +17,7 @@ public class HumanityServer {
 
     private PacketHandler packetHandler;
 
-    private ClientManager clientManager;
+    private ServerClientManager clientManager;
 
     private ConnectionListener connectionListener;
 
@@ -35,7 +35,7 @@ public class HumanityServer {
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.port = port;
         this.packetHandler = new PacketHandler(this);
-        this.clientManager = new ClientManager(this);
+        this.clientManager = new ServerClientManager(this);
     }
 
     public void open() {
@@ -87,7 +87,7 @@ public class HumanityServer {
         return this.serverSocket;
     }
 
-    public ClientManager getClientManager() {
+    public ServerClientManager getClientManager() {
         return this.clientManager;
     }
 

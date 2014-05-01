@@ -3,7 +3,6 @@ package net.humanity_game.client.game;
 import com.google.common.base.Preconditions;
 import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.cards.ClientTrick;
-import net.humanity_game.client.client.MaskedHumanityClient;
 import net.humanity_game.client.listeners.OtherJoinListener;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.handlers.Handler;
@@ -22,7 +21,7 @@ public class ClientGame implements Listenable {
 
     private ClientTrick currentPool;
     private GameState currentState;
-    private Set<MaskedHumanityClient> connectedPlayers;
+    private Set<HumanityClient> connectedPlayers;
 
     public ClientGame(HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
@@ -66,11 +65,11 @@ public class ClientGame implements Listenable {
         this.currentState = packet.getTo();
     }
 
-    public void connectPlayer(MaskedHumanityClient client) {
+    public void connectPlayer(HumanityClient client) {
         this.connectedPlayers.add(client);
     }
 
-    public void handleLogout(MaskedHumanityClient client) {
+    public void handleLogout(HumanityClient client) {
         this.connectedPlayers.remove(client);
     }
 }

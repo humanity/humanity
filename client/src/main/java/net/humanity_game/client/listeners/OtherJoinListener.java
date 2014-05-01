@@ -1,6 +1,7 @@
 package net.humanity_game.client.listeners;
 
 import com.google.common.base.Preconditions;
+import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.client.MaskedHumanityClient;
 import net.humanity_game.client.game.ClientGame;
 import net.humanity_game.server.handlers.Handler;
@@ -8,6 +9,8 @@ import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.masked.core.Packet09MaskedJoin;
 import net.humanity_game.server.packets.masked.core.Packet11MaskedDisconnect;
+
+import java.net.InetSocketAddress;
 
 public class OtherJoinListener implements Listenable {
 
@@ -26,9 +29,11 @@ public class OtherJoinListener implements Listenable {
             builder.append("was previously connected ");
         }
         builder.append("with UUID: ");
-        builder.append(packet.getWho().getClientId());
+        builder.append(packet.getTarget());
 
-        this.game.connectPlayer(MaskedHumanityClient.fromMaskedClientConnection(packet.getWho()));
+        HumanityClient newClient = new HumanityClient(packet.getTarget(), new InetSocketAddress(packet.getHost(), packet.getPort()));
+
+        this.game.connectPlayer(newClient);
         this.game.getLogger().info(builder.toString());
     }
 

@@ -11,7 +11,7 @@ import com.ttaylorr.dev.logger.LoggerProvider;
 
 import java.util.*;
 
-public class ClientManager implements IClientManager<ClientConnection> {
+public class ServerClientManager implements IClientManager<ClientConnection> {
 
     private HumanityServer server;
 
@@ -20,7 +20,7 @@ public class ClientManager implements IClientManager<ClientConnection> {
 
     private Logger logger;
 
-    public ClientManager(HumanityServer server) {
+    public ServerClientManager(HumanityServer server) {
         this.server = Preconditions.checkNotNull(server, "server");
         this.logger = LoggerProvider.putLogger(this.getClass());
     }
