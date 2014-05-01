@@ -1,8 +1,10 @@
 package net.humanity_game.client.game;
 
 import com.google.common.base.Preconditions;
-import net.humanity_game.client.client.HumanityClient;
+import com.ttaylorr.dev.logger.Logger;
 import net.humanity_game.client.cards.ClientTrick;
+import net.humanity_game.client.client.ClientManager;
+import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.listeners.OtherJoinListener;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.handlers.Handler;
@@ -10,7 +12,6 @@ import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet07CreatePool;
 import net.humanity_game.server.packets.core.Packet08GameChangeState;
-import com.ttaylorr.dev.logger.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +23,8 @@ public class ClientGame implements Listenable {
     private ClientTrick currentPool;
     private GameState currentState;
     private Set<HumanityClient> connectedPlayers;
+    private ClientManager clientManager;
+
 
     public ClientGame(HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
@@ -66,10 +69,15 @@ public class ClientGame implements Listenable {
     }
 
     public void connectPlayer(HumanityClient client) {
-        this.connectedPlayers.add(client);
+        this.clientManager.connectClient(client);
     }
 
     public void handleLogout(HumanityClient client) {
-        this.connectedPlayers.remove(client);
+        this.clientManager.disconnectClient(client);
     }
+
+    public ClientManager getClientManager() {
+        return clientManager;
+    }
+
 }

@@ -40,12 +40,18 @@ public class OtherJoinListener implements Listenable {
     @Handler(priority = HandlerPriority.MONITOR)
     public void onMaskedDisconnect(Packet11MaskedDisconnect packet) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Other client ");
-        builder.append("(" + packet.getWho().getName() + ") ");
-        builder.append("has disconnected with the UUID: ");
-        builder.append(packet.getWho().getClientId());
 
-        this.game.handleLogout(MaskedHumanityClient.fromMaskedClientConnection(packet.getWho()));
+        if (game.getClientManager().getClientById(packet.getTarget()) == null) {
+            builder.append("Other client (").append(packet.getTarget().toString()).append(") has been disconnected. This client didn't previously know about this client.");
+        } else {
+            builder.append("Other client ");
+            builder.append("(" + packet.getWho().getName() + ") ");
+            builder.append("has disconnected with the UUID: ");
+            builder.append(packet.getWho().getClientId());
+
+            this.game.handleLogout(MaskedHumanityClient.fromMaskedClientConnection(packet.getWho()));
+        }
         this.game.getLogger().info(builder.toString());
+
     }
 }
