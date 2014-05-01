@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ttaylorr.dev</groupId>
+    <groupId>net.humanity_game</groupId>
     <artifactId>humanity-server</artifactId>
     <version>0.1-SNAPSHOT</version>
 
@@ -15,11 +15,11 @@
 
     <scm>
         <connection>scm:git:https://github.com/ttaylorr/humanity.git</connection>
-        <url>https://github.com/ttaylorr/humanity</url>
+        <url>https://github.com/humanity/humanity</url>
     </scm>
 
     <parent>
-        <groupId>com.ttaylorr.dev</groupId>
+        <groupId>net.humanity_game</groupId>
         <artifactId>humanity</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>

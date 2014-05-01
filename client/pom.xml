@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ttaylorr.dev</groupId>
+    <groupId>net.humanity_game</groupId>
     <artifactId>humanity-client</artifactId>
     <version>0.1-SNAPSHOT</version>
 
     <name>Client</name>
     <description>AP Computer Science 2014 final project</description>
-    <url>https://github.com/ttaylorr/humanity</url>
+    <url>https://github.com/humanity/humanity</url>
     <inceptionYear>2014</inceptionYear>
 
     <scm>
@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ttaylorr.dev</groupId>
+            <groupId>net.humanity_game</groupId>
             <artifactId>humanity-server</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
