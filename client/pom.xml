@@ -67,7 +67,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.ttaylorr.dev.humanity.server.Bootstrap</mainClass>
+                            <mainClass>net.humanity_game.server.Bootstrap</mainClass>
                             <classpathPrefix>dependency-jars</classpathPrefix>
                         </manifest>
                     </archive>
