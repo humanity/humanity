@@ -20,6 +20,8 @@ Cards Against Humanity
 
 ## thanks
 
-- [Taylor Blau](https://github.com/user/ttaylorr)
-- [Jack Townsend](https://github.com/user/jack-t)
+*Humanity is maintained by the core team, consisting of:*
+
+- [Taylor Blau](https://github.com/ttaylorr)
+- [Jack Townsend](https://github.com/jack-t)
 
