@@ -11,7 +11,7 @@ import com.ttaylorr.dev.logger.LoggerProvider;
 
 import java.util.*;
 
-public class ClientManager {
+public class ClientManager implements IClientManager<ClientConnection> {
 
     private HumanityServer server;
 
