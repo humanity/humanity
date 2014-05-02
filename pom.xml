@@ -15,8 +15,8 @@
         <module>core</module>
     </modules>
 	
-	<name>CardsAgainstHumanity</name>
-	<description>AP Computer Science 2014 final project</description>
+	<name>humanity</name>
+	<description>Multiplayer 'Cards Against Humanity' clone written in Java</description>
 	<url>https://github.com/humanity/humanity</url>
 	<inceptionYear>2014</inceptionYear>
 	

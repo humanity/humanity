@@ -8,8 +8,8 @@
     <artifactId>humanity-server</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>Server</name>
-    <description>AP Computer Science 2014 final project</description>
+    <name>server</name>
+    <description>Connection management, information distribution for humanity</description>
     <url>https://github.com/humanity/humanity</url>
     <inceptionYear>2014</inceptionYear>
 

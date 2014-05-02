@@ -8,8 +8,8 @@
     <artifactId>humanity-core</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>Core</name>
-    <description>AP Computer Science 2014 final project</description>
+    <name>core</name>
+    <description>Shared interfaces and abstract classes between client and server</description>
     <url>https://github.com/humanity/humanity</url>
     <inceptionYear>2014</inceptionYear>
 

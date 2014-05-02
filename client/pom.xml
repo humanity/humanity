@@ -8,8 +8,8 @@
     <artifactId>humanity-client</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>Client</name>
-    <description>AP Computer Science 2014 final project</description>
+    <name>client</name>
+    <description>Local verison of humanity, used to communicate with the upstream server</description>
     <url>https://github.com/humanity/humanity</url>
     <inceptionYear>2014</inceptionYear>
 
