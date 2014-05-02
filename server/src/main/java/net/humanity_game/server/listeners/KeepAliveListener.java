@@ -18,6 +18,7 @@ public class KeepAliveListener implements Listenable {
 
     @Handler(priority = HandlerPriority.MONITOR)
     public void onKeepAliveIncoming(Packet01KeepAlive packet, ClientConnection client) {
-        client.sendPacket(new Packet01KeepAlive(packet.getUuid()));
+        // send back an identical keep-alive packet directed at the client and with the identical keep-alive id
+        client.sendPacket(new Packet01KeepAlive(packet.getClientId(), packet.getKeepAliveId()));
     }
 }

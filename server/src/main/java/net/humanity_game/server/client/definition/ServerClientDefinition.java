@@ -43,7 +43,7 @@ public class ServerClientDefinition implements IClientDefinition {
 
     public PlayerState setPlayerState(PlayerState newPlayerState) {
         this.state = newPlayerState;
-        this.owner.sendPacket(new Packet05PlayerStateChange(newPlayerState));
+        this.owner.sendPacket(new Packet05PlayerStateChange(this.getUUID(), newPlayerState));
         return this.state;
     }
 
@@ -57,7 +57,7 @@ public class ServerClientDefinition implements IClientDefinition {
     }
 
     public void updatePlayerHand(List<WhiteCard> newCards) {
-        Packet06HandUpdate packet = new Packet06HandUpdate(newCards, null);
+        Packet06HandUpdate packet = new Packet06HandUpdate(this.getUUID(), newCards, null);
         this.owner.sendPacket(packet);
     }
 

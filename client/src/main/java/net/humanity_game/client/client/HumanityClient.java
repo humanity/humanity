@@ -3,8 +3,8 @@ package net.humanity_game.client.client;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 import net.humanity_game.client.Bootstrap;
-import net.humanity_game.client.ClientPacketHandler;
-import net.humanity_game.client.IncomingPacketListener;
+import net.humanity_game.client.packets.ClientPacketHandler;
+import net.humanity_game.client.packets.IncomingPacketListener;
 import net.humanity_game.client.definition.ClientClientDefinition;
 import net.humanity_game.client.listeners.JoinVerificationListener;
 import net.humanity_game.client.tasks.KeepAliveTask;
@@ -89,7 +89,7 @@ public class HumanityClient {
                     this.logger.info("Successfully connected to server at {}", this.address);
                 }
 
-                this.sendPacket(new Packet02Handshake("Fred"));
+                this.sendPacket(new Packet02Handshake(this.clientId, "Fred"));
 
                 break;
             } catch (ConnectException e) {

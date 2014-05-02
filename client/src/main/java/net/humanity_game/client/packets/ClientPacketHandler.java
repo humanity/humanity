@@ -1,10 +1,10 @@
-package net.humanity_game.client;
+package net.humanity_game.client.packets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import net.humanity_game.client.client.HumanityClient;
-import net.humanity_game.server.handlers.Handler;
-import net.humanity_game.server.handlers.HandlerSnapshot;
+import net.humanity_game.client.packets.handler.ClientHandler;
+import net.humanity_game.client.packets.handler.ClientHandlerSnapshot;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.Packet;
 import net.humanity_game.server.packets.core.*;
@@ -20,7 +20,7 @@ public class ClientPacketHandler {
 
     private static final int INITIAL_PACKET_QUEUE_SIZE = 16;
 
-    private Map<Class<? extends Packet>, PriorityQueue<HandlerSnapshot>> handlers;
+    private Map<Class<? extends Packet>, PriorityQueue<ClientHandlerSnapshot>> handlers;
     private HumanityClient client;
 
     public ClientPacketHandler(HumanityClient client) {
@@ -47,11 +47,24 @@ public class ClientPacketHandler {
     }
 
     public void handlePacket(Packet packet) {
-        for (HandlerSnapshot handler : this.handlers.get(packet.getClass())) { // TODO sorting
-            if (handler.getHandlingType().equals(packet.getClass())) {
+        for (ClientHandlerSnapshot handler : this.handlers.get(packet.getClass())) { // TODO sorting
+            if (handler.getType().equals(packet.getClass())) {
                 try {
                     this.client.getLogger().debug("(S->C) received: {}", packet.getClass().getSimpleName());
-                    handler.getMethod().invoke(handler.getInstance(), packet);
+
+                    // If the client intended ID is null, it goes to all clients
+                    if (packet.getClientId() == null) {
+                        handler.getMethod().invoke(handler.getInstance(), packet);
+                    } else {
+                        // If the handler only handles itself and the UUID is a direct match (or if our UUID is null), invoke
+                        // fixme
+                        if (handler.getAnnotation().handleSelf() && (packet.getClientId().equals(this.client.getDefnition().getUUID()) || this.client.getDefnition().getUUID() == null)) {
+                            handler.getMethod().invoke(handler.getInstance(), packet);
+                        } else if (!handler.getAnnotation().handleSelf() && !(packet.getClientId().equals(this.client.getDefnition().getUUID()))) {
+                            // Otherwise, if the handler handles others, and the UUID does not match, invoke
+                            handler.getMethod().invoke(handler.getInstance(), packet);
+                        }
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
@@ -63,13 +76,13 @@ public class ClientPacketHandler {
 
     public void registerHandlers(Listenable listenable) {
         for (Method method : listenable.getClass().getMethods()) {
-            if (method.getAnnotation(Handler.class) != null) {
-                Handler annotation = method.getAnnotation(Handler.class);
+            if (method.getAnnotation(ClientHandler.class) != null) {
+                ClientHandler annotation = method.getAnnotation(ClientHandler.class);
                 if (method.getParameterTypes().length == 1) {
                     Class<?> clazz = method.getParameterTypes()[0];
                     if (Packet.class.isAssignableFrom(clazz)) {
-                        HandlerSnapshot snapshot = new HandlerSnapshot(listenable, method, (Class<? extends Packet>) clazz, annotation);
-                        this.registerPacketHandler(snapshot, snapshot.getHandlingType());
+                        ClientHandlerSnapshot snapshot = new ClientHandlerSnapshot(listenable, method, (Class<? extends Packet>) clazz, annotation);
+                        this.registerPacketHandler(snapshot, snapshot.getType());
                     } else {
                         throw new IllegalArgumentException("The first argument is not a packet");
                     }
@@ -83,8 +96,8 @@ public class ClientPacketHandler {
     public boolean unregisterHandlers(Listenable listenable) {
         boolean removed = false;
 
-        for (Map.Entry<Class<? extends Packet>, PriorityQueue<HandlerSnapshot>> entry : new HashSet<>(this.handlers.entrySet())) {
-            for(HandlerSnapshot handler : new ArrayList<>(entry.getValue())) {
+        for (Map.Entry<Class<? extends Packet>, PriorityQueue<ClientHandlerSnapshot>> entry : new HashSet<>(this.handlers.entrySet())) {
+            for(ClientHandlerSnapshot handler : new ArrayList<>(entry.getValue())) {
                 if(handler.getInstance() == listenable) {
                     this.handlers.get(entry.getKey()).remove(handler);
                     removed = true;
@@ -98,24 +111,24 @@ public class ClientPacketHandler {
         return removed;
     }
 
-    private boolean registerPacketHandler(HandlerSnapshot snapshot, Class<? extends Packet> handlingType) {
+    private boolean registerPacketHandler(ClientHandlerSnapshot snapshot, Class<? extends Packet> handlingType) {
         if (!this.handlers.containsKey(handlingType)) {
             throw new IllegalArgumentException("cannot handle this type of packet");
         } else {
-            PriorityQueue<HandlerSnapshot> handlers = this.handlers.get(handlingType);
+            PriorityQueue<ClientHandlerSnapshot> handlers = this.handlers.get(handlingType);
 
             this.client.getLogger().debug("Registered handler {}.{}", snapshot.getInstance().getClass().getSimpleName(), snapshot.getMethod().getName());
             return handlers.add(snapshot);
         }
     }
 
-    public List<HandlerSnapshot> getHandler(Class<? extends Packet> packet) {
+    public List<ClientHandlerSnapshot> getHandler(Class<? extends Packet> packet) {
         return ImmutableList.copyOf(this.handlers.get(packet));
     }
 
-    private Comparator<HandlerSnapshot> snapshotComparator = new Comparator<HandlerSnapshot>() {
+    private Comparator<ClientHandlerSnapshot> snapshotComparator = new Comparator<ClientHandlerSnapshot>() {
         @Override
-        public int compare(HandlerSnapshot o1, HandlerSnapshot o2) {
+        public int compare(ClientHandlerSnapshot o1, ClientHandlerSnapshot o2) {
             return o1.getAnnotation().priority().compareTo(o2.getAnnotation().priority());
         }
     };

@@ -11,8 +11,9 @@ public class Packet07CreatePool extends Packet {
     private final UUID gameId;
     private final BlackCard choice;
 
-    public Packet07CreatePool(BlackCard choice) {
-        this.gameId = UUID.randomUUID();
+    public Packet07CreatePool(UUID uuid, BlackCard choice) {
+        super(uuid);
+        this.gameId = UUID.randomUUID(); // uh?
         this.choice = Preconditions.checkNotNull(choice, "choice");
     }
 
