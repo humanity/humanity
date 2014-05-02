@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.humanity_game</groupId>
-    <artifactId>humanity-server</artifactId>
+    <artifactId>humanity-core</artifactId>
     <version>0.1-SNAPSHOT</version>
 
-    <name>Server</name>
+    <name>Core</name>
     <description>AP Computer Science 2014 final project</description>
     <url>https://github.com/humanity/humanity</url>
     <inceptionYear>2014</inceptionYear>
@@ -17,20 +17,6 @@
         <connection>scm:git:https://github.com/humanity/humanity.git</connection>
         <url>https://github.com/humanity/humanity</url>
     </scm>
-
-    <parent>
-        <groupId>net.humanity_game</groupId>
-        <artifactId>humanity</artifactId>
-        <version>0.1-SNAPSHOT</version>
-    </parent>
-
-    <dependencies>
-        <dependency>
-            <groupId>net.humanity_game</groupId>
-            <artifactId>humanity-core</artifactId>
-            <version>0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -59,8 +45,6 @@
                                     <include>joda-time:joda-time</include>
                                     <include>com.google.guava:guava</include>
                                     <include>com.ttaylorr.dev:logger</include>
-                                    <include>com.google.gson:gson</include>
-                                    <include>net.humanity_game:humanity-core</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -101,12 +85,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
     <distributionManagement>

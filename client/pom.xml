@@ -9,19 +9,24 @@
     <version>0.1-SNAPSHOT</version>
 
     <name>Client</name>
-    <description>AP Computer Science 2014 final project</description>
+    <description>AP Computer Science 2014 final prvn coject</description>
     <url>https://github.com/humanity/humanity</url>
     <inceptionYear>2014</inceptionYear>
 
     <scm>
-        <connection>scm:git:https://github.com/ttaylorr/humanity.git</connection>
-        <url>https://github.com/ttaylorr/humanity</url>
+        <connection>scm:git:https://github.com/humanity/humanity.git</connection>
+        <url>https://github.com/humanity/humanity</url>
     </scm>
 
     <dependencies>
         <dependency>
             <groupId>net.humanity_game</groupId>
             <artifactId>humanity-server</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.humanity_game</groupId>
+            <artifactId>humanity-core</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
@@ -53,6 +58,7 @@
                                     <include>joda-time:joda-time</include>
                                     <include>com.google.guava:guava</include>
                                     <include>com.ttaylorr.dev:logger</include>
+                                    <include>net.humanity_game:humanity-core</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
