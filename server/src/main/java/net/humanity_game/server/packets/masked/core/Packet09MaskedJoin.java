@@ -7,7 +7,6 @@ import net.humanity_game.server.packets.masked.AbstractMaskedPacket;
 public class Packet09MaskedJoin extends AbstractMaskedPacket {
 
     private final Type type;
-
     private final String name;
     private final String host;
     private final int port;

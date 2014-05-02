@@ -4,6 +4,12 @@ import net.humanity_game.server.packets.Packet;
 
 import java.util.UUID;
 
+/**
+ * Join = the packet sent to a specific client saying that it has in fact joined.
+ * MaskedJoin = the packet alerting all other clients to a client's connection.
+ *
+ * My question is: should this instead use the upcoming separate-handlers by client system?
+ */
 public class Packet04Join extends Packet {
 
     private JoinState state;
