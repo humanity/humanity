@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import net.humanity_game.server.cards.card.WhiteCard;
 import net.humanity_game.server.packets.Packet;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,8 +16,8 @@ public class Packet06HandUpdate extends Packet {
     private final REMOVE_BEHAVIOR remove;
 
     public Packet06HandUpdate(Collection<WhiteCard> newCards, Collection<WhiteCard> removedCards) {
-        this.newCards = Lists.newArrayList(newCards);
-        this.removedCards = Lists.newArrayList(removedCards);
+        this.newCards = newCards == null ? new ArrayList<WhiteCard>() : Lists.newArrayList(newCards);
+        this.removedCards = removedCards == null ? new ArrayList<WhiteCard>() : Lists.newArrayList(removedCards);
         remove = REMOVE_BEHAVIOR.UNSPECIFIED;
     }
 

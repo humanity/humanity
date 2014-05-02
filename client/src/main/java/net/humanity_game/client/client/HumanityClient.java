@@ -1,5 +1,7 @@
 package net.humanity_game.client.client;
 
+import com.ttaylorr.dev.logger.Logger;
+import com.ttaylorr.dev.logger.LoggerProvider;
 import net.humanity_game.client.Bootstrap;
 import net.humanity_game.client.ClientPacketHandler;
 import net.humanity_game.client.IncomingPacketListener;
@@ -7,8 +9,6 @@ import net.humanity_game.client.definition.ClientClientDefinition;
 import net.humanity_game.client.listeners.JoinVerificationListener;
 import net.humanity_game.client.tasks.KeepAliveTask;
 import net.humanity_game.server.packets.Packet;
-import com.ttaylorr.dev.logger.Logger;
-import com.ttaylorr.dev.logger.LoggerProvider;
 import net.humanity_game.server.packets.core.Packet02Handshake;
 
 import java.io.IOException;
@@ -17,9 +17,16 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.concurrent.*;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class HumanityClient {
+
+    private final UUID clientId;
+    private String name;
 
     private final InetSocketAddress address;
     private final Logger logger;
@@ -34,16 +41,28 @@ public class HumanityClient {
 
     private ScheduledFuture<?> keepAliveWaitable;
 
-    public HumanityClient(String hostname, int port) {
-        this(new InetSocketAddress(hostname, port));
+    public HumanityClient(UUID uuid, String hostname, int port) {
+        this(uuid, new InetSocketAddress(hostname, port));
     }
 
-    public HumanityClient(InetSocketAddress address) {
+    public HumanityClient(UUID clientId, InetSocketAddress address) {
         this.address = address;
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.packetHandler = new ClientPacketHandler(this);
         this.defnition = new ClientClientDefinition(this);
+        this.clientId = clientId;
     }
+
+    /**
+     * Before the client connects, the client won't know its UUID.
+     * Should the client assign its own UUID or should the server assign the client one and then tell it?
+     * @param hostname
+     * @param port
+     */
+    public HumanityClient(String hostname, int port) {
+        this(UUID.randomUUID(), hostname, port);
+    }
+
 
     public void openConnection() {
         this.setup();
@@ -177,5 +196,9 @@ public class HumanityClient {
 
     public Logger getLogger() {
         return this.logger;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

@@ -1,13 +1,15 @@
 package net.humanity_game.client.listeners;
 
 import com.google.common.base.Preconditions;
-import net.humanity_game.client.client.MaskedHumanityClient;
+import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.game.ClientGame;
 import net.humanity_game.server.handlers.Handler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.masked.core.Packet09MaskedJoin;
 import net.humanity_game.server.packets.masked.core.Packet11MaskedDisconnect;
+
+import java.net.InetSocketAddress;
 
 public class OtherJoinListener implements Listenable {
 
@@ -26,21 +28,29 @@ public class OtherJoinListener implements Listenable {
             builder.append("was previously connected ");
         }
         builder.append("with UUID: ");
-        builder.append(packet.getWho().getClientId());
+        builder.append(packet.getTarget());
 
-        this.game.connectPlayer(MaskedHumanityClient.fromMaskedClientConnection(packet.getWho()));
+        HumanityClient newClient = new HumanityClient(packet.getTarget(), new InetSocketAddress(packet.getHost(), packet.getPort()));
+
+        this.game.connectPlayer(newClient);
         this.game.getLogger().info(builder.toString());
     }
 
     @Handler(priority = HandlerPriority.MONITOR)
     public void onMaskedDisconnect(Packet11MaskedDisconnect packet) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Other client ");
-        builder.append("(" + packet.getWho().getName() + ") ");
-        builder.append("has disconnected with the UUID: ");
-        builder.append(packet.getWho().getClientId());
 
-        this.game.handleLogout(MaskedHumanityClient.fromMaskedClientConnection(packet.getWho()));
+        if (game.getClientManager().getClientById(packet.getTarget()) == null) {
+            builder.append("Other client (").append(packet.getTarget().toString()).append(") has been disconnected. This client didn't previously know about this client.");
+        } else {
+            builder.append("Other client ");
+            builder.append("(" + this.game.getClientManager().getClientById(packet.getTarget()).getName() + ") ");
+            builder.append("has disconnected with the UUID: ");
+            builder.append(packet.getTarget());
+
+            this.game.handleLogout(this.game.getClientManager().getClientById(packet.getTarget()));
+        }
         this.game.getLogger().info(builder.toString());
+
     }
 }
