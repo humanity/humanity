@@ -2,7 +2,6 @@ package net.humanity_game.client.listeners;
 
 import com.google.common.base.Preconditions;
 import net.humanity_game.client.client.HumanityClient;
-import net.humanity_game.client.client.MaskedHumanityClient;
 import net.humanity_game.client.game.ClientGame;
 import net.humanity_game.server.handlers.Handler;
 import net.humanity_game.server.handlers.HandlerPriority;
@@ -45,11 +44,11 @@ public class OtherJoinListener implements Listenable {
             builder.append("Other client (").append(packet.getTarget().toString()).append(") has been disconnected. This client didn't previously know about this client.");
         } else {
             builder.append("Other client ");
-            builder.append("(" + packet.getWho().getName() + ") ");
+            builder.append("(" + this.game.getClientManager().getClientById(packet.getTarget()).getName() + ") ");
             builder.append("has disconnected with the UUID: ");
-            builder.append(packet.getWho().getClientId());
+            builder.append(packet.getTarget());
 
-            this.game.handleLogout(MaskedHumanityClient.fromMaskedClientConnection(packet.getWho()));
+            this.game.handleLogout(this.game.getClientManager().getClientById(packet.getTarget()));
         }
         this.game.getLogger().info(builder.toString());
 

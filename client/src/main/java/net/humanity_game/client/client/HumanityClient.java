@@ -53,6 +53,17 @@ public class HumanityClient {
         this.clientId = clientId;
     }
 
+    /**
+     * Before the client connects, the client won't know its UUID.
+     * Should the client assign its own UUID or should the server assign the client one and then tell it?
+     * @param hostname
+     * @param port
+     */
+    public HumanityClient(String hostname, int port) {
+        this(UUID.randomUUID(), hostname, port);
+    }
+
+
     public void openConnection() {
         this.setup();
         this.logger.info("Attempting to open a connection...");
@@ -185,5 +196,9 @@ public class HumanityClient {
 
     public Logger getLogger() {
         return this.logger;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
