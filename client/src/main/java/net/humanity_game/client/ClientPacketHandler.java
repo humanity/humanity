@@ -2,7 +2,6 @@ package net.humanity_game.client;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.sun.javafx.collections.transformation.SortedList;
 import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.server.handlers.Handler;
 import net.humanity_game.server.handlers.HandlerSnapshot;
@@ -19,7 +18,9 @@ import java.util.*;
 
 public class ClientPacketHandler {
 
-    private Map<Class<? extends Packet>, SortedList<HandlerSnapshot>> handlers;
+    private static final int INITIAL_PACKET_QUEUE_SIZE = 16;
+
+    private Map<Class<? extends Packet>, PriorityQueue<HandlerSnapshot>> handlers;
     private HumanityClient client;
 
     public ClientPacketHandler(HumanityClient client) {
@@ -31,18 +32,18 @@ public class ClientPacketHandler {
 
     private void allowPackets() {
         // Non-masked packets
-        this.handlers.put(Packet01KeepAlive.class,               new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
-        this.handlers.put(Packet03Disconnect.class,              new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
-        this.handlers.put(Packet04Join.class,                    new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
-        this.handlers.put(Packet05PlayerStateChange.class,       new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
-        this.handlers.put(Packet06HandUpdate.class,              new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
-        this.handlers.put(Packet07CreatePool.class,              new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
-        this.handlers.put(Packet08GameChangeState.class,         new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet01KeepAlive.class,               new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet03Disconnect.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet04Join.class,                    new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet05PlayerStateChange.class,       new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet06HandUpdate.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet07CreatePool.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet08GameChangeState.class,         new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
 
         // Masked packets
-        this.handlers.put(Packet09MaskedJoin.class,              new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
-        this.handlers.put(Packet11MaskedDisconnect.class,        new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
-        this.handlers.put(Packet12MaskedPlayerStateChange.class, new SortedList<>(new ArrayList<HandlerSnapshot>(), snapshotComparator));
+        this.handlers.put(Packet09MaskedJoin.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet11MaskedDisconnect.class,        new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet12MaskedPlayerStateChange.class, new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
     }
 
     public void handlePacket(Packet packet) {
@@ -82,7 +83,7 @@ public class ClientPacketHandler {
     public boolean unregisterHandlers(Listenable listenable) {
         boolean removed = false;
 
-        for (Map.Entry<Class<? extends Packet>, SortedList<HandlerSnapshot>> entry : new HashSet<>(this.handlers.entrySet())) {
+        for (Map.Entry<Class<? extends Packet>, PriorityQueue<HandlerSnapshot>> entry : new HashSet<>(this.handlers.entrySet())) {
             for(HandlerSnapshot handler : new ArrayList<>(entry.getValue())) {
                 if(handler.getInstance() == listenable) {
                     this.handlers.get(entry.getKey()).remove(handler);
@@ -101,7 +102,7 @@ public class ClientPacketHandler {
         if (!this.handlers.containsKey(handlingType)) {
             throw new IllegalArgumentException("cannot handle this type of packet");
         } else {
-            List<HandlerSnapshot> handlers = this.handlers.get(handlingType);
+            PriorityQueue<HandlerSnapshot> handlers = this.handlers.get(handlingType);
 
             this.client.getLogger().debug("Registered handler {}.{}", snapshot.getInstance().getClass().getSimpleName(), snapshot.getMethod().getName());
             return handlers.add(snapshot);
