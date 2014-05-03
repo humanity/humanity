@@ -19,8 +19,13 @@ public class Packet09UpdatePlayerList extends Packet {
 
     final List<PlayerUpdate> playerUpdates;
 
+    public Packet09UpdatePlayerList() {
+        super(null);
+        playerUpdates = new ArrayList<>();
+    }
+
     public Packet09UpdatePlayerList( Collection<ClientConnection> clients) {
-        playerUpdates = new ArrayList(clients.size());
+        this();
         for (ClientConnection client : clients) {
             if (client == null) // not preconditions to allow more flexibility.
                 continue;
@@ -35,9 +40,9 @@ public class Packet09UpdatePlayerList extends Packet {
     }
 
     public Packet09UpdatePlayerList(ClientConnection client, Type type) {
+        this();
         Preconditions.checkNotNull(client, "client");
         Preconditions.checkNotNull(type, "type");
-        playerUpdates = new ArrayList<>();
         playerUpdates.add(new PlayerUpdate(client, type));
     }
 
@@ -47,13 +52,9 @@ public class Packet09UpdatePlayerList extends Packet {
      * @param model
      */
     public Packet09UpdatePlayerList(List<PlayerUpdate> model) {
+        super(null);
         playerUpdates = model;
     }
-
-    public Packet09UpdatePlayerList() {
-        playerUpdates = new ArrayList<>();
-    }
-
 
     public void addPlayerUpdate(ClientConnection connection, Type type) {
         Preconditions.checkNotNull(connection, "client");
