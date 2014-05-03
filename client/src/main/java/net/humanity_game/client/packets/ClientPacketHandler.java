@@ -8,8 +8,6 @@ import net.humanity_game.client.packets.handler.ClientHandlerSnapshot;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.Packet;
 import net.humanity_game.server.packets.core.*;
-import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
-import net.humanity_game.server.packets.core.Packet12MaskedPlayerStateChange;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,7 +28,7 @@ public class ClientPacketHandler {
     }
 
     private void allowPackets() {
-        // Non-masked packets
+        //packets registered to be used:
         this.handlers.put(Packet01KeepAlive.class,               new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet03Disconnect.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet04Join.class,                    new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
@@ -38,10 +36,7 @@ public class ClientPacketHandler {
         this.handlers.put(Packet06HandUpdate.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet07CreatePool.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet08GameChangeState.class,         new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-
-        // Masked packets
-        this.handlers.put(Packet09UpdatePlayerList.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet12MaskedPlayerStateChange.class, new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet09UpdatePlayerList.class,        new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
     }
 
     public void handlePacket(Packet packet) {
