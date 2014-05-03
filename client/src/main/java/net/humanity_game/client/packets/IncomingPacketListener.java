@@ -2,13 +2,12 @@ package net.humanity_game.client.packets;
 
 import net.humanity_game.client.Bootstrap;
 import net.humanity_game.client.client.HumanityClient;
+import net.humanity_game.core.packets.AbstractIncomingPacketListener;
 import net.humanity_game.server.packets.Packet;
 
-import java.io.EOFException;
 import java.io.IOException;
-import java.net.SocketException;
 
-public class IncomingPacketListener implements Runnable {
+public class IncomingPacketListener extends AbstractIncomingPacketListener {
 
     private final HumanityClient client;
 
@@ -18,30 +17,44 @@ public class IncomingPacketListener implements Runnable {
 
     @Override
     public void run() {
-        client.getLogger().info("Ready to listen for packets from the server...");
+        this.client.getLogger().info("Ready to listen for packets from the server...");
         while (true) {
-            try {
-                Object incoming = client.getInputStream().readObject();
-                if (incoming instanceof Packet) {
-                    Packet packet = (Packet) incoming;
-                    this.client.getPacketHandler().handlePacket(packet);
+            if (this.isCloseRequested()) {
+                return;
+            } else if (this.isDataPresent()) {
+                Object obj = this.readObject();
+
+                if (obj instanceof Packet) {
+                    this.client.getPacketHandler().handlePacket((Packet) obj);
                 }
-                try {
-                    Thread.sleep(Bootstrap.LOOP_DELAY);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } catch(SocketException e) {
-                Bootstrap.requestClose();
-                break;
-            } catch(EOFException e) {
-                Bootstrap.requestClose();
-                break;
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            } else {
+                this.yield();
             }
         }
+    }
+
+    @Override
+    protected Object readObject() {
+        try {
+            return this.client.getInputStream().readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            this.client.getLogger().warn("Unrecoverable error! The server dropped its connection.");
+            Bootstrap.requestClose();
+            System.exit(-1);
+        }
+        return null;
+    }
+
+    @Override
+    protected boolean isDataPresent() {
+        try {
+            int available = this.client.getInputStream().available();
+            return available == 0;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
