@@ -12,7 +12,7 @@ import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.client.player.PlayerState;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.packets.core.Packet08GameChangeState;
-import net.humanity_game.server.packets.masked.core.Packet11MaskedDisconnect;
+import net.humanity_game.server.packets.core.Packet11RemovedPlayersList;
 
 import java.io.File;
 import java.util.Collections;
@@ -82,7 +82,7 @@ public class HumanityGame {
         }
 
         for (ClientConnection client : this.players) {
-            client.sendPacket(new Packet11MaskedDisconnect(disconnecting.getClientId()));
+            client.sendPacket(new Packet11RemovedPlayersList(disconnecting.getClientId()));
         }
     }
 

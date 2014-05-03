@@ -1,7 +1,7 @@
-package net.humanity_game.server.packets.masked.core;
+package net.humanity_game.server.packets.core;
 
 import net.humanity_game.server.client.player.PlayerState;
-import net.humanity_game.server.packets.masked.AbstractMaskedPacket;
+import net.humanity_game.server.packets.AbstractMaskedPacket;
 
 import java.util.UUID;
 

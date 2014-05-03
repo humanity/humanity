@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import net.humanity_game.server.HumanityServer;
 import net.humanity_game.server.packets.core.Packet03Disconnect;
-import net.humanity_game.server.packets.masked.core.Packet11MaskedDisconnect;
+import net.humanity_game.server.packets.core.Packet11RemovedPlayersList;
 import net.humanity_game.server.queue.IncomingPacketListener;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
@@ -51,7 +51,7 @@ public class ServerClientManager implements IClientManager<ClientConnection> {
         IncomingPacketListener value = this.clientPacketListeners.remove(client);
         value.requestClose();
 
-        Packet11MaskedDisconnect maskedDisconnectPacket = new Packet11MaskedDisconnect(client.getClientId());
+        Packet11RemovedPlayersList maskedDisconnectPacket = new Packet11RemovedPlayersList(client.getClientId());
         for (ClientConnection connected : this.connectedClients) {
             this.logger.debug("fu");
             connected.sendPacket(maskedDisconnectPacket);

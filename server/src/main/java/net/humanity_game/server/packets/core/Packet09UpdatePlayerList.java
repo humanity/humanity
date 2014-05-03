@@ -1,9 +1,9 @@
-package net.humanity_game.server.packets.masked.core;
+package net.humanity_game.server.packets.core;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import net.humanity_game.server.client.ClientConnection;
-import net.humanity_game.server.packets.masked.AbstractMaskedPacket;
+import net.humanity_game.server.packets.AbstractMaskedPacket;
 
 import java.util.ArrayList;
 import java.util.Collection;

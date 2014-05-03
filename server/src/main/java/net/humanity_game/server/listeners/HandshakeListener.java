@@ -8,7 +8,7 @@ import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet02Handshake;
 import net.humanity_game.server.packets.core.Packet04Join;
-import net.humanity_game.server.packets.masked.core.Packet09UpdatePlayerList;
+import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
 
 public class HandshakeListener implements Listenable {
 

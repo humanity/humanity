@@ -7,9 +7,11 @@ import net.humanity_game.client.game.ClientGame;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
-import net.humanity_game.server.packets.masked.core.Packet09UpdatePlayerList;
+import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
+import net.humanity_game.server.packets.core.Packet11RemovedPlayersList;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 
 public class OtherJoinListener implements Listenable {
 
@@ -43,6 +45,32 @@ public class OtherJoinListener implements Listenable {
         HumanityClient newClient = new HumanityClient(player.getClientId(), new InetSocketAddress(player.getHost(), player.getPort()));
 
         this.game.connectPlayer(newClient);
+        this.game.getLogger().info(builder.toString());
+    }
+
+
+    @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
+    public void onMaskedDisconnect(Packet11RemovedPlayersList packet) {
+        ImmutableList<UUID> toRemove = packet.getUpdatedPlayers();
+        for (UUID client : toRemove) {
+            handleDisconnection(client);
+        }
+    }
+
+    private void handleDisconnection(UUID uuid) {
+
+        StringBuilder builder = new StringBuilder();
+
+        if (game.getClientManager().getClientById(uuid) == null) {
+            builder.append("Other client (").append(uuid.toString()).append(") has been disconnected. This client didn't previously know about this client.");
+        } else {
+            builder.append("Other client ");
+            builder.append("(" + this.game.getClientManager().getClientById(uuid).getName() + ") ");
+            builder.append("has disconnected with the UUID: ");
+            builder.append(uuid);
+
+            this.game.handleLogout(this.game.getClientManager().getClientById(uuid));
+        }
         this.game.getLogger().info(builder.toString());
     }
 
