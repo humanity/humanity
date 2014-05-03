@@ -1,13 +1,13 @@
 package net.humanity_game.client.listeners;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.game.ClientGame;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
-import net.humanity_game.server.packets.masked.core.Packet09MaskedJoin;
-import net.humanity_game.server.packets.masked.core.Packet11MaskedDisconnect;
+import net.humanity_game.server.packets.masked.core.Packet09UpdatePlayerList;
 
 import java.net.InetSocketAddress;
 
@@ -23,40 +23,27 @@ public class OtherJoinListener implements Listenable {
         priority = HandlerPriority.MONITOR,
         handleSelf = false
     )
-    public void onMaskedJoin(Packet09MaskedJoin packet) {
+    public void onMaskedJoin(Packet09UpdatePlayerList packet) {
+        ImmutableList<Packet09UpdatePlayerList.PlayerUpdate> players = packet.getUpdatedPlayers();
+        for (Packet09UpdatePlayerList.PlayerUpdate player : players) {
+            handlePlayer(player);
+        }
+    }
+
+    private void handlePlayer(Packet09UpdatePlayerList.PlayerUpdate player) {
         StringBuilder builder = new StringBuilder("Other client ");
-        if (packet.getType() == Packet09MaskedJoin.Type.NEW_JOIN) {
+        if (player.getType() == Packet09UpdatePlayerList.Type.NEW_JOIN) {
             builder.append("joined ");
         } else {
             builder.append("was previously connected ");
         }
         builder.append("with UUID: ");
-        builder.append(packet.getTarget());
+        builder.append(player.getClientId());
 
-        HumanityClient newClient = new HumanityClient(packet.getTarget(), new InetSocketAddress(packet.getHost(), packet.getPort()));
+        HumanityClient newClient = new HumanityClient(player.getClientId(), new InetSocketAddress(player.getHost(), player.getPort()));
 
         this.game.connectPlayer(newClient);
         this.game.getLogger().info(builder.toString());
     }
 
-    @ClientHandler(
-        priority = HandlerPriority.MONITOR,
-        handleSelf = false
-    )
-    public void onMaskedDisconnect(Packet11MaskedDisconnect packet) {
-        StringBuilder builder = new StringBuilder();
-
-        if (game.getClientManager().getClientById(packet.getTarget()) == null) {
-            builder.append("Other client (").append(packet.getTarget().toString()).append(") has been disconnected. This client didn't previously know about this client.");
-        } else {
-            builder.append("Other client ");
-            builder.append("(" + this.game.getClientManager().getClientById(packet.getTarget()).getName() + ") ");
-            builder.append("has disconnected with the UUID: ");
-            builder.append(packet.getTarget());
-
-            this.game.handleLogout(this.game.getClientManager().getClientById(packet.getTarget()));
-        }
-        this.game.getLogger().info(builder.toString());
-
-    }
 }
