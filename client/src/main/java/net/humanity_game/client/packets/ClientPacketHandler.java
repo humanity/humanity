@@ -9,7 +9,6 @@ import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.Packet;
 import net.humanity_game.server.packets.core.*;
 import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
-import net.humanity_game.server.packets.core.Packet11RemovedPlayersList;
 import net.humanity_game.server.packets.core.Packet12MaskedPlayerStateChange;
 
 import java.lang.reflect.InvocationTargetException;
@@ -42,7 +41,6 @@ public class ClientPacketHandler {
 
         // Masked packets
         this.handlers.put(Packet09UpdatePlayerList.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet11RemovedPlayersList.class,        new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet12MaskedPlayerStateChange.class, new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
     }
 

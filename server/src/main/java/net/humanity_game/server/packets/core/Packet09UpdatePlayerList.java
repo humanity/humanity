@@ -2,8 +2,9 @@ package net.humanity_game.server.packets.core;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import net.humanity_game.server.client.ClientConnection;
-import net.humanity_game.server.packets.AbstractMaskedPacket;
+import net.humanity_game.server.packets.Packet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,12 +14,11 @@ import java.util.UUID;
 /**
  * Server->Client
  */
-public class Packet09UpdatePlayerList extends AbstractMaskedPacket {
+public class Packet09UpdatePlayerList extends Packet {
 
     final List<PlayerUpdate> playerUpdates;
 
-    public Packet09UpdatePlayerList(ClientConnection target, Collection<ClientConnection> clients) {
-        super(target);
+    public Packet09UpdatePlayerList( Collection<ClientConnection> clients) {
         playerUpdates = new ArrayList(clients.size());
         for (ClientConnection client : clients) {
             if (client == null) // not preconditions to allow more flexibility.
@@ -26,32 +26,48 @@ public class Packet09UpdatePlayerList extends AbstractMaskedPacket {
             else
                 playerUpdates.add(new PlayerUpdate(client, Type.NEW_JOIN));
         }
-
         Preconditions.checkState(playerUpdates.size() > 0, "no players in player update list");
     }
 
-    public void updateExistingPlayer(ClientConnection client) {
+    public Packet09UpdatePlayerList(ClientConnection client) {
+        this(Lists.newArrayList(client));
+    }
+
+    public Packet09UpdatePlayerList(ClientConnection client, Type type) {
         Preconditions.checkNotNull(client, "client");
-        playerUpdates.add(new PlayerUpdate(client, Type.PREVIOUSLY_CONNECTED));
+        Preconditions.checkNotNull(type, "type");
+        playerUpdates = new ArrayList<>();
+        playerUpdates.add(new PlayerUpdate(client, type));
     }
 
-    public void updateExistingPlayer(Collection<ClientConnection> clients) {
-        for (ClientConnection client : clients) {
-            if (client == null) // not preconditions to allow more flexibility.
-                continue;
-            else
-                playerUpdates.add(new PlayerUpdate(client, Type.PREVIOUSLY_CONNECTED));
-        }
+    /**
+     * List implementer can be specified so that the most appropriate kind is always used, or, default to ArrayList.
+     *
+     * @param model
+     */
+    public Packet09UpdatePlayerList(List<PlayerUpdate> model) {
+        playerUpdates = model;
     }
 
-   public ImmutableList<PlayerUpdate> getUpdatedPlayers() {
+    public Packet09UpdatePlayerList() {
+        playerUpdates = new ArrayList<>();
+    }
+
+
+    public void addPlayerUpdate(ClientConnection connection, Type type) {
+        Preconditions.checkNotNull(connection, "client");
+        playerUpdates.add(new PlayerUpdate(connection, type));
+    }
+
+
+    public ImmutableList<PlayerUpdate> getUpdatedPlayers() {
         return ImmutableList.copyOf(playerUpdates);
     }
 
 
     public static enum Type {
+        REMOVAL,
         PREVIOUSLY_CONNECTED,
-
         NEW_JOIN;
     }
 

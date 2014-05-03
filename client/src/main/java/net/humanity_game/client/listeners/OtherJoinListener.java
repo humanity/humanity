@@ -8,7 +8,6 @@ import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
-import net.humanity_game.server.packets.core.Packet11RemovedPlayersList;
 
 import java.net.InetSocketAddress;
 import java.util.UUID;
@@ -28,6 +27,15 @@ public class OtherJoinListener implements Listenable {
     public void onMaskedJoin(Packet09UpdatePlayerList packet) {
         ImmutableList<Packet09UpdatePlayerList.PlayerUpdate> players = packet.getUpdatedPlayers();
         for (Packet09UpdatePlayerList.PlayerUpdate player : players) {
+            switch (player.getType()) {
+                case PREVIOUSLY_CONNECTED:
+                case NEW_JOIN:
+                    handlePlayer(player);
+                    break;
+                case REMOVAL:
+                    handleDisconnection(player);
+                    break;
+            }
             handlePlayer(player);
         }
     }
@@ -48,13 +56,8 @@ public class OtherJoinListener implements Listenable {
         this.game.getLogger().info(builder.toString());
     }
 
-
-    @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
-    public void onMaskedDisconnect(Packet11RemovedPlayersList packet) {
-        ImmutableList<UUID> toRemove = packet.getUpdatedPlayers();
-        for (UUID client : toRemove) {
-            handleDisconnection(client);
-        }
+    private void handleDisconnection(Packet09UpdatePlayerList.PlayerUpdate player) {
+        handleDisconnection(player.getClientId());
     }
 
     private void handleDisconnection(UUID uuid) {
@@ -73,5 +76,4 @@ public class OtherJoinListener implements Listenable {
         }
         this.game.getLogger().info(builder.toString());
     }
-
 }

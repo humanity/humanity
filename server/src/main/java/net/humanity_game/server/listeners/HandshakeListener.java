@@ -29,7 +29,7 @@ public class HandshakeListener implements Listenable {
 
         for(ClientConnection connectedClient : this.server.getClientManager().getConnectedClients()) {
             if (!(connectedClient.getClientId().equals(connectingClient.getClientId()))) {
-                connectedClient.sendPacket(new Packet09UpdatePlayerList(connectingClient, Packet09UpdatePlayerList.Type.NEW_JOIN));
+                connectedClient.sendPacket(new Packet09UpdatePlayerList(connectingClient));
             }
         }
 

@@ -2,12 +2,12 @@ package net.humanity_game.server.client;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import net.humanity_game.server.HumanityServer;
-import net.humanity_game.server.packets.core.Packet03Disconnect;
-import net.humanity_game.server.packets.core.Packet11RemovedPlayersList;
-import net.humanity_game.server.queue.IncomingPacketListener;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
+import net.humanity_game.server.HumanityServer;
+import net.humanity_game.server.packets.core.Packet03Disconnect;
+import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
+import net.humanity_game.server.queue.IncomingPacketListener;
 
 import java.util.*;
 
@@ -51,10 +51,10 @@ public class ServerClientManager implements IClientManager<ClientConnection> {
         IncomingPacketListener value = this.clientPacketListeners.remove(client);
         value.requestClose();
 
-        Packet11RemovedPlayersList maskedDisconnectPacket = new Packet11RemovedPlayersList(client.getClientId());
+        Packet09UpdatePlayerList changedPlayers = new Packet09UpdatePlayerList(client, Packet09UpdatePlayerList.Type.REMOVAL);
         for (ClientConnection connected : this.connectedClients) {
             this.logger.debug("fu");
-            connected.sendPacket(maskedDisconnectPacket);
+            connected.sendPacket(changedPlayers);
         }
 
         client.closeDequeue();
