@@ -1,5 +1,6 @@
-package net.humanity_game.client;
+package net.humanity_game.client.packets;
 
+import net.humanity_game.client.Bootstrap;
 import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.server.packets.Packet;
 

@@ -1,7 +1,7 @@
 package net.humanity_game.client.listeners;
 
 import net.humanity_game.client.client.HumanityClient;
-import net.humanity_game.server.handlers.Handler;
+import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet04Join;
@@ -14,11 +14,14 @@ public class JoinVerificationListener implements Listenable {
         this.client = client;
     }
 
-    @Handler(priority = HandlerPriority.NORMAL)
+    @ClientHandler(
+        priority = HandlerPriority.NORMAL,
+        handleSelf = true
+    )
     public void onJoin(Packet04Join packet) {
         if (packet.getState() == Packet04Join.JoinState.ALLOWED) {
             this.client.getLogger().info("Able to join game with status '{}'", packet.getReason());
-            this.client.getLogger().info("Assigned ID (from server): {}", packet.getServerAssignedUUID());
+            this.client.getLogger().info("Assigned ID (from server): {}", packet.getClientId());
         } else {
             this.client.getLogger().info("Forced to disconnect from the server with status '{}'", packet.getReason());
         }

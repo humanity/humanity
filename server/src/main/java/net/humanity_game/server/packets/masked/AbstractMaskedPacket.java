@@ -11,11 +11,12 @@ public class AbstractMaskedPacket extends Packet {
     private final UUID target;
 
     public AbstractMaskedPacket(UUID target) {
+        super(target);
         this.target = Preconditions.checkNotNull(target, "null uuid target");
     }
 
     public AbstractMaskedPacket(ClientConnection realTarget) {
-        this.target = Preconditions.checkNotNull(realTarget.getClientId(), "null target uuid");
+        this (realTarget.getClientId());
     }
 
     public UUID getTarget() {

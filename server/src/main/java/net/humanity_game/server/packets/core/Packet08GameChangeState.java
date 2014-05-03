@@ -10,6 +10,7 @@ public class Packet08GameChangeState extends Packet {
     private final GameState to;
 
     public Packet08GameChangeState(GameState from, GameState to) {
+        super(null);
         this.from = Preconditions.checkNotNull(from, "from");
         this.to = Preconditions.checkNotNull(to, "to");
     }

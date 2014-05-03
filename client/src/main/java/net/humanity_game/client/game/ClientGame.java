@@ -6,6 +6,7 @@ import net.humanity_game.client.cards.ClientTrick;
 import net.humanity_game.client.client.ClientManager;
 import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.listeners.OtherJoinListener;
+import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.handlers.Handler;
 import net.humanity_game.server.handlers.HandlerPriority;
@@ -58,12 +59,12 @@ public class ClientGame implements Listenable {
         return this.currentState;
     }
 
-    @Handler(priority = HandlerPriority.MONITOR)
+    @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
     public void onPoolCreate(Packet07CreatePool packet) {
         this.currentPool = new ClientTrick(packet.getGameId(), packet.getChoice(), this);
     }
 
-    @Handler(priority = HandlerPriority.MONITOR)
+    @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
     public void onGameStateChange(Packet08GameChangeState packet) {
         this.currentState = packet.getTo();
     }

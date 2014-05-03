@@ -2,6 +2,7 @@ package net.humanity_game.client.cards;
 
 import com.google.common.base.Preconditions;
 import net.humanity_game.client.client.HumanityClient;
+import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.cards.card.WhiteCard;
 import net.humanity_game.server.cards.hand.IHumanityHand;
 import net.humanity_game.server.handlers.Handler;
@@ -28,7 +29,10 @@ public class ClientHumanityHand implements IHumanityHand, Listenable, Serializab
         this.owner.getPacketHandler().registerHandlers(this);
     }
 
-    @Handler(priority = HandlerPriority.MONITOR) // TODO it seems to me that this would be a high-priority, not a run-last item.
+    @ClientHandler(
+        priority = HandlerPriority.MONITOR,
+        handleSelf = true
+    )
     public void onHandUpdate(Packet06HandUpdate packet) {
         this.cards.removeAll(packet.getRemovedCards());
         this.cards.addAll(packet.getDrawnCards());

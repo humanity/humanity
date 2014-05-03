@@ -2,13 +2,14 @@ package net.humanity_game.client.tasks;
 
 import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.Bootstrap;
-import net.humanity_game.server.handlers.Handler;
+import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet01KeepAlive;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 public class KeepAliveTask implements Callable<Boolean>, Listenable {
@@ -25,7 +26,7 @@ public class KeepAliveTask implements Callable<Boolean>, Listenable {
 
     @Override
     public Boolean call() throws InterruptedException {
-        this.lastSentPacket = new Packet01KeepAlive();
+        this.lastSentPacket = new Packet01KeepAlive(this.client.getDefnition().getUUID(), UUID.randomUUID());
 
         client.sendPacket(this.lastSentPacket);
 
@@ -40,7 +41,10 @@ public class KeepAliveTask implements Callable<Boolean>, Listenable {
         return this.lastReceivedPacket.equals(this.lastSentPacket);
     }
 
-    @Handler(priority = HandlerPriority.NORMAL)
+    @ClientHandler(
+        priority = HandlerPriority.NORMAL,
+        handleSelf = true
+    )
     public void onPotentialKeepAlive(Packet01KeepAlive packet) {
         if(this.lastReceivedPacket == null) {
             this.lastReceivedPacket = packet;

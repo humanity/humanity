@@ -63,7 +63,7 @@ public class ServerClientManager implements IClientManager<ClientConnection> {
     public void disconnectAll(HumanityServer server) {
         if (this.server.equals(server)) {
             for (ClientConnection client : this.server.getClientManager().getConnectedClients()) {
-                client.sendPacket(new Packet03Disconnect());
+                client.sendPacket(new Packet03Disconnect(client.getClientId()));
             }
         }
     }

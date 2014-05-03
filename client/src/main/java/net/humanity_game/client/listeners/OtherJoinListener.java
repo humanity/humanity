@@ -3,7 +3,7 @@ package net.humanity_game.client.listeners;
 import com.google.common.base.Preconditions;
 import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.game.ClientGame;
-import net.humanity_game.server.handlers.Handler;
+import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.masked.core.Packet09MaskedJoin;
@@ -19,7 +19,10 @@ public class OtherJoinListener implements Listenable {
         this.game = Preconditions.checkNotNull(game);
     }
 
-    @Handler(priority = HandlerPriority.MONITOR)
+    @ClientHandler(
+        priority = HandlerPriority.MONITOR,
+        handleSelf = false
+    )
     public void onMaskedJoin(Packet09MaskedJoin packet) {
         StringBuilder builder = new StringBuilder("Other client ");
         if (packet.getType() == Packet09MaskedJoin.Type.NEW_JOIN) {
@@ -36,7 +39,10 @@ public class OtherJoinListener implements Listenable {
         this.game.getLogger().info(builder.toString());
     }
 
-    @Handler(priority = HandlerPriority.MONITOR)
+    @ClientHandler(
+        priority = HandlerPriority.MONITOR,
+        handleSelf = false
+    )
     public void onMaskedDisconnect(Packet11MaskedDisconnect packet) {
         StringBuilder builder = new StringBuilder();
 
