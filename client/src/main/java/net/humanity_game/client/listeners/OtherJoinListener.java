@@ -42,7 +42,7 @@ public class OtherJoinListener implements Listenable {
 
     private void handlePlayer(Packet09UpdatePlayerList.PlayerUpdate player) {
         StringBuilder builder = new StringBuilder("Other client ");
-        if (player.getType() == Packet09UpdatePlayerList.Type.NEW_JOIN) {
+        if (player.getType() == Packet09UpdatePlayerList.Type.NEW_JOIN && this.game.getClientManager().getClientById(player.getClientId()) == null) { // null check to make sure this is a new client.
             builder.append("joined ");
         } else {
             builder.append("was previously connected ");

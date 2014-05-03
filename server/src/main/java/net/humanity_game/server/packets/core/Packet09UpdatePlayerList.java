@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.packets.Packet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -71,7 +72,7 @@ public class Packet09UpdatePlayerList extends Packet {
         NEW_JOIN;
     }
 
-    public class PlayerUpdate {
+    public class PlayerUpdate implements Serializable{
         public PlayerUpdate(ClientConnection who, Type type) {
             clientId = who.getClientId();
             this.type = Preconditions.checkNotNull(type, "type");

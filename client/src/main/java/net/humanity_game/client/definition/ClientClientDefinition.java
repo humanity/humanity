@@ -22,9 +22,10 @@ public class ClientClientDefinition implements IClientDefinition, Listenable {
     private OwnedClientPlayerDefinition player;
     private UUID clientUUID;
 
-    public ClientClientDefinition(HumanityClient client) {
+    public ClientClientDefinition(UUID uuid, HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
         this.client.getPacketHandler().registerHandlers(this);
+        this.clientUUID = uuid;
         // TODO construct initial OwnedPlayer here.
     }
 

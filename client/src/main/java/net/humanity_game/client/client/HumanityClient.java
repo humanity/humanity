@@ -49,7 +49,7 @@ public class HumanityClient {
         this.address = address;
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.packetHandler = new ClientPacketHandler(this);
-        this.defnition = new ClientClientDefinition(this);
+        this.defnition = new ClientClientDefinition(clientId, this);
         this.clientId = clientId;
     }
 
