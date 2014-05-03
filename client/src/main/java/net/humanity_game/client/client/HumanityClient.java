@@ -144,7 +144,7 @@ public class HumanityClient {
 
                 while(true) {
                     try {
-                        Thread.sleep(TimeUnit.SECONDS.convert(10, TimeUnit.MILLISECONDS));
+                        Thread.sleep(TimeUnit.MILLISECONDS.convert(10, TimeUnit.SECONDS));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
