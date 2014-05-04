@@ -1,7 +1,5 @@
 package net.humanity_game.server.packets;
 
-import com.google.common.base.Preconditions;
-
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -11,7 +9,8 @@ public abstract class Packet implements Serializable {
     private UUID uuid;
 
     protected Packet(UUID uuid) {
-        this.uuid = Preconditions.checkNotNull(uuid, "uuid");
+        // allow UUID to be null -> send to all clients
+        this.uuid = uuid;
     }
 
     public UUID getClientId() {

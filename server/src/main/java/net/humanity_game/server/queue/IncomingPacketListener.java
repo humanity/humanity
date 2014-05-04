@@ -1,6 +1,7 @@
 package net.humanity_game.server.queue;
 
 import net.humanity_game.core.packets.AbstractIncomingPacketListener;
+import net.humanity_game.server.Bootstrap;
 import net.humanity_game.server.HumanityServer;
 import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.packets.Packet;
@@ -47,6 +48,9 @@ public class IncomingPacketListener extends AbstractIncomingPacketListener {
             return obj;
         } catch (IOException e) {
             e.printStackTrace();
+
+            this.server.getLogger().warn("Unrecoverable error, the client dropped its connection!");
+            this.requestClose();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

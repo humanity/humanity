@@ -4,6 +4,9 @@ import net.humanity_game.server.packets.Packet;
 
 import java.util.UUID;
 
+/**
+ * Server -> Client
+ */
 public class Packet04Join extends Packet {
 
     private JoinState state;

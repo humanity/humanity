@@ -1,8 +1,7 @@
-package net.humanity_game.server.packets.masked;
+package net.humanity_game.server.packets;
 
 import com.google.common.base.Preconditions;
 import net.humanity_game.server.client.ClientConnection;
-import net.humanity_game.server.packets.Packet;
 
 import java.util.UUID;
 

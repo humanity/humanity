@@ -35,4 +35,14 @@ public class ClientHandlerSnapshot {
     public ClientHandler getAnnotation() {
         return annotation;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("ClientHandlerSnapshot{");
+        builder.append("type=" + this.type.getSimpleName())
+               .append(", method=" + this.method.getName());
+        builder.append("}");
+        return builder.toString();
+    }
 }

@@ -35,16 +35,18 @@ public class IncomingPacketListener extends AbstractIncomingPacketListener {
 
     @Override
     protected Object readObject() {
+        Object obj = null;
         try {
-            return this.client.getInputStream().readObject();
+            obj = this.client.getInputStream().readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             this.client.getLogger().warn("Unrecoverable error! The server dropped its connection.");
             Bootstrap.requestClose();
             System.exit(-1);
+        } finally {
+            return obj;
         }
-        return null;
     }
 
     @Override

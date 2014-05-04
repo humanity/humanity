@@ -3,10 +3,10 @@ package net.humanity_game.client.client;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 import net.humanity_game.client.Bootstrap;
-import net.humanity_game.client.packets.ClientPacketHandler;
-import net.humanity_game.client.packets.IncomingPacketListener;
 import net.humanity_game.client.definition.ClientClientDefinition;
 import net.humanity_game.client.listeners.JoinVerificationListener;
+import net.humanity_game.client.packets.ClientPacketHandler;
+import net.humanity_game.client.packets.IncomingPacketListener;
 import net.humanity_game.client.tasks.KeepAliveTask;
 import net.humanity_game.server.packets.Packet;
 import net.humanity_game.server.packets.core.Packet02Handshake;
@@ -49,7 +49,7 @@ public class HumanityClient {
         this.address = address;
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.packetHandler = new ClientPacketHandler(this);
-        this.defnition = new ClientClientDefinition(this);
+        this.defnition = new ClientClientDefinition(clientId, this);
         this.clientId = clientId;
     }
 
@@ -60,9 +60,8 @@ public class HumanityClient {
      * @param port
      */
     public HumanityClient(String hostname, int port) {
-        this(UUID.randomUUID(), hostname, port);
+        this(null, hostname, port);
     }
-
 
     public void openConnection() {
         this.setup();

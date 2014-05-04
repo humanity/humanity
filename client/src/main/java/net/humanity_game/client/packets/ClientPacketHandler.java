@@ -8,9 +8,6 @@ import net.humanity_game.client.packets.handler.ClientHandlerSnapshot;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.Packet;
 import net.humanity_game.server.packets.core.*;
-import net.humanity_game.server.packets.masked.core.Packet09MaskedJoin;
-import net.humanity_game.server.packets.masked.core.Packet11MaskedDisconnect;
-import net.humanity_game.server.packets.masked.core.Packet12MaskedPlayerStateChange;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -31,7 +28,7 @@ public class ClientPacketHandler {
     }
 
     private void allowPackets() {
-        // Non-masked packets
+        //packets registered to be used:
         this.handlers.put(Packet01KeepAlive.class,               new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet03Disconnect.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet04Join.class,                    new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
@@ -39,31 +36,20 @@ public class ClientPacketHandler {
         this.handlers.put(Packet06HandUpdate.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet07CreatePool.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
         this.handlers.put(Packet08GameChangeState.class,         new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-
-        // Masked packets
-        this.handlers.put(Packet09MaskedJoin.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet11MaskedDisconnect.class,        new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet12MaskedPlayerStateChange.class, new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.handlers.put(Packet09UpdatePlayerList.class,        new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
     }
 
     public void handlePacket(Packet packet) {
-        for (ClientHandlerSnapshot handler : this.handlers.get(packet.getClass())) { // TODO sorting
+        for (ClientHandlerSnapshot handler : this.handlers.get(packet.getClass())) {
             if (handler.getType().equals(packet.getClass())) {
                 try {
                     this.client.getLogger().debug("(S->C) received: {}", packet.getClass().getSimpleName());
 
                     // If the client intended ID is null, it goes to all clients
-                    if (packet.getClientId() == null) {
+                    if (handler.getAnnotation().handleSelf() && this.matchesSelf(packet)) {
                         handler.getMethod().invoke(handler.getInstance(), packet);
-                    } else {
-                        // If the handler only handles itself and the UUID is a direct match (or if our UUID is null), invoke
-                        // fixme
-                        if (handler.getAnnotation().handleSelf() && (packet.getClientId().equals(this.client.getDefnition().getUUID()) || this.client.getDefnition().getUUID() == null)) {
-                            handler.getMethod().invoke(handler.getInstance(), packet);
-                        } else if (!handler.getAnnotation().handleSelf() && !(packet.getClientId().equals(this.client.getDefnition().getUUID()))) {
-                            // Otherwise, if the handler handles others, and the UUID does not match, invoke
-                            handler.getMethod().invoke(handler.getInstance(), packet);
-                        }
+                    } else if (!handler.getAnnotation().handleSelf() && this.matchesOtherOrNull(packet)) {
+                        handler.getMethod().invoke(handler.getInstance(), packet);
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -72,6 +58,18 @@ public class ClientPacketHandler {
                 }
             }
         }
+    }
+
+    private boolean matchesSelf(Packet packet) {
+        return this.client.getDefnition().getUUID() == null || this.client.getDefnition().getUUID().equals(packet.getClientId());
+    }
+
+    private boolean matchesSelfOrNoll(Packet packet) {
+        return packet == null || this.matchesSelf(packet);
+    }
+
+    private boolean matchesOtherOrNull(Packet packet) {
+        return packet.getClientId() == null || !this.matchesSelf(packet);
     }
 
     public void registerHandlers(Listenable listenable) {
