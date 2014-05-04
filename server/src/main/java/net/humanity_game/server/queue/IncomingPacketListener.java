@@ -46,9 +46,7 @@ public class IncomingPacketListener extends AbstractIncomingPacketListener {
         try {
             Object obj = this.client.getInput().readObject();
             return obj;
-        } catch (IOException e) {
-            e.printStackTrace();
-
+        } catch (IOException expected) {
             this.server.getLogger().warn("Unrecoverable error, the client dropped its connection!");
             this.requestClose();
         } catch (ClassNotFoundException e) {
