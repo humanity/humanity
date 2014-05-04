@@ -60,9 +60,8 @@ public class HumanityClient {
      * @param port
      */
     public HumanityClient(String hostname, int port) {
-        this(UUID.randomUUID(), hostname, port);
+        this(null, hostname, port);
     }
-
 
     public void openConnection() {
         this.setup();

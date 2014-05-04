@@ -10,9 +10,6 @@ import net.humanity_game.server.packets.core.Packet02Handshake;
 import net.humanity_game.server.packets.core.Packet04Join;
 import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
 
-/**
- * I LOST THE GAME :-P
- */
 public class HandshakeListener implements Listenable {
 
     private HumanityServer server;

@@ -40,23 +40,16 @@ public class ClientPacketHandler {
     }
 
     public void handlePacket(Packet packet) {
-        for (ClientHandlerSnapshot handler : this.handlers.get(packet.getClass())) { // TODO sorting
+        for (ClientHandlerSnapshot handler : this.handlers.get(packet.getClass())) {
             if (handler.getType().equals(packet.getClass())) {
                 try {
                     this.client.getLogger().debug("(S->C) received: {}", packet.getClass().getSimpleName());
 
                     // If the client intended ID is null, it goes to all clients
-                    if (packet.getClientId() == null) {
+                    if (handler.getAnnotation().handleSelf() && this.matchesSelf(packet)) {
                         handler.getMethod().invoke(handler.getInstance(), packet);
-                    } else {
-                        // If the handler only handles itself and the UUID is a direct match (or if our UUID is null), invoke
-                        // fixme
-                        if (handler.getAnnotation().handleSelf() && (packet.getClientId().equals(this.client.getDefnition().getUUID()) || this.client.getDefnition().getUUID() == null)) {
-                            handler.getMethod().invoke(handler.getInstance(), packet);
-                        } else if (!handler.getAnnotation().handleSelf() && !(packet.getClientId().equals(this.client.getDefnition().getUUID()))) {
-                            // Otherwise, if the handler handles others, and the UUID does not match, invoke
-                            handler.getMethod().invoke(handler.getInstance(), packet);
-                        }
+                    } else if (!handler.getAnnotation().handleSelf() && this.matchesOtherOrNull(packet)) {
+                        handler.getMethod().invoke(handler.getInstance(), packet);
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
@@ -65,6 +58,18 @@ public class ClientPacketHandler {
                 }
             }
         }
+    }
+
+    private boolean matchesSelf(Packet packet) {
+        return this.client.getDefnition().getUUID() == null || this.client.getDefnition().getUUID().equals(packet.getClientId());
+    }
+
+    private boolean matchesSelfOrNoll(Packet packet) {
+        return packet == null || this.matchesSelf(packet);
+    }
+
+    private boolean matchesOtherOrNull(Packet packet) {
+        return packet.getClientId() == null || !this.matchesSelf(packet);
     }
 
     public void registerHandlers(Listenable listenable) {
