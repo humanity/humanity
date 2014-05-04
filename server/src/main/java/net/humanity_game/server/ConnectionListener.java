@@ -29,11 +29,7 @@ public class ConnectionListener implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            try {
-                Thread.sleep(Bootstrap.LOOP_DELAY);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // removed the loop delay because .accept() will block anyways; there's no sense in slowing down legitimate connections.
         }
     }
 }

@@ -10,6 +10,9 @@ import net.humanity_game.server.packets.core.Packet02Handshake;
 import net.humanity_game.server.packets.core.Packet04Join;
 import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
 
+/**
+ * I LOST THE GAME :-P
+ */
 public class HandshakeListener implements Listenable {
 
     private HumanityServer server;
@@ -30,12 +33,6 @@ public class HandshakeListener implements Listenable {
         for(ClientConnection connectedClient : this.server.getClientManager().getConnectedClients()) {
             if (!(connectedClient.getClientId().equals(connectingClient.getClientId()))) {
                 connectedClient.sendPacket(new Packet09UpdatePlayerList(connectingClient));
-            }
-        }
-
-        for(ClientConnection connectedClient : this.server.getClientManager().getConnectedClients()) {
-            if (!(connectedClient.getClientId().equals(connectingClient.getClientId()))) {
-                connectingClient.sendPacket(new Packet09UpdatePlayerList(connectedClient, Packet09UpdatePlayerList.Type.PREVIOUSLY_CONNECTED));
             }
         }
     }
