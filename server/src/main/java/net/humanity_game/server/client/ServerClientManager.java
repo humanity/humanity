@@ -42,6 +42,18 @@ public class ServerClientManager implements IClientManager<ClientConnection> {
         thread.start();
 
         this.clientPacketListeners.put(client, packetListener);
+
+        Packet09UpdatePlayerList packet = new Packet09UpdatePlayerList();
+        packet.addPlayer(client, Packet09UpdatePlayerList.Type.NEW_JOIN);
+
+        for (ClientConnection clientConnection : this.connectedClients) {
+            if (clientConnection != client) {
+                clientConnection.sendPacket(packet);
+            }
+        }
+        Packet09UpdatePlayerList alertPreviously = new Packet09UpdatePlayerList();
+        alertPreviously.addPlayers(server.getClientManager().connectedClients, Packet09UpdatePlayerList.Type.PREVIOUSLY_CONNECTED);
+        client.sendPacket(alertPreviously);
     }
 
     public void disconnectClient(ClientConnection client) {
