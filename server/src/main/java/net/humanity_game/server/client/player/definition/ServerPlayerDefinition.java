@@ -1,11 +1,12 @@
 package net.humanity_game.server.client.player.definition;
 
-import net.humanity_game.server.cards.card.WhiteCard;
-import net.humanity_game.server.cards.pool.ITrick;
 import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.client.player.PlayerState;
 
-public class ServerPlayerDefinition implements IPlayerDefinition{
+/**
+ * Contains the information about this Client's status in the game, rather than in the server's broader system.
+ */
+public class ServerPlayerDefinition implements IPlayerDefinition {
 
     private int score;
     private String name;
@@ -31,22 +32,13 @@ public class ServerPlayerDefinition implements IPlayerDefinition{
     }
 
     public void setScore(int nscore) {
-
-    }
-
-
-    @Override
-    public void playCard(WhiteCard card, ITrick forTrick) {
-        // TODO
-    }
-
-    @Override
-    public void updateHand() {
-        // TODO
+        this.score = nscore;
     }
 
     @Override
     public PlayerState getPlayerState() {
         return null;
     }
+
+    //todo add player state.
 }
