@@ -2,7 +2,6 @@ package net.humanity_game.client.definition;
 
 import com.google.common.base.Preconditions;
 import net.humanity_game.client.client.HumanityClient;
-import net.humanity_game.client.client.player.OwnedClientPlayerDefinition;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.cards.hand.IHumanityHand;
 import net.humanity_game.server.client.definition.IClientDefinition;
@@ -13,14 +12,13 @@ import net.humanity_game.server.packets.core.Packet05PlayerStateChange;
 
 import java.util.UUID;
 
-public class ClientClientDefinition implements IClientDefinition, Listenable {
+public class ClientDefinition implements IClientDefinition, Listenable {
 
     private final HumanityClient client;
 
-    private OwnedClientPlayerDefinition player;
     private UUID clientUUID;
 
-    public ClientClientDefinition(UUID uuid, HumanityClient client) {
+    public ClientDefinition(UUID uuid, HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
         this.client.getPacketHandler().registerHandlers(this);
         this.clientUUID = uuid;
@@ -29,12 +27,13 @@ public class ClientClientDefinition implements IClientDefinition, Listenable {
 
     @Override
     public PlayerState getPlayerState() {
-        return this.player.getPlayerState();
+        // return this.player.getPlayerState();
+        return null;
     }
 
     @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = true)
     public void onPlayerStateChange(Packet05PlayerStateChange packet) {
-        this.player.setPlayerState(packet.getTo());
+        // this.player.setPlayerState(packet.getTo());
     }
 
     public UUID getUUID() {

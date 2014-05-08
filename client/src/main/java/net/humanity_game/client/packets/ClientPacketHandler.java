@@ -2,7 +2,9 @@ package net.humanity_game.client.packets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import net.humanity_game.client.Bootstrap;
 import net.humanity_game.client.client.HumanityClient;
+import net.humanity_game.client.client.player.Player;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.client.packets.handler.ClientHandlerSnapshot;
 import net.humanity_game.server.handlers.Listenable;
@@ -49,6 +51,7 @@ public class ClientPacketHandler {
                     if (handler.getAnnotation().handleSelf() && this.matchesSelf(packet)) {
                         handler.getMethod().invoke(handler.getInstance(), packet);
                     } else if (!handler.getAnnotation().handleSelf() && this.matchesOtherOrNull(packet)) {
+
                         handler.getMethod().invoke(handler.getInstance(), packet);
                     }
                 } catch (IllegalAccessException e) {
@@ -61,10 +64,10 @@ public class ClientPacketHandler {
     }
 
     private boolean matchesSelf(Packet packet) {
-        return this.client.getDefnition().getUUID() == null || this.client.getDefnition().getUUID().equals(packet.getClientId());
+        return this.client.getDefinition().getUUID() == null || this.client.getDefinition().getUUID().equals(packet.getClientId());
     }
 
-    private boolean matchesSelfOrNoll(Packet packet) {
+    private boolean matchesSelfOrNull(Packet packet) {
         return packet == null || this.matchesSelf(packet);
     }
 

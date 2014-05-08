@@ -41,4 +41,8 @@ public class Bootstrap {
     public static HumanityClient getClient() {
         return Bootstrap.client;
     }
+
+    public static ClientGame getGame() {
+        return Bootstrap.game;
+    }
 }

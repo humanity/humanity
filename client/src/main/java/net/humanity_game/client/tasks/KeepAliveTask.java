@@ -26,7 +26,7 @@ public class KeepAliveTask implements Callable<Boolean>, Listenable {
 
     @Override
     public Boolean call() throws InterruptedException {
-        this.lastSentPacket = new Packet01KeepAlive(this.client.getDefnition().getUUID(), UUID.randomUUID());
+        this.lastSentPacket = new Packet01KeepAlive(this.client.getDefinition().getUUID(), UUID.randomUUID());
 
         client.sendPacket(this.lastSentPacket);
 

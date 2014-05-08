@@ -5,10 +5,10 @@ import com.ttaylorr.dev.logger.Logger;
 import net.humanity_game.client.cards.ClientTrick;
 import net.humanity_game.client.client.ClientManager;
 import net.humanity_game.client.client.HumanityClient;
+import net.humanity_game.client.client.player.Player;
 import net.humanity_game.client.listeners.OtherJoinListener;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.game.state.GameState;
-import net.humanity_game.server.handlers.Handler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet07CreatePool;
@@ -69,12 +69,12 @@ public class ClientGame implements Listenable {
         this.currentState = packet.getTo();
     }
 
-    public void connectPlayer(HumanityClient client) {
-        this.clientManager.connectClient(client);
+    public void connectPlayer(Player player) {
+        this.clientManager.connectClient(player);
     }
 
-    public void handleLogout(HumanityClient client) {
-        this.clientManager.disconnectClient(client);
+    public void handleLogout(Player player) {
+        this.clientManager.disconnectClient(player);
     }
 
     public ClientManager getClientManager() {
