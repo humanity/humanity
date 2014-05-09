@@ -5,9 +5,6 @@ import net.humanity_game.server.client.player.definition.IPlayerDefinition;
 
 import java.util.UUID;
 
-/**
- * User: Jack Date: 5/8/2014 Time: 8:15 AM
- */
 public class Player implements IPlayerDefinition {
     private final UUID clientId;
     private String name;
@@ -20,6 +17,15 @@ public class Player implements IPlayerDefinition {
         this.name = name;
         this.state = state;
         score = 0;
+    }
+
+    /**
+     * Initially, the player state should be null--it will be set later by the Packet05PlayerStateChange.
+     * @param uuid
+     * @param name
+     */
+    public Player(UUID uuid, String name) {
+        this(uuid, name, null);
     }
 
     public UUID getClientId() {

@@ -20,8 +20,8 @@ public class OtherJoinListener implements Listenable {
     }
 
     @ClientHandler(
-        priority = HandlerPriority.MONITOR,
-        handleSelf = false
+            priority = HandlerPriority.MONITOR,
+            handleSelf = false
     )
     public void onMaskedJoin(Packet09UpdatePlayerList packet) {
         ImmutableList<Packet09UpdatePlayerList.PlayerUpdate> players = packet.getUpdatedPlayers();
