@@ -23,13 +23,11 @@ public class ClientGame implements Listenable {
 
     private ClientTrick currentPool;
     private GameState currentState;
-    private Set<HumanityClient> connectedPlayers;
     private ClientManager clientManager;
 
 
     public ClientGame(HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
-        this.connectedPlayers = new HashSet<>();
         this.clientManager = new ClientManager();
         this.setupHandlers();
     }
