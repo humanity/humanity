@@ -14,14 +14,11 @@ import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet07CreatePool;
 import net.humanity_game.server.packets.core.Packet08GameChangeState;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class ClientGame implements Listenable {
 
     private HumanityClient client;
 
-    private ClientTrick currentPool;
+    private ClientTrick currentTrick;
     private GameState currentState;
     private ClientManager clientManager;
 
@@ -49,8 +46,8 @@ public class ClientGame implements Listenable {
         this.client.getPacketHandler().unregisterHandlers(listenable);
     }
 
-    public ClientTrick getCurrentPool() {
-        return this.currentPool;
+    public ClientTrick getCurrentTrick() {
+        return this.currentTrick;
     }
 
     public GameState getCurrentState() {
@@ -58,8 +55,8 @@ public class ClientGame implements Listenable {
     }
 
     @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
-    public void onPoolCreate(Packet07CreatePool packet) {
-        this.currentPool = new ClientTrick(packet.getGameId(), packet.getChoice(), this);
+    public void onTrickCreate(Packet07CreatePool packet) {
+        this.currentTrick = new ClientTrick(packet.getGameId(), packet.getChoice(), this);
     }
 
     @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
