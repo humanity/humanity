@@ -7,31 +7,28 @@ import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.packets.Packet;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Server->Client
  */
 public class Packet09UpdatePlayerList extends Packet {
 
-    final List<PlayerUpdate> playerUpdates;
+    private final List<PlayerUpdate> playerUpdates;
 
     public Packet09UpdatePlayerList() {
         super(null);
-        playerUpdates = new ArrayList<>();
+        this.playerUpdates = new ArrayList<>();
     }
 
     public Packet09UpdatePlayerList( Collection<ClientConnection> clients) {
         this();
+        clients.removeAll(Collections.singleton(null));
+
         for (ClientConnection client : clients) {
-            if (client == null) // not preconditions to allow more flexibility.
-                continue;
-            else
-                playerUpdates.add(new PlayerUpdate(client, Type.NEW_JOIN));
+            this.playerUpdates.add(new PlayerUpdate(client, Type.NEW_JOIN));
         }
+
         Preconditions.checkState(playerUpdates.size() > 0, "no players in player update list");
     }
 
@@ -46,26 +43,19 @@ public class Packet09UpdatePlayerList extends Packet {
         playerUpdates.add(new PlayerUpdate(client, type));
     }
 
-    /**
-     * List implementer can be specified so that the most appropriate kind is always used, or, default to ArrayList.
-     *
-     * @param model
-     */
-    public Packet09UpdatePlayerList(List<PlayerUpdate> model) {
-        super(null);
-        playerUpdates = model;
+    public void addPlayer(ClientConnection cnn, Type type) {
+        playerUpdates.add(new PlayerUpdate(cnn, type));
     }
 
-    public void addPlayerUpdate(ClientConnection connection, Type type) {
-        Preconditions.checkNotNull(connection, "client");
-        playerUpdates.add(new PlayerUpdate(connection, type));
+    public void addPlayers(Collection<ClientConnection> cnn, Type type) {
+        for (ClientConnection client : cnn) {
+            addPlayer(client, type);
+        }
     }
-
 
     public ImmutableList<PlayerUpdate> getUpdatedPlayers() {
         return ImmutableList.copyOf(playerUpdates);
     }
-
 
     public static enum Type {
         REMOVAL,

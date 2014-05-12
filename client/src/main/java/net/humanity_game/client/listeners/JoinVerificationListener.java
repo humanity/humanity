@@ -22,7 +22,7 @@ public class JoinVerificationListener implements Listenable {
         if (packet.getState() == Packet04Join.JoinState.ALLOWED) {
             this.client.getLogger().info("Able to join game with status '{}'", packet.getReason());
             this.client.getLogger().info("Assigned ID (from server): {}", packet.getClientId());
-            this.client.getDefnition().setUUID(packet.getClientId());
+            this.client.getDefinition().setUUID(packet.getClientId());
         } else {
             this.client.getLogger().info("Forced to disconnect from the server with status '{}'", packet.getReason());
         }

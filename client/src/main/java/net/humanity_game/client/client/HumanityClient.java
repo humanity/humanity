@@ -3,7 +3,7 @@ package net.humanity_game.client.client;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 import net.humanity_game.client.Bootstrap;
-import net.humanity_game.client.definition.ClientClientDefinition;
+import net.humanity_game.client.definition.ClientDefinition;
 import net.humanity_game.client.listeners.JoinVerificationListener;
 import net.humanity_game.client.packets.ClientPacketHandler;
 import net.humanity_game.client.packets.IncomingPacketListener;
@@ -32,7 +32,7 @@ public class HumanityClient {
     private final Logger logger;
     private final ClientPacketHandler packetHandler;
 
-    private final ClientClientDefinition defnition;
+    private final ClientDefinition definition;
 
     private Socket serverConnection;
     private ObjectInputStream inputStream;
@@ -49,7 +49,7 @@ public class HumanityClient {
         this.address = address;
         this.logger = LoggerProvider.putLogger(this.getClass());
         this.packetHandler = new ClientPacketHandler(this);
-        this.defnition = new ClientClientDefinition(clientId, this);
+        this.definition = new ClientDefinition(clientId, this);
         this.clientId = clientId;
     }
 
@@ -181,8 +181,8 @@ public class HumanityClient {
         }).start();
     }
 
-    public ClientClientDefinition getDefnition() {
-        return this.defnition;
+    public ClientDefinition getDefinition() {
+        return this.definition;
     }
 
     public ClientPacketHandler getPacketHandler() {
@@ -199,5 +199,9 @@ public class HumanityClient {
 
     public String getName() {
         return this.name;
+    }
+
+    public UUID getClientId() {
+        return this.definition.getUUID();
     }
 }

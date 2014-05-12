@@ -2,14 +2,13 @@ package net.humanity_game.client.listeners;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import net.humanity_game.client.client.HumanityClient;
+import net.humanity_game.client.client.player.Player;
 import net.humanity_game.client.game.ClientGame;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
 
-import java.net.InetSocketAddress;
 import java.util.UUID;
 
 public class OtherJoinListener implements Listenable {
@@ -21,8 +20,8 @@ public class OtherJoinListener implements Listenable {
     }
 
     @ClientHandler(
-        priority = HandlerPriority.MONITOR,
-        handleSelf = false
+            priority = HandlerPriority.MONITOR,
+            handleSelf = false
     )
     public void onMaskedJoin(Packet09UpdatePlayerList packet) {
         ImmutableList<Packet09UpdatePlayerList.PlayerUpdate> players = packet.getUpdatedPlayers();
@@ -50,9 +49,9 @@ public class OtherJoinListener implements Listenable {
         builder.append("with UUID: ");
         builder.append(player.getClientId());
 
-        HumanityClient newClient = new HumanityClient(player.getClientId(), new InetSocketAddress(player.getHost(), player.getPort()));
-
-        this.game.connectPlayer(newClient);
+        // HumanityClient newClient = new HumanityClient(player.getClientId(), new InetSocketAddress(player.getHost(), player.getPort()));
+        Player newPlayer = new Player(player.getClientId(), player.getName());
+        this.game.connectPlayer(newPlayer);
         this.game.getLogger().info(builder.toString());
     }
 

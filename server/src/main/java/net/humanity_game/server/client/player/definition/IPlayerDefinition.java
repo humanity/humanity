@@ -1,7 +1,5 @@
 package net.humanity_game.server.client.player.definition;
 
-import net.humanity_game.server.cards.card.WhiteCard;
-import net.humanity_game.server.cards.pool.ITrick;
 import net.humanity_game.server.client.player.PlayerState;
 
 public interface IPlayerDefinition {
@@ -10,9 +8,9 @@ public interface IPlayerDefinition {
 
     public int getScore();
 
-    public void playCard(WhiteCard card, ITrick forTrick);
+    // public void playCard(WhiteCard card, ITrick forTrick); // todo not sure if this is needed; commented out for now.
 
-    public void updateHand();
+    // public void updateHand(); // todo see above
 
     public PlayerState getPlayerState();
 

@@ -5,31 +5,26 @@ import com.ttaylorr.dev.logger.Logger;
 import net.humanity_game.client.cards.ClientTrick;
 import net.humanity_game.client.client.ClientManager;
 import net.humanity_game.client.client.HumanityClient;
+import net.humanity_game.client.client.player.Player;
 import net.humanity_game.client.listeners.OtherJoinListener;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.game.state.GameState;
-import net.humanity_game.server.handlers.Handler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet07CreatePool;
 import net.humanity_game.server.packets.core.Packet08GameChangeState;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class ClientGame implements Listenable {
 
     private HumanityClient client;
 
-    private ClientTrick currentPool;
+    private ClientTrick currentTrick;
     private GameState currentState;
-    private Set<HumanityClient> connectedPlayers;
     private ClientManager clientManager;
 
 
     public ClientGame(HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
-        this.connectedPlayers = new HashSet<>();
         this.clientManager = new ClientManager();
         this.setupHandlers();
     }
@@ -51,8 +46,8 @@ public class ClientGame implements Listenable {
         this.client.getPacketHandler().unregisterHandlers(listenable);
     }
 
-    public ClientTrick getCurrentPool() {
-        return this.currentPool;
+    public ClientTrick getCurrentTrick() {
+        return this.currentTrick;
     }
 
     public GameState getCurrentState() {
@@ -60,8 +55,8 @@ public class ClientGame implements Listenable {
     }
 
     @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
-    public void onPoolCreate(Packet07CreatePool packet) {
-        this.currentPool = new ClientTrick(packet.getGameId(), packet.getChoice(), this);
+    public void onTrickCreate(Packet07CreatePool packet) {
+        this.currentTrick = new ClientTrick(packet.getGameId(), packet.getChoice(), this);
     }
 
     @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
@@ -69,12 +64,12 @@ public class ClientGame implements Listenable {
         this.currentState = packet.getTo();
     }
 
-    public void connectPlayer(HumanityClient client) {
-        this.clientManager.connectClient(client);
+    public void connectPlayer(Player player) {
+        this.clientManager.connectClient(player);
     }
 
-    public void handleLogout(HumanityClient client) {
-        this.clientManager.disconnectClient(client);
+    public void handleLogout(Player player) {
+        this.clientManager.disconnectClient(player);
     }
 
     public ClientManager getClientManager() {

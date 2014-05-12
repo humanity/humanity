@@ -2,59 +2,56 @@ package net.humanity_game.client.client;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import net.humanity_game.client.client.player.Player;
 import net.humanity_game.server.client.IClientManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ClientManager implements IClientManager<HumanityClient> {
+public class ClientManager implements IClientManager<Player> {
 
-    private List<HumanityClient> clients;
+    private List<Player> clients;
 
     public ClientManager() {
         this.clients = new ArrayList<>();
     }
 
-    @Override
-    public void connectClient(HumanityClient humanityClient) {
-        Preconditions.checkNotNull(humanityClient.getDefnition(), "client def");
-        Preconditions.checkNotNull(humanityClient.getDefnition().getUUID(), "client def uuid");
+    public void connectClient(Player player) {
+        Preconditions.checkNotNull(player, "player");
+        Preconditions.checkNotNull(player.getClientId(), "player uuid");
 
-        this.clients.add(humanityClient);
+        this.clients.add(player);
     }
 
-    @Override
-    public void disconnectClient(HumanityClient humanityClient) {
-        this.clients.remove(humanityClient);
+    public void disconnectClient(Player player) {
+        this.clients.remove(player);
     }
 
-    @Override
-    public HumanityClient getClientById(UUID id) {
-        Preconditions.checkNotNull(id, "uuid was null");
-
-        for (HumanityClient client : this.clients) {
-
-            Preconditions.checkNotNull(client.getDefnition().getUUID(), "tmp: client uuid null");
-            if (client.getDefnition().getUUID().equals(id)) {
-                return client;
+    public Player getClientById(UUID id) {
+        if (id == null) {
+            return null;
+        } else {
+            for (Player client : this.clients) {
+                Preconditions.checkNotNull(client.getClientId(), "tmp: client uuid null");
+                if (client.getClientId().equals(id)) {
+                    return client;
+                }
             }
+            return null;
         }
-        return null;
     }
 
-    @Override
-    public UUID getUUIDForClient(HumanityClient humanityClient) {
-        for (HumanityClient client : this.clients) {
+    public UUID getUUIDForClient(Player humanityClient) {
+        for (Player client : this.clients) {
             if (client.equals(humanityClient)) {
-                return client.getDefnition().getUUID();
+                return client.getClientId();
             }
         }
         return null;
     }
 
-    @Override
-    public ImmutableList<HumanityClient> getConnectedClients() {
+    public ImmutableList<Player> getConnectedClients() {
         return ImmutableList.copyOf(this.clients);
     }
 }
