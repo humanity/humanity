@@ -1,7 +1,7 @@
 package net.humanity_game.client.listeners;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
+import net.humanity_game.client.Bootstrap;
 import net.humanity_game.client.client.player.Player;
 import net.humanity_game.client.game.ClientGame;
 import net.humanity_game.client.packets.handler.ClientHandler;
@@ -24,8 +24,11 @@ public class OtherJoinListener implements Listenable {
             handleSelf = false
     )
     public void onMaskedJoin(Packet09UpdatePlayerList packet) {
-        ImmutableList<Packet09UpdatePlayerList.PlayerUpdate> players = packet.getUpdatedPlayers();
-        for (Packet09UpdatePlayerList.PlayerUpdate player : players) {
+        for (Packet09UpdatePlayerList.PlayerUpdate player : packet.getUpdatedPlayers()) {
+            if (player.getClientId().equals(Bootstrap.getClient().getClientId())) {
+                Bootstrap.getClient().getLogger().debug("found self");
+                continue;
+            }
             switch (player.getType()) {
                 case PREVIOUSLY_CONNECTED:
                 case NEW_JOIN:
@@ -35,11 +38,14 @@ public class OtherJoinListener implements Listenable {
                     handleDisconnection(player);
                     break;
             }
-            handlePlayer(player);
         }
     }
 
     private void handlePlayer(Packet09UpdatePlayerList.PlayerUpdate player) {
+
+        this.game.getLogger().debug("our id: " + player.getClientId() + "; our id: " + Bootstrap.getClient().getClientId());
+
+
         StringBuilder builder = new StringBuilder("Other client ");
         if (player.getType() == Packet09UpdatePlayerList.Type.NEW_JOIN && this.game.getClientManager().getClientById(player.getClientId()) == null) { // null check to make sure this is a new client.
             builder.append("joined ");

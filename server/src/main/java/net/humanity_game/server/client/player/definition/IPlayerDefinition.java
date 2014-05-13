@@ -13,5 +13,4 @@ public interface IPlayerDefinition {
     // public void updateHand(); // todo see above
 
     public PlayerState getPlayerState();
-
 }

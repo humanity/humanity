@@ -54,4 +54,13 @@ public class ClientManager implements IClientManager<Player> {
     public ImmutableList<Player> getConnectedClients() {
         return ImmutableList.copyOf(this.clients);
     }
+
+    /**
+     * Never prefer this method--it is for use only by JoinVerificationListener
+     * @return
+     */
+    @Deprecated
+    public List<Player> getConnectedClientsMut() {
+        return this.clients;
+    }
 }

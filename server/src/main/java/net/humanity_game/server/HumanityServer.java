@@ -11,6 +11,7 @@ import com.ttaylorr.dev.logger.LoggerProvider;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 
 public class HumanityServer {
@@ -38,10 +39,12 @@ public class HumanityServer {
         this.clientManager = new ServerClientManager(this);
     }
 
-    public void open() {
+    public void open() throws BindException {
         this.logger.info("Opening server \"humanity\"...");
         try {
             this.setup();
+        } catch (BindException e) {
+            throw e;
         } catch (IOException e) {
             e.printStackTrace();
         }
