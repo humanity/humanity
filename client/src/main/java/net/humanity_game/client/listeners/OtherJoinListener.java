@@ -26,7 +26,6 @@ public class OtherJoinListener implements Listenable {
     public void onMaskedJoin(Packet09UpdatePlayerList packet) {
         for (Packet09UpdatePlayerList.PlayerUpdate player : packet.getUpdatedPlayers()) {
             if (player.getClientId().equals(Bootstrap.getClient().getClientId())) {
-                Bootstrap.getClient().getLogger().debug("found self");
                 continue;
             }
             switch (player.getType()) {
@@ -51,7 +50,6 @@ public class OtherJoinListener implements Listenable {
         builder.append("with UUID: ");
         builder.append(player.getClientId());
 
-        // HumanityClient newClient = new HumanityClient(player.getClientId(), new InetSocketAddress(player.getHost(), player.getPort()));
         Player newPlayer = new Player(player.getClientId(), player.getName());
         this.game.connectPlayer(newPlayer);
         this.game.getLogger().info(builder.toString());
