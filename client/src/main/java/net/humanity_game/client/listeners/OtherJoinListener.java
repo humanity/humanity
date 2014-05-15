@@ -1,7 +1,7 @@
 package net.humanity_game.client.listeners;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
+import net.humanity_game.client.Bootstrap;
 import net.humanity_game.client.client.player.Player;
 import net.humanity_game.client.game.ClientGame;
 import net.humanity_game.client.packets.handler.ClientHandler;
@@ -24,8 +24,10 @@ public class OtherJoinListener implements Listenable {
             handleSelf = false
     )
     public void onMaskedJoin(Packet09UpdatePlayerList packet) {
-        ImmutableList<Packet09UpdatePlayerList.PlayerUpdate> players = packet.getUpdatedPlayers();
-        for (Packet09UpdatePlayerList.PlayerUpdate player : players) {
+        for (Packet09UpdatePlayerList.PlayerUpdate player : packet.getUpdatedPlayers()) {
+            if (player.getClientId().equals(Bootstrap.getClient().getClientId())) {
+                continue;
+            }
             switch (player.getType()) {
                 case PREVIOUSLY_CONNECTED:
                 case NEW_JOIN:
@@ -35,7 +37,6 @@ public class OtherJoinListener implements Listenable {
                     handleDisconnection(player);
                     break;
             }
-            handlePlayer(player);
         }
     }
 
@@ -49,7 +50,6 @@ public class OtherJoinListener implements Listenable {
         builder.append("with UUID: ");
         builder.append(player.getClientId());
 
-        // HumanityClient newClient = new HumanityClient(player.getClientId(), new InetSocketAddress(player.getHost(), player.getPort()));
         Player newPlayer = new Player(player.getClientId(), player.getName());
         this.game.connectPlayer(newPlayer);
         this.game.getLogger().info(builder.toString());

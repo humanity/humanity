@@ -65,7 +65,6 @@ public class ServerClientManager implements IClientManager<ClientConnection> {
 
         Packet09UpdatePlayerList changedPlayers = new Packet09UpdatePlayerList(client, Packet09UpdatePlayerList.Type.REMOVAL);
         for (ClientConnection connected : this.connectedClients) {
-            this.logger.debug("fu");
             connected.sendPacket(changedPlayers);
         }
 

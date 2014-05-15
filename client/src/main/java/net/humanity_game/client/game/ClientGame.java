@@ -26,6 +26,7 @@ public class ClientGame implements Listenable {
     public ClientGame(HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
         this.clientManager = new ClientManager();
+        this.registerHandlers(this.clientManager);
         this.setupHandlers();
     }
 

@@ -46,10 +46,7 @@ public class ClientDefinition implements IClientDefinition, Listenable {
     }
 
     public void setUUID(UUID uuid) {
-        if (this.clientUUID == null) {
-            this.clientUUID = uuid;
-        } else {
-            throw new IllegalArgumentException("You may not reassign a client's UUID");
-        }
+        Preconditions.checkState(this.clientUUID == null, "client id must be null");
+        this.clientUUID = uuid;
     }
 }

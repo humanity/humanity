@@ -15,7 +15,7 @@ public class JoinVerificationListener implements Listenable {
     }
 
     @ClientHandler(
-        priority = HandlerPriority.NORMAL,
+        priority = HandlerPriority.LOWEST,
         handleSelf = true
     )
     public void onJoin(Packet04Join packet) {

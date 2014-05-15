@@ -2,14 +2,20 @@ package net.humanity_game.client.client;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import net.humanity_game.client.Bootstrap;
 import net.humanity_game.client.client.player.Player;
+import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.client.IClientManager;
+import net.humanity_game.server.handlers.HandlerPriority;
+import net.humanity_game.server.handlers.Listenable;
+import net.humanity_game.server.packets.core.Packet04Join;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-public class ClientManager implements IClientManager<Player> {
+public class ClientManager implements IClientManager<Player>, Listenable {
 
     private List<Player> clients;
 
@@ -53,5 +59,23 @@ public class ClientManager implements IClientManager<Player> {
 
     public ImmutableList<Player> getConnectedClients() {
         return ImmutableList.copyOf(this.clients);
+    }
+
+    @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = true)
+    public void pruneOnJoin(Packet04Join packet04Join) {
+        for (Iterator<Player> it = this.clients.iterator(); it.hasNext(); ) {
+            if (it.next().getClientId().equals(Bootstrap.getClient().getClientId())) {
+                it.remove();
+            }
+        }
+    }
+
+    /**
+     * Never prefer this method--it is for use only by JoinVerificationListener
+     * @return
+     */
+    @Deprecated
+    public List<Player> getConnectedClientsMut() {
+        return this.clients;
     }
 }
