@@ -4,6 +4,10 @@ import com.google.common.base.Preconditions;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.packets.Packet;
 
+/**
+ * Used to inform the Client of a GameState change.
+ * S->C
+ */
 public class Packet08GameChangeState extends Packet {
 
     private final GameState from;

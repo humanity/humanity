@@ -11,13 +11,6 @@ public enum PlayerState implements Serializable {
     OBSERVING;
 
     public boolean canSubmitCards() {
-        switch (this) {
-            case CARD_CSAR:
-            case OBSERVING:
-            default:
-                return false;
-            case PLAYING:
-                return true;
-        }
+        return this == PLAYING;
     }
 }

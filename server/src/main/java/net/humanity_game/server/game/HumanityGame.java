@@ -86,6 +86,27 @@ public class HumanityGame {
         }
     }
 
+    /**
+     * Check that the current gamestate has been fulfilled and begin moving to the next one.
+     *
+     * If: LOBBY
+     * * deal cards, assign card csar, move gamestate to ASSIGNING_CSAR,
+     *
+     * If: ASSIGNING_CSAR:
+     * * assign csar, alert everybody to that fact
+     *
+     * If: SUBMITTING_CARDS
+     * * fill the packet that gives the submitted cards to the csar, send the packet, begin waiting for response packet, move gamestate to PICKING_CARDS
+     *
+     * If: PICKING_CARDS
+     * *
+     *
+     */
+    public void advanceGame() {
+
+
+    }
+
     public GameState getCurrentState() {
         return this.currentState;
     }
