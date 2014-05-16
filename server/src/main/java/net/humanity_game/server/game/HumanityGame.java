@@ -11,7 +11,7 @@ import net.humanity_game.server.cards.factory.WhiteCardFactory;
 import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.client.player.PlayerState;
 import net.humanity_game.server.game.state.GameState;
-import net.humanity_game.server.packets.core.Packet08GameChangeState;
+import net.humanity_game.server.game.state.states.IGameState;
 import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class HumanityGame {
 
     private final Set<ClientConnection> players; // synchronized
 
-    private GameState currentState;
+    private IGameState currentState;
 
     public HumanityGame(File cardsFile, HumanityServer server) {
         this.server = Preconditions.checkNotNull(server, "server");
@@ -43,7 +43,7 @@ public class HumanityGame {
         }
 
         this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
-        this.currentState = GameState.LOBBY;
+        this.currentState = GameState.getState(GameState.LOBBY);
     }
 
     public ImmutableSet<ClientConnection> getPlayers() {
@@ -104,19 +104,9 @@ public class HumanityGame {
      */
     public void advanceGame() {
 
-
     }
 
     public GameState getCurrentState() {
-        return this.currentState;
-    }
-
-    public void setCurrentState(GameState state) {
-        Packet08GameChangeState packet = new Packet08GameChangeState(this.currentState, state);
-        this.currentState = state;
-
-        for(ClientConnection client : this.players) {
-            client.sendPacket(packet);
-        }
+        return this.currentState.getGameState();
     }
 }

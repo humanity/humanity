@@ -1,6 +1,7 @@
-package net.humanity_game.server.game.state;
+package net.humanity_game.server.game.state.states;
 
 import com.google.common.collect.ImmutableList;
+import net.humanity_game.server.game.state.GameState;
 
 /**
  * deal cards, assign card csar, move gamestate to ASSIGNING_CSAR,
