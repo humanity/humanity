@@ -103,7 +103,7 @@ public class HumanityGame {
      *
      */
     public void advanceGame() {
-
+        // todo
     }
 
     public GameState getCurrentState() {
