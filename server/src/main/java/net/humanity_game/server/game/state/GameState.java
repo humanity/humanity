@@ -2,13 +2,16 @@ package net.humanity_game.server.game.state;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import net.humanity_game.server.game.HumanityGame;
+import net.humanity_game.server.game.state.states.AssigningCzarState;
 import net.humanity_game.server.game.state.states.IGameState;
+import net.humanity_game.server.game.state.states.PreHandState;
 
 public enum GameState {
 
     PRE_HAND, /*runs proior to the hand starting--the game object doesn't exist until then, so there isn't a true lobby game state, I don't think*/
 
-    ASSIGNING_CSAR,
+    ASSIGNING_CZAR,
 
     SUBMITTING_CARDS,
 
@@ -41,11 +44,10 @@ public enum GameState {
         }
     }
 
-
     private static ImmutableList<IGameState> states;
 
-    static {
-        states = ImmutableList.of(); // add all of the state IGameStates to this.
+    public void initStatesList(HumanityGame game) {
+        states = ImmutableList.of(new PreHandState(game), new AssigningCzarState(game));
     }
 
 

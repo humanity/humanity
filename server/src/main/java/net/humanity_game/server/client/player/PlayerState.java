@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum PlayerState implements Serializable {
 
-    CARD_CSAR,
+    CARD_CZAR,
 
     PLAYING,
 

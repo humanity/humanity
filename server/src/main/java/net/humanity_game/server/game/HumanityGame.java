@@ -53,8 +53,8 @@ public class HumanityGame {
     public ImmutableSet<ClientConnection> getPlayers(PlayerState type) {
         Set<ClientConnection> players = new HashSet<>();
 
-        for(ClientConnection client : this.players) {
-            if(client.getDefinition().getPlayerState() == type) {
+        for (ClientConnection client : this.players) {
+            if (client.getDefinition().getPlayerState() == type) {
                 players.add(client);
             }
         }
@@ -89,20 +89,16 @@ public class HumanityGame {
     /**
      * Check that the current gamestate has been fulfilled and begin moving to the next one.
      *
-     * If: PRE_HAND
-     * * deal cards, assign card csar, move gamestate to ASSIGNING_CSAR,
+     * If: PRE_HAND * deal cards, assign card czar, move gamestate to ASSIGNING_CZAR,
      *
-     * If: ASSIGNING_CSAR:
-     * * assign csar, alert everybody to that fact
+     * If: ASSIGNING_CZAR: * assign cZar, alert everybody to that fact
      *
-     * If: SUBMITTING_CARDS
-     * * fill the packet that gives the submitted cards to the csar, send the packet, begin waiting for response packet, move gamestate to PICKING_CARDS
+     * If: SUBMITTING_CARDS * fill the packet that gives the submitted cards to the czar, send the packet, begin waiting
+     * for response packet, move gamestate to PICKING_CARDS
      *
-     * If: PICKING_CARDS
-     * *
+     * If: PICKING_CARDS *
      *
      * @return whether or not the advancement worked.
-     *
      */
     public boolean advanceGame() {
         if (currentState.canAdvanceState()) {
