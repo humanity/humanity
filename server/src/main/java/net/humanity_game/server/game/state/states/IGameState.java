@@ -21,8 +21,6 @@ public abstract class IGameState {
      */
     public abstract void start();
 
-    public abstract String toString();
-
     private final GameState gameState;
 
     protected IGameState(GameState gs) {
