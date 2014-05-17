@@ -43,7 +43,7 @@ public class HumanityGame {
         }
 
         this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
-        this.currentState = GameState.getState(GameState.LOBBY);
+        this.currentState = GameState.getState(GameState.PRE_HAND);
     }
 
     public ImmutableSet<ClientConnection> getPlayers() {
@@ -89,7 +89,7 @@ public class HumanityGame {
     /**
      * Check that the current gamestate has been fulfilled and begin moving to the next one.
      *
-     * If: LOBBY
+     * If: PRE_HAND
      * * deal cards, assign card csar, move gamestate to ASSIGNING_CSAR,
      *
      * If: ASSIGNING_CSAR:
@@ -101,9 +101,16 @@ public class HumanityGame {
      * If: PICKING_CARDS
      * *
      *
+     * @return whether or not the advancement worked.
+     *
      */
-    public void advanceGame() {
-        // todo
+    public boolean advanceGame() {
+        if (currentState.canAdvanceState()) {
+            this.currentState = GameState.getNext(currentState);
+        } else {
+            return false;
+        }
+        return true;
     }
 
     public GameState getCurrentState() {

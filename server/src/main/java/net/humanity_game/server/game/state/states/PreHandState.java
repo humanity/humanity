@@ -12,20 +12,25 @@ import net.humanity_game.server.game.state.requirements.CardsDealtRequirement;
  *
  * ^^^ ensure that these things have been fulfilled
  */
-public class LobbyState extends IGameState {
+public class PreHandState extends IGameState {
     private ImmutableList<GameState.Requirement> requirementsList;
 
-    public LobbyState(HumanityGame game) {
-        super(GameState.LOBBY);
+    public PreHandState(HumanityGame game) {
+        super(GameState.PRE_HAND);
         Preconditions.checkNotNull(game, "game");
         requirementsList = ImmutableList.of(new CardsDealtRequirement(this, game), new CardCsarRequirement(this, game));
     }
-
 
     @Override
     public ImmutableList<GameState.Requirement> getRequirements() {
         return requirementsList;
     }
+
+    @Override
+    public void start() {
+        // todo anything here?
+    }
+
 
     @Override
     public String toString() {

@@ -6,7 +6,7 @@ import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.client.player.PlayerState;
 import net.humanity_game.server.game.HumanityGame;
 import net.humanity_game.server.game.state.GameState;
-import net.humanity_game.server.game.state.states.LobbyState;
+import net.humanity_game.server.game.state.states.PreHandState;
 
 /**
  * Verify that there is in fact a (exactly one) player that is the card csar, not that that player is the correct one
@@ -14,10 +14,10 @@ import net.humanity_game.server.game.state.states.LobbyState;
  */
 public class CardCsarRequirement implements GameState.Requirement {
 
-    private LobbyState state;
+    private PreHandState state;
     private HumanityGame game;
 
-    public CardCsarRequirement(LobbyState state, HumanityGame game) {
+    public CardCsarRequirement(PreHandState state, HumanityGame game) {
         this.state = Preconditions.checkNotNull(state, "state");
         this.game = Preconditions.checkNotNull(game, "game");
     }

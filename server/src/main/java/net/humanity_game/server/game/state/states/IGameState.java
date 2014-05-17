@@ -16,6 +16,11 @@ public abstract class IGameState {
 
     public abstract ImmutableList<GameState.Requirement> getRequirements();
 
+    /**
+     * Begin performing whatever actions are called for by this game state.
+     */
+    public abstract void start();
+
     public abstract String toString();
 
     private final GameState gameState;
