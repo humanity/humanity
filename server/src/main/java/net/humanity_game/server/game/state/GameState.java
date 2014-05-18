@@ -17,7 +17,7 @@ public enum GameState {
 
     PICKING_CARDS,
 
-    COMPLETED;
+    COMPLETED; /*alert the players to the victor, and then move onto the pre-hand state.*/
 
     public interface Requirement {
 
