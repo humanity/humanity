@@ -41,7 +41,7 @@ public class ClientDefinition implements IClientDefinition, Listenable {
 
     @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = true)
     public void onPlayerStateChange(Packet05PlayerStateChange packet) {
-        setPlayerState(packet.getTo());
+        this.setPlayerState(packet.getTo());
     }
 
     public UUID getUUID() {

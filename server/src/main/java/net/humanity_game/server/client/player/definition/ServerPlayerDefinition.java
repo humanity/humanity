@@ -2,6 +2,7 @@ package net.humanity_game.server.client.player.definition;
 
 import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.client.player.PlayerState;
+import net.humanity_game.server.packets.core.Packet05PlayerStateChange;
 import net.humanity_game.server.packets.core.Packet10ScoreUpdate;
 
 /**
@@ -10,6 +11,7 @@ import net.humanity_game.server.packets.core.Packet10ScoreUpdate;
 public class ServerPlayerDefinition implements IPlayerDefinition {
 
     private int score;
+    private PlayerState state;
     private String name;
     private final ClientConnection client;
 
@@ -40,8 +42,12 @@ public class ServerPlayerDefinition implements IPlayerDefinition {
 
     @Override
     public PlayerState getPlayerState() {
-        return null;
+        return this.state;
     }
 
-    //todo add player state.
+    public void setPlayerState(PlayerState state) {
+        this.state = state;
+        Packet05PlayerStateChange packet = new Packet05PlayerStateChange(this.client.getClientId(), this.state);
+        packet.sendToAll(this.client.getServer().getClientManager());
+    }
 }
