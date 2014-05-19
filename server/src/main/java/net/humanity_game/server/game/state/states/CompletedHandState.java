@@ -7,9 +7,6 @@ import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.game.state.requirements.AlertedPlayersRequirement;
 import net.humanity_game.server.game.state.requirements.AlertedScoresRequirement;
 
-/**
- * User: Jack Date: 5/17/2014 Time: 11:48 PM
- */
 public class CompletedHandState extends IGameState {
 
     private AlertedPlayersRequirement playersRequirement;

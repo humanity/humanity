@@ -6,9 +6,6 @@ import net.humanity_game.server.game.HumanityGame;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.game.state.requirements.CardCzarRequirement;
 
-/**
- * User: Jack Date: 5/16/2014 Time: 11:11 PM
- */
 public class AssigningCzarState extends IGameState {
     private ImmutableList<GameState.Requirement> requirementsList;
 
