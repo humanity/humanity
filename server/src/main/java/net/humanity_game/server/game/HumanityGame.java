@@ -98,15 +98,14 @@ public class HumanityGame {
      *
      * If: PICKING_CARDS * the czar has sent back the picked-card packet, and the card has been verified as valid
      *
-     * @return whether or not the advancement worked.
+     * @return The current state changed to.
      */
-    public boolean advanceGame() {
+    public GameState advanceGame() {
         if (currentState.canAdvanceState()) {
             this.currentState = GameState.getNext(currentState);
-        } else {
-            return false;
         }
-        return true;
+
+        return this.currentState.getGameState();
     }
 
     public GameState getCurrentState() {
