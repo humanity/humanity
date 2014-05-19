@@ -16,7 +16,7 @@ public class Bootstrap {
             server.getLogger().severe("Could not bind to port, shutting down!");
             requestClose();
         }
-        while(!Bootstrap.CLOSE_REQUESTED);
+        while (!Bootstrap.CLOSE_REQUESTED) ;
         server.close();
     }
 

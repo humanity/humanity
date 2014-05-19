@@ -11,7 +11,7 @@ import net.humanity_game.server.cards.factory.WhiteCardFactory;
 import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.client.player.PlayerState;
 import net.humanity_game.server.game.state.GameState;
-import net.humanity_game.server.packets.core.Packet08GameChangeState;
+import net.humanity_game.server.game.state.states.IGameState;
 import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class HumanityGame {
 
     private final Set<ClientConnection> players; // synchronized
 
-    private GameState currentState;
+    private IGameState currentState;
 
     public HumanityGame(File cardsFile, HumanityServer server) {
         this.server = Preconditions.checkNotNull(server, "server");
@@ -43,7 +43,7 @@ public class HumanityGame {
         }
 
         this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
-        this.currentState = GameState.LOBBY;
+        this.currentState = GameState.getState(GameState.PRE_HAND);
     }
 
     public ImmutableSet<ClientConnection> getPlayers() {
@@ -53,8 +53,8 @@ public class HumanityGame {
     public ImmutableSet<ClientConnection> getPlayers(PlayerState type) {
         Set<ClientConnection> players = new HashSet<>();
 
-        for(ClientConnection client : this.players) {
-            if(client.getDefinition().getPlayerState() == type) {
+        for (ClientConnection client : this.players) {
+            if (client.getDefinition().getPlayerState() == type) {
                 players.add(client);
             }
         }
@@ -86,16 +86,29 @@ public class HumanityGame {
         }
     }
 
-    public GameState getCurrentState() {
-        return this.currentState;
+    /**
+     * Check that the current gamestate has been fulfilled (these things must be fulfilled) and begin moving to the next one.
+     *
+     * If: PRE_HAND * deal cards, assign card czar, move gamestate to ASSIGNING_CZAR,
+     *
+     * If: ASSIGNING_CZAR * assign cZar, alert everybody to that fact
+     *
+     * If: SUBMITTING_CARDS * fill the packet that gives the submitted cards to the czar, send the packet, begin waiting
+     * for response packet, move gamestate to PICKING_CARDS
+     *
+     * If: PICKING_CARDS * the czar has sent back the picked-card packet, and the card has been verified as valid
+     *
+     * @return The current state changed to.
+     */
+    public GameState advanceGame() {
+        if (currentState.canAdvanceState()) {
+            this.currentState = GameState.getNext(currentState);
+        }
+
+        return this.currentState.getGameState();
     }
 
-    public void setCurrentState(GameState state) {
-        Packet08GameChangeState packet = new Packet08GameChangeState(this.currentState, state);
-        this.currentState = state;
-
-        for(ClientConnection client : this.players) {
-            client.sendPacket(packet);
-        }
+    public GameState getCurrentState() {
+        return this.currentState.getGameState();
     }
 }

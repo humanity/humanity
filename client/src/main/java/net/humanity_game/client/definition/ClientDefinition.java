@@ -15,25 +15,33 @@ import java.util.UUID;
 public class ClientDefinition implements IClientDefinition, Listenable {
 
     private final HumanityClient client;
-
+    private PlayerState state;
     private UUID clientUUID;
 
     public ClientDefinition(UUID uuid, HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
         this.client.getPacketHandler().registerHandlers(this);
         this.clientUUID = uuid;
-        // TODO construct initial OwnedPlayer here.
+        state = null;
+    }
+
+    public ClientDefinition(UUID uuid, HumanityClient client, PlayerState state) {
+        this(uuid, client);
+        this.state = state;
     }
 
     @Override
     public PlayerState getPlayerState() {
-        // return this.player.getPlayerState();
-        return null;
+        return state;
+    }
+
+    public void setPlayerState(PlayerState state) {
+        this.state = Preconditions.checkNotNull(state, "player state");
     }
 
     @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = true)
     public void onPlayerStateChange(Packet05PlayerStateChange packet) {
-        // this.player.setPlayerState(packet.getTo());
+        setPlayerState(packet.getTo());
     }
 
     public UUID getUUID() {
