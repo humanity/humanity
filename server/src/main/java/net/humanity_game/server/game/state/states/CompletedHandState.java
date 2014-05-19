@@ -12,27 +12,30 @@ import net.humanity_game.server.game.state.requirements.AlertedScoresRequirement
  */
 public class CompletedHandState extends IGameState {
 
-    private ImmutableList<GameState.Requirement> requirements;
+    private AlertedPlayersRequirement playersRequirement;
+    private AlertedScoresRequirement scoresRequirement;
+
     private HumanityGame game;
 
     public CompletedHandState(HumanityGame game) {
         super(GameState.COMPLETED);
         this.game = Preconditions.checkNotNull(game, "game");
-        requirements = ImmutableList.of(new AlertedPlayersRequirement(this, game), new AlertedScoresRequirement(this, game));
+        playersRequirement = new AlertedPlayersRequirement(this, game);
+        scoresRequirement = new AlertedScoresRequirement(this, game);
     }
 
 
     @Override
     public ImmutableList<GameState.Requirement> getRequirements() {
-        return requirements;
+        return ImmutableList.of(playersRequirement, scoresRequirement);
     }
 
     public AlertedPlayersRequirement getPlayersRequirement() {
-        return (AlertedPlayersRequirement) requirements.get(0);
+        return playersRequirement;
     }
 
     public AlertedScoresRequirement getScoresRequirement() {
-        return (AlertedScoresRequirement) requirements.get(1);
+        return scoresRequirement;
     }
 
     @Override
