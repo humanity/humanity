@@ -53,6 +53,10 @@ public class ClientConnection {
         this.dequeue = new ClientDequeue(this, this.server);
     }
 
+    public HumanityServer getServer() {
+        return this.server;
+    }
+
     public Socket getConnection() {
         return this.connection;
     }

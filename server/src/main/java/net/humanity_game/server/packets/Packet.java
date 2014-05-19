@@ -1,5 +1,8 @@
 package net.humanity_game.server.packets;
 
+import net.humanity_game.server.client.ClientConnection;
+import net.humanity_game.server.client.ServerClientManager;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -15,5 +18,11 @@ public abstract class Packet implements Serializable {
 
     public UUID getClientId() {
         return this.uuid;
+    }
+
+    public void sendToAll(ServerClientManager clientManager) {
+        for (ClientConnection clientConnection : clientManager.getConnectedClients()) {
+            clientConnection.sendPacket(this);
+        }
     }
 }

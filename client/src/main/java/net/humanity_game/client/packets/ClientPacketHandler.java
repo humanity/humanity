@@ -31,14 +31,19 @@ public class ClientPacketHandler {
 
     private void allowPackets() {
         //packets registered to be used:
-        this.handlers.put(Packet01KeepAlive.class,               new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet03Disconnect.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet04Join.class,                    new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet05PlayerStateChange.class,       new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet06HandUpdate.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet07CreatePool.class,              new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet08GameChangeState.class,         new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
-        this.handlers.put(Packet09UpdatePlayerList.class,        new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
+        this.putPacket(Packet01KeepAlive.class);
+        this.putPacket(Packet03Disconnect.class);
+        this.putPacket(Packet04Join.class);
+        this.putPacket(Packet05PlayerStateChange.class);
+        this.putPacket(Packet06HandUpdate.class);
+        this.putPacket(Packet07CreatePool.class);
+        this.putPacket(Packet08GameChangeState.class);
+        this.putPacket(Packet09UpdatePlayerList.class);
+        this.putPacket(Packet10ScoreUpdate.class);
+    }
+
+    private void putPacket(Class<? extends Packet> packet) {
+        this.handlers.put(packet, new PriorityQueue<>(INITIAL_PACKET_QUEUE_SIZE, snapshotComparator));
     }
 
     public void handlePacket(Packet packet) {
