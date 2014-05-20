@@ -1,6 +1,7 @@
 package net.humanity_game.server.game;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import net.humanity_game.server.Bootstrap;
 import net.humanity_game.server.HumanityServer;
@@ -16,7 +17,6 @@ import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,7 +27,7 @@ public class HumanityGame {
     private WhiteCardDeck whiteCardDeck;
     private BlackCardDeck blackCardDeck;
 
-    private final Set<ClientConnection> players; // synchronized
+    //  private final Set<ClientConnection> players; // synchronized
 
     private IGameState currentState;
 
@@ -42,24 +42,22 @@ public class HumanityGame {
             Bootstrap.requestClose();
         }
 
-        this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
+        // this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
         this.currentState = GameState.getState(GameState.PRE_HAND);
         GameState.initStatesList(this);
     }
 
-    public ImmutableSet<ClientConnection> getPlayers() {
-        return ImmutableSet.copyOf(this.players);
+    public ImmutableList<ClientConnection> getPlayers() {
+        return server.getClientManager().getConnectedClients();
     }
 
     public ImmutableSet<ClientConnection> getPlayers(PlayerState type) {
         Set<ClientConnection> players = new HashSet<>();
-
-        for (ClientConnection client : this.players) {
+        for (ClientConnection client : this.server.getClientManager().getConnectedClients()) {
             if (client.getDefinition().getPlayerState() == type) {
                 players.add(client);
             }
         }
-
         return ImmutableSet.copyOf(players);
     }
 
@@ -72,17 +70,13 @@ public class HumanityGame {
     }
 
     public void handleLogin(ClientConnection connecting) {
-        synchronized (this.players) {
-            this.players.add(connecting);
-        }
+            // this.players.add(connecting);
+        this.server.getClientManager().connectClient(connecting);
     }
 
     public void disconnectPlayer(ClientConnection disconnecting) {
-        synchronized (this.players) {
-            this.players.remove(disconnecting);
-        }
-
-        for (ClientConnection client : this.players) {
+        this.server.getClientManager().disconnectClient(disconnecting);
+        for (ClientConnection client : this.server.getClientManager().getConnectedClients()) {
             client.sendPacket(new Packet09UpdatePlayerList(disconnecting, Packet09UpdatePlayerList.Type.REMOVAL));
         }
     }

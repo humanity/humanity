@@ -1,7 +1,7 @@
 package net.humanity_game.server.game.state.requirements;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import net.humanity_game.server.client.ClientConnection;
 import net.humanity_game.server.client.player.PlayerState;
 import net.humanity_game.server.game.HumanityGame;
@@ -25,7 +25,7 @@ public class CardCzarRequirement implements GameState.Requirement {
 
     @Override
     public boolean isMet() {
-        ImmutableSet<ClientConnection> players = game.getPlayers();
+        ImmutableList<ClientConnection> players = game.getPlayers();
         int cscount = 0;
         for (ClientConnection cnn : players) {
             if (cnn.getDefinition().getPlayerState() == PlayerState.CARD_CZAR) {
