@@ -3,9 +3,7 @@ package net.humanity_game.server.game.state;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import net.humanity_game.server.game.HumanityGame;
-import net.humanity_game.server.game.state.states.AssigningCzarState;
-import net.humanity_game.server.game.state.states.IGameState;
-import net.humanity_game.server.game.state.states.PreHandState;
+import net.humanity_game.server.game.state.states.*;
 
 public enum GameState {
 
@@ -46,9 +44,7 @@ public enum GameState {
 
     private static ImmutableList<IGameState> states;
 
-    public void initStatesList(HumanityGame game) {
-        states = ImmutableList.of(new PreHandState(game), new AssigningCzarState(game));
+    public static void initStatesList(HumanityGame game) {
+        states = ImmutableList.of(new PreHandState(game), new AssigningCzarState(game), new SubmittingCardsState(game), new PickingCardsState(game), new CompletedHandState(game));
     }
-
-
 }

@@ -44,6 +44,7 @@ public class HumanityGame {
 
         this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
         this.currentState = GameState.getState(GameState.PRE_HAND);
+        GameState.initStatesList(this);
     }
 
     public ImmutableSet<ClientConnection> getPlayers() {
