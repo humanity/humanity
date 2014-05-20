@@ -43,8 +43,8 @@ public class HumanityGame {
             Bootstrap.requestClose();
         }
 
-        this.currentState = GameState.getState(GameState.PRE_HAND);
         GameState.initStatesList(this);
+        this.currentState = GameState.getState(null);
         last = server.getClientManager().getConnectedClients().iterator();
     }
 
@@ -98,8 +98,8 @@ public class HumanityGame {
     public GameState advanceGame() {
         if (currentState.canAdvanceState()) {
             this.currentState = GameState.getNext(currentState);
+            this.currentState.start();
         }
-
         return this.currentState.getGameState();
     }
 
@@ -117,5 +117,9 @@ public class HumanityGame {
             last = server.getClientManager().getConnectedClients().iterator();
         }
         return last.next();
+    }
+
+    public HumanityServer getServer() {
+        return this.server;
     }
 }

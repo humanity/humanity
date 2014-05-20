@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import net.humanity_game.server.game.HumanityGame;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.game.state.requirements.CardCzarRequirement;
+import net.humanity_game.server.packets.core.Packet11CzarUpdate;
 
 public class AssigningCzarState extends IGameState {
     private ImmutableList<GameState.Requirement> requirementsList;
@@ -23,11 +24,9 @@ public class AssigningCzarState extends IGameState {
 
     @Override
     public void start() {
-        // todo choose the czar, send the packets, etc.
-        game.advanceCzar();
-
+        Packet11CzarUpdate updatePacket = new Packet11CzarUpdate(game.advanceCzar().getClientId());
+        updatePacket.sendToAll(this.game.getServer().getClientManager());
     }
-
 
     @Override
     public String toString() {

@@ -7,7 +7,7 @@ import net.humanity_game.server.game.state.states.*;
 
 public enum GameState {
 
-    PRE_HAND, /*runs proior to the hand starting--the game object doesn't exist until then, so there isn't a true lobby game state, I don't think*/
+    PRE_HAND, /*runs prior to the hand starting--the game object doesn't exist until then, so there isn't a true lobby game state, I don't think*/
 
     ASSIGNING_CZAR,
 
@@ -29,8 +29,7 @@ public enum GameState {
     }
 
     public static IGameState getState(GameState state) {
-        Preconditions.checkNotNull(state, "state");
-        return states.get(state.ordinal()); // this is discouraged but it will always work in this situation.
+        return state == null ? null : states.get(state.ordinal()); // this is discouraged but it will always work in this situation.
     }
 
     public static IGameState getNext(IGameState current) {
