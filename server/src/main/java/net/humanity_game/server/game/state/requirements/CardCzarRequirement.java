@@ -22,17 +22,17 @@ public class CardCzarRequirement implements GameState.Requirement {
         this.game = Preconditions.checkNotNull(game, "game");
     }
 
-
     @Override
     public boolean isMet() {
-        //todo check that the czar is the correct person
+        // it's not convenient to check that the czar has been properly advanced, beyond that there's only one czar, so
+        // we'll skip that for now.
         ImmutableList<ClientConnection> players = game.getPlayers();
-        int cscount = 0;
+        int count = 0;
         for (ClientConnection cnn : players) {
             if (cnn.getDefinition().getPlayerState() == PlayerState.CARD_CZAR) {
-                cscount++;
+                count++;
             }
         }
-        return cscount == 1;
+        return count == 1;
     }
 }

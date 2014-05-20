@@ -24,7 +24,7 @@ public enum CardState {
     }
 
     public CardState advance() {
-        for(int i = 0; i < this.values().length; i++) {
+        for (int i = 0; i < this.values().length; i++) {
             if(this.values()[i] == this) {
                 try {
                     return this.values()[i++];

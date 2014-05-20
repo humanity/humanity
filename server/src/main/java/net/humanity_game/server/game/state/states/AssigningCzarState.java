@@ -32,5 +32,4 @@ public class AssigningCzarState extends IGameState {
     public String toString() {
         return this.getGameState().toString();
     }
-
 }
