@@ -9,6 +9,9 @@ import net.humanity_game.server.packets.Packet;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * C->S
+ */
 public class Packet13WhiteCardChoice extends Packet {
 
     private final BlackCard forCard;
@@ -33,6 +36,4 @@ public class Packet13WhiteCardChoice extends Packet {
     public WhiteCard getWhiteCard() {
         return Iterables.get(cards, 0);
     }
-
-
 }
