@@ -204,4 +204,14 @@ public class HumanityClient {
     public UUID getClientId() {
         return this.definition.getUUID();
     }
+
+    public void closeConnection() {
+        try {
+            this.serverConnection.close();
+        } catch (IOException ex) {
+            this.getLogger().severe("Exception while closing socket.");
+        }
+
+    }
+
 }

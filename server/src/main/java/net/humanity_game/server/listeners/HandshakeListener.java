@@ -35,6 +35,7 @@ public class HandshakeListener implements Listenable {
         } else {
             Packet04Join packet = new Packet04Join(Packet04Join.JoinState.DENIED, "Game is in progress!", connectingClient.getClientId());
             connectingClient.sendPacket(packet);
+            // todo actually disconnect the client.
         }
     }
 }
