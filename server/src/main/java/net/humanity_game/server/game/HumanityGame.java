@@ -18,6 +18,7 @@ import net.humanity_game.server.packets.core.Packet09UpdatePlayerList;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class HumanityGame {
@@ -27,9 +28,9 @@ public class HumanityGame {
     private WhiteCardDeck whiteCardDeck;
     private BlackCardDeck blackCardDeck;
 
-    //  private final Set<ClientConnection> players; // synchronized
-
     private IGameState currentState;
+    private Iterator<ClientConnection> last;
+    private ClientConnection currentCzar;
 
     public HumanityGame(File cardsFile, HumanityServer server) {
         this.server = Preconditions.checkNotNull(server, "server");
@@ -42,9 +43,9 @@ public class HumanityGame {
             Bootstrap.requestClose();
         }
 
-        // this.players = Collections.synchronizedSet(new HashSet<ClientConnection>());
         this.currentState = GameState.getState(GameState.PRE_HAND);
         GameState.initStatesList(this);
+        last = server.getClientManager().getConnectedClients().iterator();
     }
 
     public ImmutableList<ClientConnection> getPlayers() {
@@ -70,7 +71,6 @@ public class HumanityGame {
     }
 
     public void handleLogin(ClientConnection connecting) {
-            // this.players.add(connecting);
         this.server.getClientManager().connectClient(connecting);
     }
 
@@ -105,5 +105,17 @@ public class HumanityGame {
 
     public GameState getCurrentState() {
         return this.currentState.getGameState();
+    }
+
+    public ClientConnection getCurrentCzar() {
+        return currentCzar;
+    }
+
+
+    public ClientConnection advanceCzar() {
+        if (!last.hasNext()) {
+            last = server.getClientManager().getConnectedClients().iterator();
+        }
+        return last.next();
     }
 }

@@ -25,6 +25,7 @@ public class CardCzarRequirement implements GameState.Requirement {
 
     @Override
     public boolean isMet() {
+        //todo check that the czar is the correct person
         ImmutableList<ClientConnection> players = game.getPlayers();
         int cscount = 0;
         for (ClientConnection cnn : players) {

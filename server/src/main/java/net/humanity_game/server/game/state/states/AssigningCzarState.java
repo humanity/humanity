@@ -9,6 +9,7 @@ import net.humanity_game.server.game.state.requirements.CardCzarRequirement;
 public class AssigningCzarState extends IGameState {
     private ImmutableList<GameState.Requirement> requirementsList;
     private HumanityGame game;
+
     public AssigningCzarState(HumanityGame game) {
         super(GameState.ASSIGNING_CZAR);
         this.game = Preconditions.checkNotNull(game, "game");
@@ -23,6 +24,7 @@ public class AssigningCzarState extends IGameState {
     @Override
     public void start() {
         // todo choose the czar, send the packets, etc.
+        game.advanceCzar();
 
     }
 

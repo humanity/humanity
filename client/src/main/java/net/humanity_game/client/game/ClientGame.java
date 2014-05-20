@@ -14,6 +14,8 @@ import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet07CreatePool;
 import net.humanity_game.server.packets.core.Packet08GameChangeState;
 
+import java.util.UUID;
+
 public class ClientGame implements Listenable {
 
     private HumanityClient client;
@@ -21,7 +23,7 @@ public class ClientGame implements Listenable {
     private ClientTrick currentTrick;
     private GameState currentState;
     private ClientManager clientManager;
-
+    private Player currentCzar;
 
     public ClientGame(HumanityClient client) {
         this.client = Preconditions.checkNotNull(client, "client");
@@ -76,5 +78,19 @@ public class ClientGame implements Listenable {
     public ClientManager getClientManager() {
         return clientManager;
     }
+
+    public Player getCurrentCzar() {
+
+        return currentCzar;
+    }
+
+    public void setCurrentCzar(UUID player) {
+        setCurrentCzar(clientManager.getClientById(player));
+    }
+
+    public void setCurrentCzar(Player player) {
+        this.currentCzar = Preconditions.checkNotNull(player, "czar");
+    }
+
 
 }

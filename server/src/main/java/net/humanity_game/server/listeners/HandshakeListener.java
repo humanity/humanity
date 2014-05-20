@@ -21,16 +21,20 @@ public class HandshakeListener implements Listenable {
     @Handler(priority = HandlerPriority.NORMAL)
     public void onClientHandshake(Packet02Handshake handshake, ClientConnection connectingClient) {
         this.server.getLogger().info("Received handshake from client named: \"{}\".", handshake.getName());
+        if (server.getGame().getCurrentState() == null) {
+            Packet04Join packet = new Packet04Join(Packet04Join.JoinState.ALLOWED, "Welcome to the server!", connectingClient.getClientId());
+            connectingClient.sendPacket(packet);
 
-        Packet04Join packet = new Packet04Join(Packet04Join.JoinState.ALLOWED, "Welcome to the server!", connectingClient.getClientId());
-        connectingClient.sendPacket(packet);
+            this.server.getGame().getWhiteCardDeck().dealCards(connectingClient);
 
-        this.server.getGame().getWhiteCardDeck().dealCards(connectingClient);
-
-        for(ClientConnection connectedClient : this.server.getClientManager().getConnectedClients()) {
-            if (!(connectedClient.getClientId().equals(connectingClient.getClientId()))) {
-                connectedClient.sendPacket(new Packet09UpdatePlayerList(connectingClient));
+            for (ClientConnection connectedClient : this.server.getClientManager().getConnectedClients()) {
+                if (!(connectedClient.getClientId().equals(connectingClient.getClientId()))) {
+                    connectedClient.sendPacket(new Packet09UpdatePlayerList(connectingClient));
+                }
             }
+        } else {
+            Packet04Join packet = new Packet04Join(Packet04Join.JoinState.DENIED, "Game is in progress!", connectingClient.getClientId());
+            connectingClient.sendPacket(packet);
         }
     }
 }
