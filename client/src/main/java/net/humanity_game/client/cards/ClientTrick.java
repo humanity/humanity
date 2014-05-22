@@ -43,4 +43,8 @@ public class ClientTrick extends ITrick implements Listenable {
     public boolean isComplete() {
         return this.submitted.size() >= this.choiceCard.getNumberToFill();
     }
+
+    public UUID getTrickID() {
+        return trickID;
+    }
 }

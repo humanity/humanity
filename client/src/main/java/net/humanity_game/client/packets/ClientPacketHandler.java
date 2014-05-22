@@ -2,9 +2,7 @@ package net.humanity_game.client.packets;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import net.humanity_game.client.Bootstrap;
 import net.humanity_game.client.client.HumanityClient;
-import net.humanity_game.client.client.player.Player;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.client.packets.handler.ClientHandlerSnapshot;
 import net.humanity_game.server.handlers.Listenable;
@@ -36,7 +34,7 @@ public class ClientPacketHandler {
         this.putPacket(Packet04Join.class);
         this.putPacket(Packet05PlayerStateChange.class);
         this.putPacket(Packet06HandUpdate.class);
-        this.putPacket(Packet07CreatePool.class);
+        this.putPacket(Packet07CreateTrick.class);
         this.putPacket(Packet08GameChangeState.class);
         this.putPacket(Packet09UpdatePlayerList.class);
         this.putPacket(Packet10ScoreUpdate.class);

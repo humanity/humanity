@@ -11,7 +11,6 @@ import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
-import net.humanity_game.server.packets.core.Packet07CreatePool;
 import net.humanity_game.server.packets.core.Packet08GameChangeState;
 
 import java.util.UUID;
@@ -58,11 +57,6 @@ public class ClientGame implements Listenable {
     }
 
     @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
-    public void onTrickCreate(Packet07CreatePool packet) {
-        this.currentTrick = new ClientTrick(packet.getGameId(), packet.getChoice(), this);
-    }
-
-    @ClientHandler(priority = HandlerPriority.MONITOR, handleSelf = false)
     public void onGameStateChange(Packet08GameChangeState packet) {
         this.currentState = packet.getTo();
     }
@@ -92,5 +86,7 @@ public class ClientGame implements Listenable {
         this.currentCzar = Preconditions.checkNotNull(player, "czar");
     }
 
-
+    public void setCurrentTrick(ClientTrick trick) {
+        this.currentTrick = trick; // not null checked
+    }
 }

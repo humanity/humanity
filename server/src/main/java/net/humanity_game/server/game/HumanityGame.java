@@ -104,7 +104,7 @@ public class HumanityGame {
     }
 
     public GameState getCurrentState() {
-        return this.currentState.getGameState();
+        return this.currentState == null ? null : this.currentState.getGameState();
     }
 
     public ClientConnection getCurrentCzar() {

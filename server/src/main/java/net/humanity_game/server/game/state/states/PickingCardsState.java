@@ -30,8 +30,6 @@ public class PickingCardsState extends IGameState {
     public void start() {
         // todo send out the packets that tell of the current black card. Wait for the responses.
 
-
-
     }
 
 }
