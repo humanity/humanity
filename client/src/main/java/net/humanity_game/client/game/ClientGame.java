@@ -11,6 +11,7 @@ import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
+import net.humanity_game.server.packets.Packet;
 import net.humanity_game.server.packets.core.Packet08GameChangeState;
 
 import java.util.UUID;
@@ -88,5 +89,9 @@ public class ClientGame implements Listenable {
 
     public void setCurrentTrick(ClientTrick trick) {
         this.currentTrick = trick; // not null checked
+    }
+
+    public void sendPacket(Packet packet) {
+        this.client.sendPacket(packet);
     }
 }

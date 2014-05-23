@@ -2,8 +2,8 @@ package net.humanity_game.server.packets.core;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import net.humanity_game.server.cards.card.BlackCard;
 import net.humanity_game.server.cards.card.WhiteCard;
+import net.humanity_game.server.cards.pool.ITrick;
 import net.humanity_game.server.packets.Packet;
 
 import java.util.Collection;
@@ -14,19 +14,19 @@ import java.util.Collections;
  */
 public class Packet13WhiteCardChoice extends Packet {
 
-    private final BlackCard forCard;
+    private final ITrick trick;
     private final Collection<WhiteCard> cards;
 
-    public Packet13WhiteCardChoice(BlackCard forCard, Collection<WhiteCard> whiteCards) {
+    public Packet13WhiteCardChoice(ITrick destTrick, Collection<WhiteCard> whiteCards) {
         super(null);
-        this.forCard = Preconditions.checkNotNull(forCard, "card");
+        this.trick = Preconditions.checkNotNull(destTrick, "trick");
         whiteCards.removeAll(Collections.singleton(null));
         Preconditions.checkState(whiteCards.size() > 0, "number cards");
         this.cards = Preconditions.checkNotNull(whiteCards, "cards");
     }
 
-    public BlackCard getBlackCard() {
-        return forCard;
+    public ITrick getTrick() {
+        return trick;
     }
 
     public Collection<WhiteCard> getWhiteCards() {

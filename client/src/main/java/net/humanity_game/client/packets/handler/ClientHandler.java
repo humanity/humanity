@@ -13,6 +13,8 @@ public @interface ClientHandler {
 
     HandlerPriority priority() default HandlerPriority.NORMAL;
 
+    boolean handleAll() default false;
+
     boolean handleSelf() default true;
 
 }

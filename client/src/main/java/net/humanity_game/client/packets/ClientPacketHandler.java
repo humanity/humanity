@@ -51,10 +51,12 @@ public class ClientPacketHandler {
                     this.client.getLogger().debug("(S->C) received: {}", packet.getClass().getSimpleName());
 
                     // If the client intended ID is null, it goes to all clients
-                    if (handler.getAnnotation().handleSelf() && this.matchesSelf(packet)) {
+                    // If it is specified to handle all, do it regardless of anything else
+                    if (handler.getAnnotation().handleAll()) {
+                        handler.getMethod().invoke(handler.getInstance(), packet);
+                    } else if (handler.getAnnotation().handleSelf() && this.matchesSelf(packet)) {
                         handler.getMethod().invoke(handler.getInstance(), packet);
                     } else if (!handler.getAnnotation().handleSelf() && this.matchesOtherOrNull(packet)) {
-
                         handler.getMethod().invoke(handler.getInstance(), packet);
                     }
                 } catch (IllegalAccessException e) {
