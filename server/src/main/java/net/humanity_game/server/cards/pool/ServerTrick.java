@@ -24,12 +24,12 @@ public class ServerTrick extends ITrick implements Serializable {
     }
 
     @Override
-    public BlackCard getChoiceCard() {
+    public BlackCard getPromptCard() {
         return this.choice;
     }
 
     @Override
-    public List<WhiteCard> getSubmitted() {
+    public List<WhiteCard> getSubmittedCards() {
         List<WhiteCard> result = new ArrayList<>();
         for (List<WhiteCard> set : new ArrayList<>(this.submitted.values())) {
             result.addAll(set);

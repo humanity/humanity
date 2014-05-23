@@ -21,7 +21,7 @@ public class ClientTrick extends ITrick implements Listenable {
 
     public ClientTrick(UUID trickId, BlackCard choiceCard, ClientGame game) {
         this.game = Preconditions.checkNotNull(game, "game");
-        this.trickID = trickId;
+        this.trickID = Preconditions.checkNotNull(trickId, "trick");
 
         this.choiceCard = Preconditions.checkNotNull(choiceCard, "card");
         this.submitted = new CopyOnWriteArrayList<>();
@@ -30,18 +30,18 @@ public class ClientTrick extends ITrick implements Listenable {
     }
 
     @Override
-    public BlackCard getChoiceCard() {
+    public BlackCard getPromptCard() {
         return this.choiceCard;
     }
 
     @Override
-    public List<WhiteCard> getSubmitted() {
+    public List<WhiteCard> getSubmittedCards() {
         return this.submitted;
     }
 
     @Override
     public boolean isComplete() {
-        return this.submitted.size() >= this.choiceCard.getNumberToFill();
+        return this.submitted != null && this.submitted.size() >= this.choiceCard.getNumberToFill();
     }
 
     public UUID getTrickID() {

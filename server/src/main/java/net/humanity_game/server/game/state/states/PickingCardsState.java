@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import net.humanity_game.server.game.HumanityGame;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.game.state.requirements.PickedCardsRequirement;
+import net.humanity_game.server.packets.core.Packet12OpenHand;
 
 /**
  * the czar has sent back the picked-card packet, and the card has been verified as valid
@@ -28,8 +29,7 @@ public class PickingCardsState extends IGameState {
 
     @Override
     public void start() {
-        // todo send out the packets that tell of the current black card. Wait for the responses.
-
+        Packet12OpenHand outpacket = new Packet12OpenHand(game.getBlackCardDeck().getCurrentCard(), game.getCurrentCzar().getClientId());
+        outpacket.sendToAll(game.getServer().getClientManager());
     }
-
 }

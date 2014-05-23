@@ -10,9 +10,9 @@ import java.util.List;
  */
 public abstract class ITrick {
 
-    public abstract BlackCard getChoiceCard();
+    public abstract BlackCard getPromptCard();
 
-    public abstract List<WhiteCard> getSubmitted();
+    public abstract List<WhiteCard> getSubmittedCards();
 
     public abstract boolean isComplete();
 
