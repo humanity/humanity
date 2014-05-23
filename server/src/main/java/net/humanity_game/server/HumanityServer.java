@@ -43,8 +43,6 @@ public class HumanityServer {
         this.logger.info("Opening server \"humanity\"...");
         try {
             this.setup();
-        } catch (BindException e) {
-            throw e;
         } catch (IOException e) {
             e.printStackTrace();
         }
