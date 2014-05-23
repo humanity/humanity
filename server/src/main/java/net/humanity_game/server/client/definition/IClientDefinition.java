@@ -12,4 +12,6 @@ public interface IClientDefinition {
     public UUID getUUID();
 
     public IHumanityHand getPlayerHand();
+
+    public int getScore();
 }

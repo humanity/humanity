@@ -24,11 +24,13 @@ public class ServerClientDefinition implements IClientDefinition {
     private final ClientConnection owner;
     private final HumanityServer server;
     private final ServerHumanityHand hand;
+    private int score;
 
     public ServerClientDefinition(ClientConnection owner, HumanityServer server) {
         this.owner = Preconditions.checkNotNull(owner, "client connection");
         this.server = Preconditions.checkNotNull(server, "server");
         this.hand = new ServerHumanityHand(owner);
+        score = 0;
     }
 
     @Override
@@ -50,6 +52,15 @@ public class ServerClientDefinition implements IClientDefinition {
     @Override
     public ServerHumanityHand getPlayerHand() {
         return this.hand;
+    }
+
+    @Override
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void updatePlayerHand(IHumanityHand hand) {

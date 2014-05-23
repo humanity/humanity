@@ -6,6 +6,7 @@ import net.humanity_game.server.game.HumanityGame;
 import net.humanity_game.server.game.state.GameState;
 import net.humanity_game.server.game.state.requirements.AlertedPlayersRequirement;
 import net.humanity_game.server.game.state.requirements.AlertedScoresRequirement;
+import net.humanity_game.server.packets.core.Packet15EndHand;
 
 public class CompletedHandState extends IGameState {
 
@@ -38,5 +39,7 @@ public class CompletedHandState extends IGameState {
     @Override
     public void start() {
         // todo send the appropriate packets, calling the previous two methods as we go.
+        Packet15EndHand outpacket = new Packet15EndHand(game, this);
+
     }
 }
