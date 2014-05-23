@@ -5,7 +5,6 @@ import net.humanity_game.client.client.HumanityClient;
 import net.humanity_game.client.packets.handler.ClientHandler;
 import net.humanity_game.server.cards.card.WhiteCard;
 import net.humanity_game.server.cards.hand.IHumanityHand;
-import net.humanity_game.server.handlers.Handler;
 import net.humanity_game.server.handlers.HandlerPriority;
 import net.humanity_game.server.handlers.Listenable;
 import net.humanity_game.server.packets.core.Packet06HandUpdate;

@@ -3,6 +3,7 @@ package net.humanity_game.client.client;
 import com.ttaylorr.dev.logger.Logger;
 import com.ttaylorr.dev.logger.LoggerProvider;
 import net.humanity_game.client.Bootstrap;
+import net.humanity_game.client.client.player.OwnedPlayer;
 import net.humanity_game.client.definition.ClientDefinition;
 import net.humanity_game.client.listeners.JoinVerificationListener;
 import net.humanity_game.client.packets.ClientPacketHandler;
@@ -41,6 +42,8 @@ public class HumanityClient {
 
     private ScheduledFuture<?> keepAliveWaitable;
 
+    private OwnedPlayer player;
+
     public HumanityClient(UUID uuid, String hostname, int port) {
         this(uuid, new InetSocketAddress(hostname, port));
     }
@@ -61,6 +64,7 @@ public class HumanityClient {
      */
     public HumanityClient(String hostname, int port) {
         this(null, hostname, port);
+        this.player = new OwnedPlayer(this);
     }
 
     public void openConnection() {
